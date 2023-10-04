@@ -1,9 +1,12 @@
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter } from 'react-router-dom';
+import RouterManagement from './routers';
 
 function App() {
   return (
-    <div></div>
+    <BrowserRouter forceRefresh={true}>
+      <RouterManagement />
+    </BrowserRouter>
   );
 }
 
