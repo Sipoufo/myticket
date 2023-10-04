@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import Button from "./button";
 import { FaBars } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
+import Login from "./login";
 
 const Header = () => {
     const [seeModal, setSeeModal] = useState(false);
+    const [showOAuthModal, setShowOAuthModal] = useState(false);
 
     return (
         <>
@@ -16,12 +18,12 @@ const Header = () => {
                 </a>
                 <ul className="hidden md:flex flex-row gap-6 items-center">
                     <li>
-                        <a
-                            href="/"
+                        <button
                             className="font-medium hover:underline underline-offset-4 hover:text-primary"
+                            onClick={() => setShowOAuthModal(true)}
                         >
                             Sign up / Sign In
-                        </a>
+                        </button>
                     </li>
                     <Button title="Create Event" />
                 </ul>
@@ -31,7 +33,11 @@ const Header = () => {
             </div>
 
             {/* Menu for small screen */}
-            <div className={`${!seeModal && "hidden"} md:hidden fixed z-50 top-0 left-0 flex justify-center items-center w-screen h-screen overflow-hidden bg-white text-primary`}>
+            <div
+                className={`${
+                    !seeModal && "hidden"
+                } md:hidden fixed z-40 top-0 left-0 flex justify-center items-center w-screen h-screen overflow-hidden bg-white text-primary`}
+            >
                 <ul className="flex flex-col w-10/12 text-center text-lg font-semibold gap-6">
                     <li className="flex justify-end">
                         <button onClick={() => setSeeModal(false)}>
@@ -55,6 +61,9 @@ const Header = () => {
                     </li>
                 </ul>
             </div>
+
+            {/* Login part */}
+            <Login showOAuthModal={showOAuthModal} setShowOAuthModal={setShowOAuthModal} />
         </>
     );
 };
