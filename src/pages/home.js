@@ -19,7 +19,7 @@ const Home = () => {
                 <div className="w-full h-full z-10 flex flex-col justify-center">
                     <Header />
                     <div className="flex justify-center">
-                        <div className="flex flex-grow flex-col gap-6 items-center justify-center w-10/12 md:w-8/12 max-w-screen-xl">
+                        <div className="flex flex-grow flex-col gap-6 items-center justify-center px-4 w-10/12 md:w-8/12 max-w-screen-xl">
                             <p className="text-3xl font-bold">
                                 Discover events across the world
                             </p>
