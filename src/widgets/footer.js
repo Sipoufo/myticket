@@ -4,7 +4,7 @@ import { FaSquareFacebook, FaSquareTwitter, FaSquareYoutube, FaSquarePinterest, 
 const Footer = () => {
     return (
         <div className="flex justify-center bg-third py-10 text-white pb-6">
-            <div className="relative flex flex-row gap-6 px-4 md:w-11/12 max-w-screen-xl justify-between">
+            <div className="relative flex flex-col md:flex-row gap-6 px-4 w-full md:w-11/12 max-w-screen-xl justify-between">
                 <div className="flex flex-col justify-between gap-4">
                     <h1 href="/" className="font-semibold text-3xl text-white">
                         MyTicket
@@ -14,7 +14,7 @@ const Footer = () => {
                         <p>© 2023 Zeroqode. All rights reserved.</p>
                     </div>
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-32">
+                <div className="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-32">
                     {/* Company */}
                     <ul className="flex flex-col gap-3">
                         <li className="mb-2">
