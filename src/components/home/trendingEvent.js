@@ -11,10 +11,10 @@ const TrendingEvent = () => {
                     <h1 className="text-xl font-medium">
                         Trending events near you
                     </h1>
-                    <button className="flex flex-row gap-1 items-center hover:text-primary">
+                    <a href="/events" className="flex flex-row gap-1 items-center hover:text-primary">
                         <p>Browse all</p>
                         <AiOutlineArrowRight className="text-sm" />
-                    </button>
+                    </a>
                 </div>
 
                 {/* No Event */}
