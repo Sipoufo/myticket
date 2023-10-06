@@ -1,70 +1,75 @@
-import React, { useState } from "react";
-import Button from "../widgets/button";
-import { FaBars } from "react-icons/fa6";
-import { IoMdClose } from "react-icons/io";
-import Auth from "./auth/auth";
+import React from "react";
+import Navbar from "./navbar";
 
 const Header = () => {
-    const [seeModal, setSeeModal] = useState(false);
-    const [showOAuthModal, setShowOAuthModal] = useState(false);
-
     return (
-        <>
-            <div className="absolute top-0 w-full flex flex-row justify-between items-center px-10 md:px-20 lg:px-32 py-8 text-white">
-                {/* Logo */}
-                {/* <img src={process.env.PUBLIC_URL + "/logo.png"} className="w-20 object-cover" alt="bg_image_home"/> */}
-                <a href="/" className="font-semibold text-2xl text-white">
-                    MyTicket
-                </a>
-                <ul className="hidden md:flex flex-row gap-6 items-center">
-                    <li>
-                        <button
-                            className="font-medium hover:underline underline-offset-4 hover:text-primary"
-                            onClick={() => setShowOAuthModal(true)}
-                        >
-                            Sign up / Sign In
-                        </button>
-                    </li>
-                    <Button title="Create Event" />
-                </ul>
-                <button className="md:hidden" onClick={() => setSeeModal(true)}>
-                    <FaBars className="text-xl" />
-                </button>
+        <div className="relative min-h-screen md:min-h-[70%] flex text-white">
+            {/* Background image */}
+            <img
+                src={process.env.PUBLIC_URL + "/assets/images/bg1.jpg"}
+                className="absolute h-full w-full object-cover"
+                alt="bg_image_home"
+            />
+            <div className="absolute h-full w-full bg-black bg-opacity-60"></div>
+            <div className="w-full h-full z-10 flex flex-col justify-center">
+                <Navbar />
+                <div className="flex justify-center">
+                    <div className="flex flex-grow flex-col gap-6 items-center justify-center px-4 w-10/12 md:w-8/12 max-w-screen-xl">
+                        <p className="text-3xl font-bold">
+                            Discover events across the world
+                        </p>
+                        <form className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 text-black overflow-hidden gap-y-4">
+                            {/* Search item */}
+                            <div className="flex border-x border-gray-200 w-full sm:col-span-3 md:col-span-2 bg-white rounded-l-lg rounded-r-lg md:rounded-r-none overflow-hidden">
+                                <input
+                                    type="search"
+                                    placeholder="Search item"
+                                    className="px-2 py-4 text-sm font-normal text-blue-gray-700 outline outline-0 placeholder-shown:border-blue-gray-200 focus:outline-0 disabled:border-0 w-full"
+                                />
+                            </div>
+                            <div className="flex flex-row w-full col-span-2 bg-white rounded-lg sm:rounded-r-none md:rounded-l-none overflow-hidden">
+                                {/* Location */}
+                                <div className="flex border-x border-gray-200 w-1/2">
+                                    <input
+                                        type="text"
+                                        placeholder="Location"
+                                        className="px-2 py-4 text-sm font-normal text-blue-gray-700 outline outline-0 placeholder-shown:border-blue-gray-200 focus:outline-0 disabled:border-0 w-full"
+                                    />
+                                </div>
+                                {/* Type of time */}
+                                <div className="flex border-x border-gray-200 w-1/2 bg-white">
+                                    <select
+                                        data-te-select-init
+                                        className="px-2 py-4 text-sm font-normal text-blue-gray-700 outline outline-0 placeholder-shown:border-blue-gray-200 focus:outline-0 disabled:border-0 w-full bg-white"
+                                    >
+                                        <option>All time</option>
+                                        <option>Today</option>
+                                        <option>Tomorrow</option>
+                                        <option>This week</option>
+                                    </select>
+                                </div>
+                            </div>
+                            {/* Event type */}
+                            <div className="flex border-x border-gray-200 w-full bg-white rounded-lg sm:rounded-l-none lg:rounded-r-none overflow-hidden">
+                                <select
+                                    data-te-select-init
+                                    className="px-2 py-4  text-sm font-normal text-blue-gray-700 outline outline-0 placeholder-shown:border-blue-gray-200 focus:outline-0 disabled:border-0 w-full bg-white"
+                                >
+                                    <option>Online</option>
+                                    <option>Present</option>
+                                </select>
+                            </div>
+                            {/* Event type */}
+                            <div className="flex border-gray-200 w-full bg-white col-span-full lg:col-span-1 md:rounded-l-lg lg:rounded-l-none rounded-r-lg overflow-hidden">
+                                <button className="text-white px-6 py-3 bg-primary w-full hover:bg-opacity-90">
+                                    Search
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-
-            {/* Menu for small screen */}
-            <div
-                className={`${
-                    !seeModal && "hidden"
-                } md:hidden fixed z-40 top-0 left-0 flex justify-center items-center w-screen h-screen overflow-hidden bg-white text-primary`}
-            >
-                <ul className="flex flex-col w-10/12 text-center text-lg font-semibold gap-6">
-                    <li className="flex justify-end">
-                        <button onClick={() => setSeeModal(false)}>
-                            <IoMdClose className="text-2xl" />
-                        </button>
-                    </li>
-                    <li>
-                        <button className="w-full hover:underline underline-offset-4">
-                            SignIn
-                        </button>
-                    </li>
-                    <li>
-                        <button className="w-full hover:underline underline-offset-4">
-                            SignUp
-                        </button>
-                    </li>
-                    <li>
-                        <button className="w-full hover:underline underline-offset-4">
-                            Create event
-                        </button>
-                    </li>
-                </ul>
-            </div>
-
-            {/* Login part */}
-            <Auth showOAuthModal={showOAuthModal} setShowOAuthModal={setShowOAuthModal} />
-        </>
+        </div>
     );
 };
 
