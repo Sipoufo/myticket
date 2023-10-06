@@ -1,8 +1,8 @@
 import React from "react";
-import Header from "../widgets/header";
+import Header from "../components/header";
 import TrendingEvent from "../components/home/trendingEvent";
 import DiscoverEvent from "../components/home/dicoverEvent";
-import Footer from "../widgets/footer";
+import Footer from "../components/footer";
 
 const Home = () => {
     return (

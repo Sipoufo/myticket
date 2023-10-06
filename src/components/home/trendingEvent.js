@@ -1,5 +1,6 @@
 import React from "react";
 import { AiOutlineArrowRight } from "react-icons/ai";
+import Event from "../../widgets/event";
 
 const TrendingEvent = () => {
     return (
@@ -17,10 +18,11 @@ const TrendingEvent = () => {
                 </div>
 
                 {/* No Event */}
-                <div className="h-60 flex justify-center items-center">
+                {/* <div className="h-60 flex justify-center items-center">
                     <p className="text-secondary text-4xl font-semibold">Oops, no events here!</p>
-                </div>
+                </div> */}
                 {/* Event Presentation Part */}
+                <Event />
             </div>
         </div>
     );

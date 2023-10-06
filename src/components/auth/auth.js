@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import SignIn from "../components/auth/signIn";
-import SignUp from "../components/auth/signUp";
-import ForgetPassword from "../components/auth/forgetPassword";
+import SignIn from "./signIn";
+import SignUp from "./signUp";
+import ForgetPassword from "./forgetPassword";
 
-const Login = ({showOAuthModal, setShowOAuthModal}) => {
+const Auth = ({showOAuthModal, setShowOAuthModal}) => {
     const [modalService, setModalService] = useState("signIn");
 
     return (
@@ -25,4 +25,4 @@ const Login = ({showOAuthModal, setShowOAuthModal}) => {
     );
 };
 
-export default Login;
+export default Auth;

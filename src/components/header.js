@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Button from "./button";
+import Button from "../widgets/button";
 import { FaBars } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
-import Login from "./login";
+import Auth from "./auth/auth";
 
 const Header = () => {
     const [seeModal, setSeeModal] = useState(false);
@@ -63,7 +63,7 @@ const Header = () => {
             </div>
 
             {/* Login part */}
-            <Login showOAuthModal={showOAuthModal} setShowOAuthModal={setShowOAuthModal} />
+            <Auth showOAuthModal={showOAuthModal} setShowOAuthModal={setShowOAuthModal} />
         </>
     );
 };

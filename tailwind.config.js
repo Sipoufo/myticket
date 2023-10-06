@@ -9,6 +9,7 @@ module.exports = {
         "primary": "#4547BF",
         "secondary": "#ADADAD",
         "third": "#3A3845",
+        "forth": "#D75A2C",
       }
     },
     fontFamily: {
