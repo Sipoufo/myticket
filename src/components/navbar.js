@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Button from "../widgets/button";
 import { FaBars } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
 import Auth from "./auth/auth";
@@ -7,6 +6,7 @@ import Auth from "./auth/auth";
 const Navbar = () => {
     const [seeModal, setSeeModal] = useState(false);
     const [showOAuthModal, setShowOAuthModal] = useState(false);
+    const [modalService, setModalService] = useState("signIn");
 
     return (
         <>
@@ -20,12 +20,23 @@ const Navbar = () => {
                     <li>
                         <button
                             className="font-medium hover:underline underline-offset-4 hover:text-primary"
-                            onClick={() => setShowOAuthModal(true)}
+                            onClick={() => {
+                                setModalService("signIn");
+                                setShowOAuthModal(true);
+                            }}
                         >
                             Sign up / Sign In
                         </button>
                     </li>
-                    <Button title="Create Event" />
+                    <button
+                        className="w-auto px-4 py-3 bg-primary rounded-lg hover:bg-opacity-90"
+                        onClick={() => {
+                            setModalService("createEvent");
+                            setShowOAuthModal(true);
+                        }}
+                    >
+                        Create Event
+                    </button>
                 </ul>
                 <button className="md:hidden" onClick={() => setSeeModal(true)}>
                     <FaBars className="text-xl" />
@@ -45,17 +56,35 @@ const Navbar = () => {
                         </button>
                     </li>
                     <li>
-                        <button className="w-full hover:underline underline-offset-4">
+                        <button
+                            className="w-full hover:underline underline-offset-4"
+                            onClick={() => {
+                                setModalService("signIn");
+                                setShowOAuthModal(true);
+                            }}
+                        >
                             SignIn
                         </button>
                     </li>
                     <li>
-                        <button className="w-full hover:underline underline-offset-4">
+                        <button
+                            className="w-full hover:underline underline-offset-4"
+                            onClick={() => {
+                                setModalService("signUp");
+                                setShowOAuthModal(true);
+                            }}
+                        >
                             SignUp
                         </button>
                     </li>
                     <li>
-                        <button className="w-full hover:underline underline-offset-4">
+                        <button
+                            className="w-full hover:underline underline-offset-4"
+                            onClick={() => {
+                                setModalService("createEvent");
+                                setShowOAuthModal(true);
+                            }}
+                        >
                             Create event
                         </button>
                     </li>
@@ -63,7 +92,12 @@ const Navbar = () => {
             </div>
 
             {/* Login part */}
-            <Auth showOAuthModal={showOAuthModal} setShowOAuthModal={setShowOAuthModal} />
+            <Auth
+                showOAuthModal={showOAuthModal}
+                setShowOAuthModal={setShowOAuthModal}
+                modalService={modalService}
+                setModalService={setModalService}
+            />
         </>
     );
 };
