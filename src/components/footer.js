@@ -10,7 +10,7 @@ const Footer = () => {
                         MyTicket
                     </h1>
                     <div className="flex flex-col gap-2">
-                        <p>Built with ❤️ and without by Zeroqode 😊</p>
+                        <p>Built by blackCode 😊</p>
                         <p>© 2023 Zeroqode. All rights reserved.</p>
                     </div>
                 </div>

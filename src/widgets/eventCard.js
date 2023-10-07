@@ -1,6 +1,7 @@
 import React from "react";
 import { FiUpload, FiHeart } from "react-icons/fi";
 import { HiMiniUser } from "react-icons/hi2";
+import { Link } from "react-router-dom";
 
 const EventCard = ({
     image,
@@ -12,7 +13,10 @@ const EventCard = ({
     participants,
 }) => {
     return (
-        <button className="flex flex-col hover:shadow-xl shadow-md h-[430px] text-black my-2 border border-gray-200 text-start">
+        <Link
+            className="flex flex-col hover:shadow-xl shadow-md h-[430px] text-black my-2 border border-gray-200 text-start"
+            to="/events/1"
+        >
             <img
                 src={process.env.PUBLIC_URL + image}
                 className="h-40 w-full object-cover"
@@ -31,7 +35,6 @@ const EventCard = ({
                 <h1 className="text-base font-bold"> {title} </h1>
                 <h2 className="text-forth font-semibold">{time}</h2>
                 <h3 className={`${isFree && "hidden"} text-gray-600`}>
-                    {" "}
                     À partir de {price}
                 </h3>
                 <div>
@@ -49,7 +52,7 @@ const EventCard = ({
                     <label>{participants} participants</label>
                 </div>
             </div>
-        </button>
+        </Link>
     );
 };
 

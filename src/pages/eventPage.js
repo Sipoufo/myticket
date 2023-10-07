@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../components/header";
 import Event from "../widgets/event";
 import Footer from "../components/footer";
 
 const EventPage = () => {
+    const [eventType, setEventType] = useState("all");
     return (
         <div className="w-full h-full flex flex-col overflow-y-auto gap-10">
             {/* Header */}
@@ -22,34 +23,34 @@ const EventPage = () => {
                         </select>
                     </div>
                     <ul className="flex flex-row gap-10 overflow-x-auto no-scrollbar">
-                        <li className="text-primary font-semibold pb-4 border-b-2 border-primary cursor-pointer">
-                            Tous
+                        <li className={`${eventType === "all" && "text-primary border-b-2 border-primary"} font-semibold pb-4 cursor-pointer text-gray-600`} onClick={() => setEventType("all")}>
+                            All
                         </li>
-                        <li className="text-gray-600 font-semibold pb-4 cursor-pointer">
+                        <li className={`${eventType === "forYou" && "text-primary border-b-2 border-primary"} font-semibold pb-4 cursor-pointer text-gray-600`} onClick={() => setEventType("forYou")}>
                             For you
                         </li>
-                        <li className="text-gray-600 font-semibold pb-4 cursor-pointer">
+                        <li className={`${eventType === "thisDay" && "text-primary border-b-2 border-primary"} font-semibold pb-4 cursor-pointer text-gray-600`} onClick={() => setEventType("thisDay")}>
                             This day
                         </li>
-                        <li className="text-gray-600 font-semibold pb-4 cursor-pointer">
+                        <li className={`${eventType === "thisWeek" && "text-primary border-b-2 border-primary"} font-semibold pb-4 cursor-pointer text-gray-600`} onClick={() => setEventType("thisWeek")}>
                             This week
                         </li>
-                        <li className="text-gray-600 font-semibold pb-4 cursor-pointer">
+                        <li className={`${eventType === "nextWeek" && "text-primary border-b-2 border-primary"} font-semibold pb-4 cursor-pointer text-gray-600`} onClick={() => setEventType("nextWeek")}>
                             Next week
                         </li>
-                        <li className="text-gray-600 font-semibold pb-4 cursor-pointer">
+                        <li className={`${eventType === "art" && "text-primary border-b-2 border-primary"} font-semibold pb-4 cursor-pointer text-gray-600`} onClick={() => setEventType("art")}>
                             Art
                         </li>
-                        <li className="text-gray-600 font-semibold pb-4 cursor-pointer">
+                        <li className={`${eventType === "art" && "text-primary border-b-2 border-primary"} font-semibold pb-4 cursor-pointer text-gray-600`} onClick={() => setEventType("art")}>
                             Art
                         </li>
-                        <li className="text-gray-600 font-semibold pb-4 cursor-pointer">
+                        <li className={`${eventType === "art" && "text-primary border-b-2 border-primary"} font-semibold pb-4 cursor-pointer text-gray-600`} onClick={() => setEventType("art")}>
                             Art
                         </li>
-                        <li className="text-gray-600 font-semibold pb-4 cursor-pointer">
+                        <li className={`${eventType === "art" && "text-primary border-b-2 border-primary"} font-semibold pb-4 cursor-pointer text-gray-600`} onClick={() => setEventType("art")}>
                             Art
                         </li>
-                        <li className="text-gray-600 font-semibold pb-4 cursor-pointer">
+                        <li className={`${eventType === "art" && "text-primary border-b-2 border-primary"} font-semibold pb-4 cursor-pointer text-gray-600`} onClick={() => setEventType("art")}>
                             Art
                         </li>
                     </ul>

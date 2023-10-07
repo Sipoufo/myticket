@@ -12,7 +12,6 @@ const Event = () => {
             <EventCard image={"/assets/images/bg1.jpg"} title={"Webinaire : Comment maîtriser son impôt sur le revenu ?"} time={"lun. 23 oct. 2023 17:30 WAT"} isFree={false} price={"10.452$"} place={"DMK International"} participants={"10k"} />
             <EventCard image={"/assets/images/bg1.jpg"} title={"Webinaire : Comment maîtriser son impôt sur le revenu ?"} time={"lun. 23 oct. 2023 17:30 WAT"} isFree={false} price={"10.452$"} place={"DMK International"} participants={"10k"} />
             <EventCard image={"/assets/images/bg1.jpg"} title={"Webinaire : Comment maîtriser son impôt sur le revenu ?"} time={"lun. 23 oct. 2023 17:30 WAT"} isFree={false} price={"10.452$"} place={"DMK International"} participants={"10k"} />
-            <EventCard image={"/assets/images/bg1.jpg"} title={"Webinaire : Comment maîtriser son impôt sur le revenu ?"} time={"lun. 23 oct. 2023 17:30 WAT"} isFree={false} price={"10.452$"} place={"DMK International"} participants={"10k"} />
         </div>
     )
 };
