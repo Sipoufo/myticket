@@ -1,12 +1,19 @@
 import React from "react";
+import { IoMdClose } from "react-icons/io";
 
-const ForgetPassword = ({ modalService }) => {
+const ForgetPassword = ({ modalService, setShowOAuthModal }) => {
     return (
         <div
             className={`${
                 modalService !== "forgetPassword" && "hidden"
-            } flex flex-col text-center bg-white rounded-md shadow-md z-50 p-6 gap-2 w-11/12 sm:w-8/12 md:w-6/12 lg:w-4/12 xl:w-3/12`}
+            } relative flex flex-col text-center bg-white rounded-md shadow-md z-50 p-6 gap-2 w-11/12 sm:w-8/12 md:w-6/12 lg:w-4/12 xl:w-3/12`}
         >
+            <button
+                className="absolute right-4 top-4"
+                onClick={() => setShowOAuthModal(false)}
+            >
+                <IoMdClose className="text-2xl" />
+            </button>
             <label className="text-base text-secondary font-semibold">
                 Reset Password
             </label>
