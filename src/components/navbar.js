@@ -75,9 +75,9 @@ const Navbar = () => {
                             <FaPlus />
                         </button>
                         {/* tMy Ticket */}
-                        <button className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold">
+                        <Link to='/mytickets' className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold">
                             My Ticket
-                        </button>
+                        </Link>
                         {/* My Ticket */}
                         <Link to='/myevents' className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold">
                             My Events

@@ -5,6 +5,7 @@ import Home from "../pages/home";
 import EventPage from "../pages/eventPage";
 import EventPresentation from "../pages/eventPresentation";
 import MyEvent from "../pages/myEvent";
+import MyTicket from "../pages/myTicket";
 
 const RouterManagement = () => {
     return(
@@ -14,6 +15,7 @@ const RouterManagement = () => {
                 <Route path="/events" element={<EventPage />} />
                 <Route path="/events/:eventId" element={<EventPresentation />} />
                 <Route path="/myevents" element={<MyEvent />} />
+                <Route path="/mytickets" element={<MyTicket />} />
             </Route>
         </Routes>
     )
