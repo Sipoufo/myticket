@@ -10,6 +10,15 @@ module.exports = {
         "secondary": "#ADADAD",
         "third": "#3A3845",
         "forth": "#D75A2C",
+      },
+      keyframes: {
+        wiggle: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(0%)' },
+        }
+      },
+      animation: {
+        wiggle: 'wiggle 0.5s ease-out 0s 1',
       }
     },
     fontFamily: {

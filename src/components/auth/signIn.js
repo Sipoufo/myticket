@@ -40,7 +40,7 @@ const SignIn = ({ modalService, setModalService, setShowOAuthModal }) => {
                         forget password ?
                     </p>
                 </div>
-                <button className="w-auto px-4 py-3 bg-[#525266] text-white rounded-lg hover:bg-opacity-90 font-medium">
+                <button type="submit" className="w-auto px-4 py-3 bg-[#525266] text-white rounded-lg hover:bg-opacity-90 font-medium">
                     Sign in
                 </button>
             </form>

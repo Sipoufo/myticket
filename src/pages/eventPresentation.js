@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 // import { useParams } from "react-router-dom";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import Event from "../widgets/event";
 import { FiHeart, FiUpload } from "react-icons/fi";
+import EditEvent from "../components/events/editEvent";
 
 const EventPresentation = () => {
+    const [seeEditPart, setSeeEditPart] = useState(false);
     // let params = useParams();
     // params.eventId
     return (
-        <div className="w-full h-full flex flex-col overflow-y-auto gap-10 pb-40 md:pb-0">
+        <div className="w-full h-full flex flex-col overflow-y-auto gap-10 pb-40 sm:pb-0">
             {/* Header */}
             <div className="relative min-h-screen md:min-h-[80%] flex text-white">
                 {/* Background image */}
@@ -21,6 +23,9 @@ const EventPresentation = () => {
                 <div className="absolute h-full w-full bg-gradient-to-t bg-primary to-transparent bg-opacity-70"></div>
                 <div className="w-full h-full z-10 flex flex-col justify-center">
                     <Navbar />
+                    <button className="z-10 fixed left-0 top-auto bottom-auto px-6 py-3 bg-emerald-400 text-base font-semibold -rotate-90 -translate-x-10" onClick={() => setSeeEditPart(true)}>
+                        Edit Event
+                    </button>
                     <div className="flex justify-center">
                         <div className="flex flex-col-reverse gap-6 md:gap-0 md:flex-row justify-between items-center text-white px-4 w-full md:w-10/12 max-w-screen-xl">
                             {/* Information */}
@@ -63,8 +68,8 @@ const EventPresentation = () => {
                 </div>
             </div>
             <div className="flex justify-center">
-                <div className="relative flex flex-col md:flex-row gap-6 px-4 w-full md:w-10/12 max-w-screen-xl">
-                    <div className="flex flex-col gap-4 w-6/12">
+                <div className="relative flex flex-col md:flex-row gap-6 px-4 w-full md:w-10/12 max-w-screen-xl items-center md:items-start">
+                    <div className="flex flex-col gap-4 w-full md:w-6/12">
                         <div className="flex flex-col gap-2">
                             <h1 className="text-xl font-bold">Description</h1>
                             <p className="text-gray-500">
@@ -87,8 +92,8 @@ const EventPresentation = () => {
                             </p>
                         </div>
                     </div>
-                    <div className="flex flex-grow flex-col items-end justify-start">
-                        <div className="flex flex-col gap-4 px-4 py-6 w-80 rounded-lg border">
+                    <div className="fixed bottom-0 z-20 sm:relative flex flex-grow flex-col items-end justify-start bg-white w-full sm:w-auto">
+                        <div className="flex flex-col gap-4 px-4 py-6 w-full sm:w-80 rounded-lg border">
                             <div className="flex flex-row justify-between items-center">
                                 <button className="w-10 h-10 rounded-full border border-black flex justify-center items-center bg-white hover:bg-gray-100">
                                     <FiUpload className="text-lg" />
@@ -118,6 +123,8 @@ const EventPresentation = () => {
 
             {/* Footer */}
             <Footer />
+
+            <EditEvent seeEditPart={seeEditPart} setSeeEditPart={setSeeEditPart} />
         </div>
     );
 };
