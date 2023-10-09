@@ -14,6 +14,7 @@ const DetailEvent = ({ active }) => {
             e.target.files[0].name
         );
         setImage(formData);
+        console.log(image);
     };
     return (
         <div className={`${active !== "detail" && "hidden"} flex flex-col w-80 h-full bg-white animate-wiggle`}>
@@ -118,9 +119,8 @@ const DetailEvent = ({ active }) => {
                 <span className="text-gray-600 font-medium text-sm">
                     Event Poster
                 </span>
-                {/* End date & time */}
                 <div className="flex flex-col gap-2">
-                    <label>End date & time</label>
+                    {/* <label>End date & time</label> */}
                     <div class="flex items-center justify-center w-full">
                         <label
                             for="dropzone-file"

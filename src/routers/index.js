@@ -7,6 +7,8 @@ import EventPresentation from "../pages/eventPresentation";
 import MyEvent from "../pages/myEvent";
 import MyTicket from "../pages/myTicket";
 import OrganizerProfile from "../pages/organizerProfile";
+import MyAccount from "../pages/myAccount";
+import ManageEvent from "../pages/manageEvent";
 
 const RouterManagement = () => {
     return(
@@ -18,6 +20,8 @@ const RouterManagement = () => {
                 <Route path="/myevents" element={<MyEvent />} />
                 <Route path="/mytickets" element={<MyTicket />} />
                 <Route path="/organizerprofile" element={<OrganizerProfile />} />
+                <Route path="/myaccount" element={<MyAccount />} />
+                <Route path="/manageevent" element={<ManageEvent />} />
             </Route>
         </Routes>
     )

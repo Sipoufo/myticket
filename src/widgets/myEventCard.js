@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const MyEventCard = ({ image, title, time, totalSales, ticketsSold }) => {
     return (
@@ -30,9 +31,9 @@ const MyEventCard = ({ image, title, time, totalSales, ticketsSold }) => {
                         Manage
                     </button>
                     <hr className="border-l h-full" />
-                    <button className="grow p-4 hover:text-primary hover:font-semibold">
+                    <Link to='/events/1' className="grow p-4 hover:text-primary hover:font-semibold">
                         View/Edit
-                    </button>
+                    </Link>
                     <hr className="border-l h-full" />
                     <button className="grow p-4 hover:bg-red-600 hover:text-white hover:font-semibold">
                         Delete

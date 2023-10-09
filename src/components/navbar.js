@@ -99,9 +99,9 @@ const Navbar = () => {
                             Organizer Profile
                         </Link>
                         {/* My Ticket */}
-                        <button className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold">
+                        <Link to="/myaccount" className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold">
                             My Account
-                        </button>
+                        </Link>
                         {/* My Ticket */}
                         <button className="flex flex-row px-6 py-4 justify-between border-t hover:bg-slate-200 hover:text-primary hover:font-semibold">
                             <label>Logout</label>
