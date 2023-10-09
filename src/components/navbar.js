@@ -42,7 +42,7 @@ const Navbar = () => {
                 </ul> */}
                 <div className="relative hidden md:flex justify-end">
                     <button
-                        className="flex flex-row gap-2 items-center cursor-pointer"
+                        className="z-30 flex flex-row gap-2 items-center cursor-pointer"
                         onClick={() => setConnectSeeModal(!seeConnectModal)}
                     >
                         <span className="font-semibold text-xs">
@@ -52,10 +52,13 @@ const Navbar = () => {
                             S
                         </div>
                     </button>
+                    <div className={`${
+                            !seeConnectModal && "hidden"
+                        } z-20 fixed flex top-0 left-0 bg-black bg-opacity-20 w-screen h-screen`} onClick={() => setConnectSeeModal(false)}></div>
                     <div
                         className={`${
                             !seeConnectModal && "hidden"
-                        } absolute flex flex-col w-80 h-[25rem] bg-white top-0 bottom-0 mt-14 text-black rounded-md shadow-2xl`}
+                        } z-20 absolute flex flex-col w-80 h-[25rem] bg-white top-0 bottom-0 mt-14 text-black rounded-md shadow-2xl`}
                     >
                         {/* Information */}
                         <div className="flex flex-row gap-4 px-6 py-4 items-center">
@@ -75,17 +78,26 @@ const Navbar = () => {
                             <FaPlus />
                         </button>
                         {/* tMy Ticket */}
-                        <Link to='/mytickets' className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold">
+                        <Link
+                            to="/mytickets"
+                            className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold"
+                        >
                             My Ticket
                         </Link>
                         {/* My Ticket */}
-                        <Link to='/myevents' className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold">
+                        <Link
+                            to="/myevents"
+                            className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold"
+                        >
                             My Events
                         </Link>
                         {/* My Ticket */}
-                        <button className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold">
+                        <Link
+                            to="/organizerprofile"
+                            className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold"
+                        >
                             Organizer Profile
-                        </button>
+                        </Link>
                         {/* My Ticket */}
                         <button className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold">
                             My Account
