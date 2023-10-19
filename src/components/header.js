@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "./navbar";
 
-const Header = () => {
+const Header = ({ token }) => {
     return (
         <div className="relative min-h-screen md:min-h-[70%] flex text-white">
             {/* Background image */}
@@ -12,7 +12,7 @@ const Header = () => {
             />
             <div className="absolute h-full w-full bg-black bg-opacity-60"></div>
             <div className="w-full h-full z-10 flex flex-col justify-center">
-                <Navbar />
+                <Navbar token={token} />
                 <div className="flex justify-center">
                     <div className="flex flex-grow flex-col gap-6 items-center justify-center px-4 w-10/12 md:w-8/12 max-w-screen-xl">
                         <p className="text-3xl font-bold">
