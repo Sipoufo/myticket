@@ -22,10 +22,8 @@ const ForgetPassword = ({ modalService, setShowOAuthModal }) => {
             setIsActive(true);
             setLoading(false);
         }).catch((e) => {
-            console.log(e);
             setLoading(false);
         });
-        // console.log(`Data: ${res}`);
     };
 
     if (loading) {

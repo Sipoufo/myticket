@@ -1,8 +1,9 @@
 import React from "react";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import Event from "../../widgets/event";
+// import { FetchAllEvents } from "../../services/eventService";
 
-const TrendingEvent = () => {
+const TrendingEvent = ({ data }) => {
     return (
         <div className="flex justify-center">
             <div className="relative flex flex-col gap-6 px-4 w-full md:w-10/12 max-w-screen-xl">
@@ -18,11 +19,11 @@ const TrendingEvent = () => {
                 </div>
 
                 {/* No Event */}
-                {/* <div className="h-60 flex justify-center items-center">
+                <div className={`${data.length !== 0 && "hidden"} h-60 flex justify-center items-center`}>
                     <p className="text-secondary text-4xl font-semibold">Oops, no events here!</p>
-                </div> */}
+                </div>
                 {/* Event Presentation Part */}
-                <Event />
+                <Event data={data} />
             </div>
         </div>
     );

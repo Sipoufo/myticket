@@ -13,7 +13,6 @@ export const SignInService = async (data) => {
             data: null,
         };
     } catch (e) {
-        console.log(e);
         return {
             isError: true,
             message: e.response.data["message"],
@@ -33,7 +32,6 @@ export const SignUpService = async (data) => {
             data: null,
         };
     } catch (e) {
-        console.log(e);
         return {
             isError: true,
             message: e.response.data["message"],
@@ -51,7 +49,6 @@ export const ForgetPasswordService = async (data) => {
             data: null,
         };
     } catch (e) {
-        console.log(e);
         return {
             isError: true,
             message: e.response.data["message"],
@@ -63,14 +60,12 @@ export const ForgetPasswordService = async (data) => {
 export const ResetPasswordService = async (data) => {
     try {
         const response = await axios.post(ResetPassword_endpoint, data);
-        console.log(response)
         return {
             isError: false,
             message: response.data["message"],
             data: null,
         };
     } catch (e) {
-        console.log(e);
         return {
             isError: true,
             message: e.response.data["message"],

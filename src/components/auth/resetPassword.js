@@ -23,17 +23,14 @@ const ResetPassword = ({
     const resetPassword = (event) => {
         event.preventDefault();
         setLoading(true);
-        console.log(data);
         const res = ResetPasswordService(data);
         res.then((data) => {
             setResult(data);
             setIsActive(true);
             setLoading(false);
         }).catch((e) => {
-            console.log(e);
             setLoading(false);
         });
-        // console.log(`Data: ${res}`);
     };
 
     if (loading) {

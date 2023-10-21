@@ -27,7 +27,6 @@ const SignIn = ({ modalService, setModalService, setShowOAuthModal }) => {
             setIsError(data.isError);
             setLoading(false);
         }).catch((e) => {
-            console.log(e);
             setLoading(false);
         });
     };

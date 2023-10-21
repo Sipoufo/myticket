@@ -3,7 +3,7 @@ import { FaBars, FaPlus } from "react-icons/fa6";
 import { IoMdClose, IoMdLogOut } from "react-icons/io";
 import Auth from "./auth/auth";
 import { Link } from "react-router-dom";
-import { GetAccountState, GetToken, GetUserName } from "../services/token";
+import { GetToken, GetUserName } from "../services/token";
 
 const Navbar = ({ token }) => {
     const [seeModal, setSeeModal] = useState(false);
@@ -13,7 +13,6 @@ const Navbar = ({ token }) => {
     const [isSignIn, setIsSignIn] = useState(false);
 
     useEffect(() => {
-        console.log(GetToken() != null);
         if (GetToken() != null) {
             setIsSignIn(true);
         }
@@ -27,7 +26,7 @@ const Navbar = ({ token }) => {
     return (
         <>
             <div className="absolute top-0 w-full flex flex-col">
-                <div
+                {/* <div
                     className={`${
                         (GetAccountState() === "activated" && GetToken()) ||
                         (!GetAccountState() && !GetToken())
@@ -36,7 +35,7 @@ const Navbar = ({ token }) => {
                     } p-4 bg-red-500 text-center font-medium`}
                 >
                     Your account is not verified. Check your email!
-                </div>
+                </div> */}
                 <div className="flex flex-row justify-between items-center px-10 md:px-20 lg:px-32 py-8 text-white">
                     {/* Logo */}
                     {/* <img src={process.env.PUBLIC_URL + "/logo.png"} className="w-20 object-cover" alt="bg_image_home"/> */}

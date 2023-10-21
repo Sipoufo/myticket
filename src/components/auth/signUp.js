@@ -20,7 +20,6 @@ const SignUp = ({ modalService, setModalService, setShowOAuthModal }) => {
     const SignUp = (event) => {
         event.preventDefault();
         setLoading(true);
-        console.log(data);
         const res = SignUpService(data);
         res.then((data) => {
             if (!data.isError) {
@@ -31,7 +30,6 @@ const SignUp = ({ modalService, setModalService, setShowOAuthModal }) => {
             setIsError(data.isError);
             setLoading(false);
         }).catch((e) => {
-            console.log(e);
             setLoading(false);
         });
     };
