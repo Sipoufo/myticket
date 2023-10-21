@@ -5,8 +5,8 @@ const DetailEvent = ({ active }) => {
     const [image, setImage] = useState(null);
 
     const handleFileInput = (e) => {
-        console.log("handleFileInput working!");
-        console.log(e.target.files[0]);
+        // console.log("handleFileInput working!");
+        // console.log(e.target.files[0]);
         const formData = new FormData();
         formData.append(
             "my-image-file",
@@ -14,7 +14,6 @@ const DetailEvent = ({ active }) => {
             e.target.files[0].name
         );
         setImage(formData);
-        console.log(image);
     };
     return (
         <div className={`${active !== "detail" && "hidden"} flex flex-col w-80 h-full bg-white animate-wiggle`}>
