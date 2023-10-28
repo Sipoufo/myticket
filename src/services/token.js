@@ -1,10 +1,15 @@
+import { Decrypt, Encrypt } from "../helpers/encryptHelper"
+
 // Token
 export const GetToken = () => {
-    return sessionStorage.getItem("token");
+    if (!sessionStorage.getItem("token")) {
+        return null;
+    }
+    return Decrypt(sessionStorage.getItem("token"));
 }
 
 export const SetToken = (token) => {
-    sessionStorage.setItem('token', token);
+    sessionStorage.setItem('token', Encrypt(token));
 }
 
 // UserName
@@ -23,4 +28,16 @@ export const GetAccountState = () => {
 
 export const SetAccountState = (accountState) => {
     sessionStorage.setItem('accountState', accountState);
+}
+
+// Refresh token
+export const GetRefreshToken = () => {
+    if (!sessionStorage.getItem("refreshToken")) {
+        return null;
+    }
+    return Decrypt(sessionStorage.getItem("refreshToken"));
+}
+
+export const SetRefreshToken = (refreshToken) => {
+    sessionStorage.setItem('refreshToken', Encrypt(refreshToken));
 }

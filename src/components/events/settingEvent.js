@@ -18,14 +18,14 @@ const SettingEvent = ({ active }) => {
                         Private Listing
                     </label>
                     {/* Toggle */}
-                    <label class="relative inline-flex items-center cursor-pointer">
+                    <label className="relative inline-flex items-center cursor-pointer">
                         <input
                             type="checkbox"
                             value=""
                             name="privateListing"
-                            class="sr-only peer"
+                            className="sr-only peer"
                         />
-                        <div class="w-14 h-7 bg-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer border-2 peer-checked:after:translate-x-full peer-checked:after:border-green-600 after:content-[''] after:absolute after:top-[0px] after:left-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-green-600"></div>
+                        <div className="w-14 h-7 bg-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer border-2 peer-checked:after:translate-x-full peer-checked:after:border-green-600 after:content-[''] after:absolute after:top-[0px] after:left-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-green-600"></div>
                     </label>
                 </div>
                 <p>
@@ -35,14 +35,14 @@ const SettingEvent = ({ active }) => {
                 {/* Additional Info */}
                 <div className="flex flex-col gap-2">
                     <label className="text-gray-600 font-medium text-sm">Show attendee count</label>
-                    <label class="relative inline-flex items-center cursor-pointer">
+                    <label className="relative inline-flex items-center cursor-pointer">
                         <input
                             type="checkbox"
                             value=""
                             name="attendeeAccount"
-                            class="sr-only peer"
+                            className="sr-only peer"
                         />
-                        <div class="w-14 h-7 bg-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer border-2 peer-checked:after:translate-x-full peer-checked:after:border-green-600 after:content-[''] after:absolute after:top-[0px] after:left-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-green-600"></div>
+                        <div className="w-14 h-7 bg-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer border-2 peer-checked:after:translate-x-full peer-checked:after:border-green-600 after:content-[''] after:absolute after:top-[0px] after:left-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-green-600"></div>
                     </label>
                 </div>
                 <p>Every will see the number of attendees for your event</p>

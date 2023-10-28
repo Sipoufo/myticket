@@ -1,12 +1,14 @@
 import axios from "axios";
 import { ForgetPassword_endpoint, ResetPassword_endpoint, SignIn_endpoint, SignUp_endpoint } from "../constants/endpoint";
-import { SetToken, SetUserName } from "./token";
+import { SetRefreshToken, SetToken, SetUserName } from "./token";
 
 export const SignInService = async (data) => {
     try {
         const response = await axios.post(SignIn_endpoint, data);
+        console.log(response.data);
         SetToken(response.data["token"]);
         SetUserName(response.data["firstName"]);
+        SetRefreshToken(response.data["refreshToken"])
         return {
             isError: false,
             message: null,

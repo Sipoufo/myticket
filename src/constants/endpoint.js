@@ -6,4 +6,5 @@ export const SignUp_endpoint = URL + "/api/auth/signup";
 export const ForgetPassword_endpoint = URL + "/api/auth/forgetPassword";
 export const ResetPassword_endpoint = URL + "/api/auth/resetPassword";
 
-// Events
+// Users
+export const UserInfoByToken_endpoint = "http://localhost:8080/api/users";
