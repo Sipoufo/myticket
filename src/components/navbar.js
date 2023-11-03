@@ -3,7 +3,10 @@ import { FaBars, FaPlus } from "react-icons/fa6";
 import { IoMdClose, IoMdLogOut } from "react-icons/io";
 import Auth from "./auth/auth";
 import { Link } from "react-router-dom";
-import { GetToken, GetUserName } from "../services/token";
+import { GetToken, GetUserName, RemoveItems } from "../services/token";
+import { FetchAllCategories } from "../services/categoryService";
+import Loading from "./loading";
+import AlertMessage from "../widgets/alert";
 
 const Navbar = ({ token }) => {
     const [seeModal, setSeeModal] = useState(false);
@@ -11,6 +14,18 @@ const Navbar = ({ token }) => {
     const [showOAuthModal, setShowOAuthModal] = useState(false);
     const [modalService, setModalService] = useState("signIn");
     const [isSignIn, setIsSignIn] = useState(false);
+    const [categories, setCategories] = useState(null);
+
+    const [message, setMessage] = useState("");
+    const [isError, setIsError] = useState(false);
+    const [isActive, setIsActive] = useState(false);
+
+    const fetchCategories = () => {
+        const res = FetchAllCategories();
+        res.then((data) => {
+            setCategories(data);
+        }).catch((e) => {});
+    };
 
     useEffect(() => {
         if (GetToken() != null) {
@@ -21,8 +36,13 @@ const Navbar = ({ token }) => {
             setModalService("resetPassword");
             setShowOAuthModal(true);
         }
+
+        fetchCategories();
     }, [token]);
 
+    if (categories == null) {
+        return <Loading />;
+    }
     return (
         <>
             <div className="absolute top-0 w-full flex flex-col">
@@ -61,7 +81,7 @@ const Navbar = ({ token }) => {
                         <button
                             className="w-auto px-4 py-3 bg-primary rounded-lg hover:bg-opacity-90"
                             onClick={() => {
-                                setModalService("createEvent");
+                                setModalService("signIn");
                                 setShowOAuthModal(true);
                             }}
                         >
@@ -108,7 +128,14 @@ const Navbar = ({ token }) => {
                                     </p>
                                 </div>
                             </div>
-                            <button className="flex flex-row bg-primary text-white px-6 py-4 justify-between">
+                            <button
+                                className="flex flex-row bg-primary text-white px-6 py-4 justify-between"
+                                onClick={() => {
+                                    setSeeModal(false);
+                                    setModalService("createEvent");
+                                    setShowOAuthModal(true);
+                                }}
+                            >
                                 <label>Create event</label>
                                 <FaPlus />
                             </button>
@@ -136,7 +163,11 @@ const Navbar = ({ token }) => {
                             >
                                 My Account
                             </Link>
-                            <button className="flex flex-row px-6 py-4 justify-between border-t hover:bg-slate-200 hover:text-primary hover:font-semibold">
+                            <button className="flex flex-row px-6 py-4 justify-between border-t hover:bg-slate-200 hover:text-primary hover:font-semibold" onClick={(e) => {
+                                e.preventDefault();
+                                RemoveItems();
+                                window.location.replace("/");
+                            }}>
                                 <label>Logout</label>
                                 <IoMdLogOut className="text-gray-400 text-xl" />
                             </button>
@@ -242,8 +273,10 @@ const Navbar = ({ token }) => {
                     <li>
                         <button
                             className="w-full hover:underline underline-offset-4"
-                            onClick={() => {
-                                setSeeModal(false);
+                            onClick={(e) => {
+                                e.preventDefault();
+                                RemoveItems();
+                                window.location.replace("/");
                             }}
                         >
                             LogOut
@@ -252,6 +285,15 @@ const Navbar = ({ token }) => {
                 </ul>
             </div>
 
+            {/* Alert */}
+            <AlertMessage
+                isActive={isActive}
+                title={isError ? "Error" : "Success"}
+                message={message}
+                setIsActive={setIsActive}
+                isError={isError}
+            />
+
             {/* Login part */}
             <Auth
                 showOAuthModal={showOAuthModal}
@@ -259,6 +301,10 @@ const Navbar = ({ token }) => {
                 modalService={modalService}
                 setModalService={setModalService}
                 token={token}
+                categories={categories}
+                setMessage={setMessage}
+                setIsError={setIsError}
+                setIsActive={setIsActive}
             />
         </>
     );

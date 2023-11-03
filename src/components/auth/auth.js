@@ -11,6 +11,10 @@ const Auth = ({
     modalService,
     setModalService,
     token = null,
+    categories,
+    setMessage,
+    setIsError,
+    setIsActive,
 }) => {
     return (
         <div
@@ -57,6 +61,10 @@ const Auth = ({
                 <CreateEvent
                     modalService={modalService}
                     setShowOAuthModal={setShowOAuthModal}
+                    categories={categories}
+                    setMessage={setMessage}
+                    setIsError={setIsError}
+                    setIsActive={setIsActive}
                 />
             </div>
         </div>

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
-import MyTicketCard from "../widgets/myTicketCard";
+import MyEventCard from "../widgets/myEventCard";
 
 const OrganizerProfile = () => {
-    const [eventAction, setEventAction] = useState("pastEvent");
+    const [eventAction, setEventAction] = useState("draft");
     return (
         <div className="w-full h-full flex flex-col overflow-y-auto gap-10 pb-40 md:pb-0">
             {/* Header */}
@@ -29,35 +29,45 @@ const OrganizerProfile = () => {
                     </div>
                     <div className="absolute bottom-0 w-full flex justify-center">
                         <div className="flex flex-row justify-center items-center text-white px-4 w-full md:w-10/12 max-w-screen-xl">
-                            {/* Actual */}
+                            {/* Draft Event */}
                             <button
                                 className={`${
-                                    eventAction === "pastEvent" &&
+                                    eventAction === "draft" &&
                                     "bg-white text-primary rounded-t-md"
                                 } flex justify-center items-center h-12 w-40 font-semibold`}
-                                onClick={() => setEventAction("pastEvent")}
+                                onClick={() => setEventAction("draft")}
                             >
-                                Past Event
+                                Draft
                             </button>
-                            {/* Actual Event */}
+                            {/* Publish Event */}
                             <button
                                 className={`${
-                                    eventAction === "actualEvent" &&
+                                    eventAction === "published" &&
                                     "bg-white text-primary rounded-t-md"
                                 } flex justify-center items-center h-12 w-40 font-semibold`}
-                                onClick={() => setEventAction("actualEvent")}
+                                onClick={() => setEventAction("published")}
                             >
-                                Actual Event
+                                Published
+                            </button>
+                            {/* Past Events */}
+                            <button
+                                className={`${
+                                    eventAction === "past" &&
+                                    "bg-white text-primary rounded-t-md"
+                                } flex justify-center items-center h-12 w-40 font-semibold`}
+                                onClick={() => setEventAction("past")}
+                            >
+                                Past
                             </button>
                             {/* Upcoming Events */}
                             <button
                                 className={`${
-                                    eventAction === "upcomingEvent" &&
+                                    eventAction === "upcoming" &&
                                     "bg-white text-primary rounded-t-md"
                                 } flex justify-center items-center h-12 w-40 font-semibold`}
-                                onClick={() => setEventAction("upcomingEvent")}
+                                onClick={() => setEventAction("upcoming")}
                             >
-                                Upcoming Event
+                                Upcoming
                             </button>
                         </div>
                     </div>
@@ -86,15 +96,7 @@ const OrganizerProfile = () => {
             {/* Events */}
             <div className="flex justify-center">
                 <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 w-full md:w-10/12 max-w-screen-xl">
-                    <MyTicketCard
-                        image={"/assets/images/bg3.jpg"}
-                        title={
-                            "Webinaire : Comment maîtriser son impôt sur le revenu ?"
-                        }
-                        time={"lun. 23 oct. 2023 17:30 WAT"}
-                        ticketsSold={0}
-                        totalSales={0}
-                    />
+                    <MyEventCard image={"/assets/images/bg3.jpg"} title={"Webinaire : Comment maîtriser son impôt sur le revenu ?"} time={"lun. 23 oct. 2023 17:30 WAT"} ticketsSold={0} totalSales={0} />
                 </div>
             </div>
 

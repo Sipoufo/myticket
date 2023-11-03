@@ -34,7 +34,7 @@ const EventCard = ({
                     </button>
                 </div>
                 <h1 className="text-base font-bold"> {title} </h1>
-                <h2 className="text-forth font-semibold">{time}</h2>
+                <h2 className="text-forth font-semibold"> Start : {time}</h2>
                 <h3 className={`${isFree && "hidden"} text-gray-600`}>
                     À partir de {price}
                 </h3>

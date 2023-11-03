@@ -34,7 +34,6 @@ const MyAccount = () => {
         event.preventDefault();
         const res = UpdateUserByTokenService(data);
         res.then((data) => {
-            console.log(data);
             setMessage(data.message);
             setIsError(data.isError);
             setActiveModal(true);

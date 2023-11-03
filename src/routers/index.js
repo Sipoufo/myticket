@@ -22,8 +22,12 @@ const RouterManagement = () => {
                     path="/events/:eventId"
                     element={<EventPresentation />}
                 />
-                <Route path="/myevents" element={<MyEvent />} />
-                <Route path="/mytickets" element={<MyTicket />} />
+                <Route
+                    path="/myevents"
+                    element={
+                        GetToken() != null ? <MyEvent /> : <Navigate to="/" />
+                    }
+                />
                 <Route
                     path="/organizerprofile"
                     element={
@@ -32,6 +36,12 @@ const RouterManagement = () => {
                         ) : (
                             <Navigate to="/" />
                         )
+                    }
+                />
+                <Route
+                    path="/mytickets"
+                    element={
+                        GetToken() != null ? <MyTicket /> : <Navigate to="/" />
                     }
                 />
                 <Route

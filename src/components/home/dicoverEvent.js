@@ -15,6 +15,7 @@ const DiscoverEvent = ({ data }) => {
                     {data["message"].map((input) => {
                         return (
                             <CategoryCard
+                                key={input.categoryId}
                                 id={input.categoryId}
                                 image={"/assets/images/bg3.jpg"}
                                 name={input.name}

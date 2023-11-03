@@ -1,14 +1,25 @@
 import axios from "axios";
-import { ForgetPassword_endpoint, ResetPassword_endpoint, SignIn_endpoint, SignUp_endpoint } from "../constants/endpoint";
-import { SetRefreshToken, SetToken, SetUserName } from "./token";
+import {
+    ForgetPassword_endpoint,
+    ResetPassword_endpoint,
+    SignIn_endpoint,
+    SignUp_endpoint,
+} from "../constants/endpoint";
+import { SetToken, SetUserName } from "./token";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 export const SignInService = async (data) => {
     try {
         const response = await axios.post(SignIn_endpoint, data);
-        console.log(response.data);
-        SetToken(response.data["token"]);
-        SetUserName(response.data["firstName"]);
-        SetRefreshToken(response.data["refreshToken"])
+        SetToken(await response.data["token"]);
+        SetUserName(await response.data["firstName"]);
+        cookies.set("access_token", await response.data["refreshToken"], {
+            path: "/",
+            httpOnly: true,
+            secure: false, // Set to true if using HTTPS
+        });
         return {
             isError: false,
             message: null,
@@ -26,8 +37,13 @@ export const SignInService = async (data) => {
 export const SignUpService = async (data) => {
     try {
         const response = await axios.post(SignUp_endpoint, data);
-        SetToken(response.data["token"]);
-        SetUserName(response.data["firstName"]);
+        SetToken(await response.data["token"]);
+        SetUserName(await response.data["firstName"]);
+        cookies.set("access_token", await response.data["refreshToken"], {
+            path: "/",
+            httpOnly: true,
+            secure: false, // Set to true if using HTTPS
+        });
         return {
             isError: false,
             message: null,

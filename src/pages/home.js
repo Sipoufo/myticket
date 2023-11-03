@@ -9,6 +9,8 @@ import { FetchAllEvents } from "../services/eventService";
 import { FetchAllCategories } from "../services/categoryService";
 
 const Home = () => {
+    console.log("ok");
+    console.log(process.env)
     const { token } = useParams();
 
     // const [data, setData] = useState();
@@ -24,10 +26,8 @@ const Home = () => {
         const res = FetchAllEvents(1, 8);
         res.then((data) => {
             if (!data.isError) {
-                console.log(data['data']['data']);
                 setResult(data['data']['data']);
             } else {
-                console.log(data['data']);
                 setResult(data['data']);
             }
         }).catch((e) => {

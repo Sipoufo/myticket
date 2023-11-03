@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
-import MyEventCard from "../widgets/myEventCard";
+import MyTicketCard from "../widgets/myTicketCard";
 
 const MyEvent = () => {
-    const [eventAction, setEventAction] = useState("draft");
+    const [eventAction, setEventAction] = useState("pastEvent");
     return (
         <div className="w-full h-full flex flex-col overflow-y-auto gap-10 pb-40 md:pb-0">
             {/* Header */}
@@ -28,32 +28,32 @@ const MyEvent = () => {
                             {/* Draft */}
                             <button
                                 className={`${
-                                    eventAction === "draft" &&
+                                    eventAction === "pastEvent" &&
                                     "bg-white text-primary rounded-t-md"
-                                } flex justify-center items-center h-12 w-24 font-semibold`}
-                                onClick={() => setEventAction("draft")}
+                                } flex justify-center items-center h-12 w-36 font-semibold`}
+                                onClick={() => setEventAction("pastEvent")}
                             >
-                                Draft
+                                Past Event
                             </button>
                             {/* Published */}
                             <button
                                 className={`${
-                                    eventAction === "published" &&
+                                    eventAction === "actualEvent" &&
                                     "bg-white text-primary rounded-t-md"
-                                } flex justify-center items-center h-12 w-24 font-semibold`}
-                                onClick={() => setEventAction("published")}
+                                } flex justify-center items-center h-12 w-36 font-semibold`}
+                                onClick={() => setEventAction("actualEvent")}
                             >
-                                Published
+                                Actual Event
                             </button>
                             {/* Past */}
                             <button
                                 className={`${
-                                    eventAction === "past" &&
+                                    eventAction === "upcomingEvent" &&
                                     "bg-white text-primary rounded-t-md"
-                                } flex justify-center items-center h-12 w-24 font-semibold`}
-                                onClick={() => setEventAction("past")}
+                                } flex justify-center items-center h-12 w-36 font-semibold`}
+                                onClick={() => setEventAction("upcomingEvent")}
                             >
-                                Past
+                                Upcoming Event
                             </button>
                         </div>
                     </div>
@@ -85,7 +85,15 @@ const MyEvent = () => {
             {/* Events */}
             <div className="flex justify-center">
                 <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 w-full md:w-10/12 max-w-screen-xl">
-                    <MyEventCard image={"/assets/images/bg3.jpg"} title={"Webinaire : Comment maîtriser son impôt sur le revenu ?"} time={"lun. 23 oct. 2023 17:30 WAT"} ticketsSold={0} totalSales={0} />
+                    <MyTicketCard
+                        image={"/assets/images/bg3.jpg"}
+                        title={
+                            "Webinaire : Comment maîtriser son impôt sur le revenu ?"
+                        }
+                        time={"lun. 23 oct. 2023 17:30 WAT"}
+                        ticketsSold={0}
+                        totalSales={0}
+                    />
                 </div>
             </div>
 

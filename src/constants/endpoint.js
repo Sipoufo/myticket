@@ -1,4 +1,4 @@
-const URL = "http://localhost:8080";
+const URL = process.env.REACT_APP_API_URL;
 
 // Authentication
 export const SignIn_endpoint = URL + "/api/auth/signin";
@@ -7,4 +7,8 @@ export const ForgetPassword_endpoint = URL + "/api/auth/forgetPassword";
 export const ResetPassword_endpoint = URL + "/api/auth/resetPassword";
 
 // Users
-export const UserInfoByToken_endpoint = "http://localhost:8080/api/users";
+export const UserInfoByToken_endpoint = URL + "/api/users";
+
+// Event
+export const CreateEvent_endpoint = URL + "/api/event";
+export const Fetch_oneEvent_endpoint = (id) => URL + "/api/permit/event/" + id;
