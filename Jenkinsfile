@@ -3,7 +3,7 @@ node {
     def dockerImageTag = "myticket-fo-deploy${env.BUILD_NUMBER}"
     try{
         stage('Clone Repo') {
-            git url: 'git@github.com:Sipoufo/myticket.git',
+            git url: 'https://github.com/Sipoufo/myticket.git',
                 credentialsId: 'myticket_ssh',
                 branch: 'master'
             sh 'npm install'
