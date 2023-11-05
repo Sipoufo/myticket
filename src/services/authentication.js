@@ -8,18 +8,14 @@ import {
 import { SetToken, SetUserName } from "./token";
 import Cookies from "universal-cookie";
 
-const cookies = new Cookies();
+const cookies = new Cookies(null, { path: '/' });
 
 export const SignInService = async (data) => {
     try {
         const response = await axios.post(SignIn_endpoint, data);
         SetToken(await response.data["token"]);
         SetUserName(await response.data["firstName"]);
-        cookies.set("access_token", await response.data["refreshToken"], {
-            path: "/",
-            httpOnly: true,
-            secure: false, // Set to true if using HTTPS
-        });
+        cookies.set("refreshToken", await response.data["refreshToken"]);
         return {
             isError: false,
             message: null,
@@ -39,11 +35,7 @@ export const SignUpService = async (data) => {
         const response = await axios.post(SignUp_endpoint, data);
         SetToken(await response.data["token"]);
         SetUserName(await response.data["firstName"]);
-        cookies.set("access_token", await response.data["refreshToken"], {
-            path: "/",
-            httpOnly: true,
-            secure: false, // Set to true if using HTTPS
-        });
+        cookies.set("refreshToken", await response.data["refreshToken"]);
         return {
             isError: false,
             message: null,

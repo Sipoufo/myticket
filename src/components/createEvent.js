@@ -145,7 +145,7 @@ const CreateEvent = ({
                             <option selected disabled>
                                 Choose one
                             </option>
-                            {categories["message"].map((category) => {
+                            {categories["data"].map((category) => {
                                 return (
                                     <option
                                         key={category.categoryId}

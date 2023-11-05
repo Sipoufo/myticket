@@ -12,7 +12,7 @@ const DiscoverEvent = ({ data }) => {
                     </h1>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {data["message"].map((input) => {
+                    {data["data"].map((input) => {
                         return (
                             <CategoryCard
                                 key={input.categoryId}

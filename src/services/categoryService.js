@@ -7,13 +7,13 @@ export const FetchAllCategories = async () => {
         );
         return {
             isError: false,
-            message: response.data,
-            data: null,
+            message: null,
+            data: await response.data,
         };
     } catch (e) {
         return {
             isError: true,
-            message: e.response.data["message"],
+            message: await e.response.data["message"],
             data: null,
         };
     }

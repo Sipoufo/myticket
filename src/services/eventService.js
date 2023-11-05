@@ -1,5 +1,12 @@
 import { GetToken } from "./token";
-import { CreateEvent_endpoint, Fetch_oneEvent_endpoint } from "../constants/endpoint";
+import {
+    CreateEvent_endpoint,
+    Fetch_events_by_categoryId_endpoint,
+    Fetch_events_by_isPublish_endpoint,
+    Fetch_next_events_by_isPublish_endpoint,
+    Fetch_old_events_by_isPublish_endpoint,
+    Fetch_oneEvent_endpoint,
+} from "../constants/endpoint";
 import axios from "axios";
 import { VerifyToken } from "./tokenService";
 
@@ -7,27 +14,14 @@ const headers = { Authorization: "Bearer " + GetToken() };
 
 // Fetch all event without restriction
 export const FetchAllEvents = async (pageNumber, pageSize) => {
-    let response;
     try {
-        if (GetToken()) {
-            if (VerifyToken()) {
-                response = await axios.get(
-                    `${process.env.REACT_APP_API_URL}/api/permit/event/${pageNumber}/${pageSize}`,
-                    {
-                        headers,
-                    }
-                );
-            } else {
-                window.location.replace("/");
+        VerifyToken();
+        const response = await axios.get(
+            `${process.env.REACT_APP_API_URL}/api/permit/event/${pageNumber}/${pageSize}`,
+            {
+                headers,
             }
-        } else {
-            response = await axios.get(
-                `${process.env.REACT_APP_API_URL}/api/permit/event/${pageNumber}/${pageSize}`,
-                {
-                    headers,
-                }
-            );
-        }
+        );
         return {
             isError: false,
             message: null,
@@ -45,6 +39,7 @@ export const FetchAllEvents = async (pageNumber, pageSize) => {
 // Create one event by token
 export const createEventService = async (data) => {
     try {
+        !VerifyToken() && window.location.replace("/");
         const response = await axios.post(CreateEvent_endpoint, data, {
             headers,
         });
@@ -65,9 +60,130 @@ export const createEventService = async (data) => {
 // Fetch one event by id
 export const FetchOneEvent = async (eventId) => {
     try {
+        VerifyToken();
         const response = await axios.get(Fetch_oneEvent_endpoint(eventId), {
             headers,
         });
+        return {
+            isError: false,
+            message: null,
+            data: response.data,
+        };
+    } catch (e) {
+        console.log(e);
+        return {
+            isError: true,
+            message: e.response.data["message"],
+            data: {},
+        };
+    }
+};
+
+// Fetch events by categoryId
+export const FetchEventsByCategoryId = async (
+    categoryId,
+    pageNumber,
+    pageSize
+) => {
+    try {
+        VerifyToken();
+        const response = await axios.get(
+            Fetch_events_by_categoryId_endpoint(
+                categoryId,
+                pageNumber,
+                pageSize
+            ),
+            {
+                headers,
+            }
+        );
+        return {
+            isError: false,
+            message: null,
+            data: response.data,
+        };
+    } catch (e) {
+        console.log(e);
+        return {
+            isError: true,
+            message: e.response.data["message"],
+            data: {},
+        };
+    }
+};
+
+// Fetch events by categoryId
+export const FetchEventsByIsPublish = async (
+    isPublish,
+    pageNumber,
+    pageSize
+) => {
+    try {
+        !VerifyToken() && window.location.replace("/");
+        const response = await axios.get(
+            Fetch_events_by_isPublish_endpoint(isPublish, pageNumber, pageSize),
+            {
+                headers,
+            }
+        );
+        return {
+            isError: false,
+            message: null,
+            data: response.data,
+        };
+    } catch (e) {
+        console.log(e);
+        return {
+            isError: true,
+            message: e.response.data["message"],
+            data: {},
+        };
+    }
+};
+
+// Fetch old events by categoryId
+export const FetchOldEventByIsPublish = async (
+    isPublish,
+    pageNumber,
+    pageSize
+) => {
+    try {
+        !VerifyToken() && window.location.replace("/");
+        const response = await axios.get(
+            Fetch_old_events_by_isPublish_endpoint(isPublish, pageNumber, pageSize),
+            {
+                headers,
+            }
+        );
+        return {
+            isError: false,
+            message: null,
+            data: response.data,
+        };
+    } catch (e) {
+        console.log(e);
+        return {
+            isError: true,
+            message: e.response.data["message"],
+            data: {},
+        };
+    }
+};
+
+// Fetch next events by categoryId
+export const FetchNextEventByIsPublish = async (
+    isPublish,
+    pageNumber,
+    pageSize
+) => {
+    try {
+        !VerifyToken() && window.location.replace("/");
+        const response = await axios.get(
+            Fetch_next_events_by_isPublish_endpoint(isPublish, pageNumber, pageSize),
+            {
+                headers,
+            }
+        );
         return {
             isError: false,
             message: null,
