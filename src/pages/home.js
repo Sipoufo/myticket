@@ -9,47 +9,40 @@ import { FetchAllEvents } from "../services/eventService";
 import { FetchAllCategories } from "../services/categoryService";
 
 const Home = () => {
-    console.log("ok");
-    console.log(process.env)
     const { token } = useParams();
 
     // const [data, setData] = useState();
-    const [result, setResult] = useState([]);
-    const [categories, setCategories] = useState({
-        isError: false,
-        message: [],
-        data: null,
-    });
-    const [loading, setLoading] = useState(true);
+    const [result, setResult] = useState(null);
+    const [categories, setCategories] = useState(null);
 
-    const fetchEvents = () => {
-        const res = FetchAllEvents(1, 8);
-        res.then((data) => {
-            if (!data.isError) {
-                setResult(data['data']['data']);
-            } else {
-                setResult(data['data']);
-            }
-        }).catch((e) => {
-            console.log(e);
-        });
+    const fetchEvents = async () => {
+        await FetchAllEvents(1, 8)
+            .then((data) => {
+                if (!data.isError) {
+                    setResult(data["data"]["data"]);
+                } else {
+                    setResult(data["data"]);
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
     };
 
-    const fetchCategories = () => {
-        const res = FetchAllCategories();
-        res.then((data) => {
-            setCategories(data);
-        }).catch((e) => {
-        });
+    const fetchCategories = async () => {
+        await FetchAllCategories()
+            .then((data) => {
+                setCategories(data);
+            })
+            .catch((e) => {});
     };
 
     useEffect(() => {
         fetchEvents();
         fetchCategories();
-        setLoading(false);
     }, []);
 
-    if (loading) {
+    if (result == null || categories == null) {
         return <Loading />;
     } else {
         return (

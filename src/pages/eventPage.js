@@ -1,10 +1,63 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/header";
 import Event from "../widgets/event";
 import Footer from "../components/footer";
+import {
+    FetchAllEvents,
+    FetchEventsByCategoryId,
+} from "../services/eventService";
+import Loading from "../components/loading";
+import { FetchAllCategories } from "../services/categoryService";
 
 const EventPage = () => {
     const [eventType, setEventType] = useState("all");
+    const [result, setResult] = useState(null);
+    const [categories, setCategories] = useState(null);
+
+    const fetchEvents = async () => {
+        await FetchAllEvents(1, 8)
+            .then((data) => {
+                if (!data.isError) {
+                    setResult(data["data"]["data"]);
+                } else {
+                    setResult(data["data"]);
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+
+    const fetchEventsByCategoryId = async (categoryId) => {
+        await FetchEventsByCategoryId(categoryId, 1, 8)
+            .then((data) => {
+                if (!data.isError) {
+                    setResult(data["data"]["data"]);
+                } else {
+                    setResult(data["data"]);
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+
+    const fetchCategories = async () => {
+        await FetchAllCategories()
+            .then((data) => {
+                setCategories(data);
+            })
+            .catch((e) => {});
+    };
+
+    useEffect(() => {
+        fetchEvents();
+        fetchCategories();
+    }, []);
+
+    if (result == null || categories == null) {
+        return <Loading />;
+    }
     return (
         <div className="w-full h-full flex flex-col overflow-y-auto gap-10">
             {/* Header */}
@@ -23,39 +76,42 @@ const EventPage = () => {
                         </select>
                     </div>
                     <ul className="flex flex-row gap-10 overflow-x-auto no-scrollbar">
-                        <li className={`${eventType === "all" && "text-primary border-b-2 border-primary"} font-semibold pb-4 cursor-pointer text-gray-600`} onClick={() => setEventType("all")}>
+                        <li
+                            className={`${
+                                eventType === "all" &&
+                                "text-primary border-b-2 border-primary"
+                            } font-semibold pb-4 cursor-pointer text-gray-600`}
+                            onClick={() => {
+                                setResult(null);
+                                fetchEvents();
+                                setEventType("all");
+                            }}
+                        >
                             All
                         </li>
-                        <li className={`${eventType === "forYou" && "text-primary border-b-2 border-primary"} font-semibold pb-4 cursor-pointer text-gray-600`} onClick={() => setEventType("forYou")}>
-                            For you
-                        </li>
-                        <li className={`${eventType === "thisDay" && "text-primary border-b-2 border-primary"} font-semibold pb-4 cursor-pointer text-gray-600`} onClick={() => setEventType("thisDay")}>
-                            This day
-                        </li>
-                        <li className={`${eventType === "thisWeek" && "text-primary border-b-2 border-primary"} font-semibold pb-4 cursor-pointer text-gray-600`} onClick={() => setEventType("thisWeek")}>
-                            This week
-                        </li>
-                        <li className={`${eventType === "nextWeek" && "text-primary border-b-2 border-primary"} font-semibold pb-4 cursor-pointer text-gray-600`} onClick={() => setEventType("nextWeek")}>
-                            Next week
-                        </li>
-                        <li className={`${eventType === "art" && "text-primary border-b-2 border-primary"} font-semibold pb-4 cursor-pointer text-gray-600`} onClick={() => setEventType("art")}>
-                            Art
-                        </li>
-                        <li className={`${eventType === "art" && "text-primary border-b-2 border-primary"} font-semibold pb-4 cursor-pointer text-gray-600`} onClick={() => setEventType("art")}>
-                            Art
-                        </li>
-                        <li className={`${eventType === "art" && "text-primary border-b-2 border-primary"} font-semibold pb-4 cursor-pointer text-gray-600`} onClick={() => setEventType("art")}>
-                            Art
-                        </li>
-                        <li className={`${eventType === "art" && "text-primary border-b-2 border-primary"} font-semibold pb-4 cursor-pointer text-gray-600`} onClick={() => setEventType("art")}>
-                            Art
-                        </li>
-                        <li className={`${eventType === "art" && "text-primary border-b-2 border-primary"} font-semibold pb-4 cursor-pointer text-gray-600`} onClick={() => setEventType("art")}>
-                            Art
-                        </li>
+                        {categories["data"].map((input) => {
+                            return (
+                                <li
+                                    key={input.categoryId}
+                                    className={`${
+                                        eventType === input.categoryId &&
+                                        "text-primary border-b-2 border-primary"
+                                    } font-semibold pb-4 cursor-pointer text-gray-600`}
+                                    onClick={() => {
+                                        setResult(null);
+                                        fetchEventsByCategoryId(
+                                            input.categoryId
+                                        );
+                                        setEventType(input.categoryId);
+                                    }}
+                                >
+                                    {input.name}
+                                </li>
+                            );
+                        })}
                     </ul>
                     {/* Event Presentation Part */}
-                    <Event />
+                    <Event data={result} />
                 </div>
             </div>
 

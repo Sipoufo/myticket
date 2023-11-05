@@ -6,6 +6,6 @@ COPY package.json .
 RUN npm install
 
 # Run reactJs in Docker
-EXPOSE 5000
+EXPOSE 3000
 COPY . .
 CMD ["npm","run","start:prod"]

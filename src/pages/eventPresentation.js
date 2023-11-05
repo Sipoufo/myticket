@@ -16,7 +16,6 @@ const EventPresentation = () => {
     const FetchEventById = (EventId) => {
         const res = FetchOneEvent(EventId);
         res.then((data) => {
-            console.log(data);
             if (!data.isError) {
                 setResult(data["data"]);
             } else {

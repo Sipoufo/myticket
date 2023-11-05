@@ -1,10 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import MyEventCard from "../widgets/myEventCard";
+import { FetchEventsByIsPublish } from "../services/eventService";
+import Loading from "../components/loading";
+import { IoTicketOutline } from "react-icons/io5";
 
 const OrganizerProfile = () => {
-    const [eventAction, setEventAction] = useState("draft");
+    const [eventAction, setEventAction] = useState("drafted");
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
+    const [result, setResult] = useState(null);
+
+    const fetchEventsByIsPublish = async (isPublish) => {
+        await FetchEventsByIsPublish(isPublish, pageNumber, pageSize)
+            .then((data) => {
+                if (!data.isError) {
+                    setResult(data["data"]);
+                } else {
+                    setResult(data["data"]);
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+
+    useEffect(() => {
+        fetchEventsByIsPublish(false);
+    }, [pageNumber, pageSize]);
+
+    if (result == null) {
+        return <Loading />;
+    }
     return (
         <div className="w-full h-full flex flex-col overflow-y-auto gap-10 pb-40 md:pb-0">
             {/* Header */}
@@ -24,7 +52,10 @@ const OrganizerProfile = () => {
                                 T
                             </div>
                             <h1 className="text-sm font-semibold">test test</h1>
-                            <h1 className="text-sm">1 events organized</h1>
+                            <h1 className="text-sm">
+                                {result.dataNumber} event
+                                {result.dataNumber > 1 && "s"} {eventAction}
+                            </h1>
                         </div>
                     </div>
                     <div className="absolute bottom-0 w-full flex justify-center">
@@ -32,12 +63,18 @@ const OrganizerProfile = () => {
                             {/* Draft Event */}
                             <button
                                 className={`${
-                                    eventAction === "draft" &&
+                                    eventAction === "drafted" &&
                                     "bg-white text-primary rounded-t-md"
                                 } flex justify-center items-center h-12 w-40 font-semibold`}
-                                onClick={() => setEventAction("draft")}
+                                onClick={() => {
+                                    setResult(null);
+                                    setEventAction("drafted");
+                                    setPageNumber(1);
+                                    setPageSize(10);
+                                    fetchEventsByIsPublish(false);
+                                }}
                             >
-                                Draft
+                                Drafted
                             </button>
                             {/* Publish Event */}
                             <button
@@ -45,19 +82,25 @@ const OrganizerProfile = () => {
                                     eventAction === "published" &&
                                     "bg-white text-primary rounded-t-md"
                                 } flex justify-center items-center h-12 w-40 font-semibold`}
-                                onClick={() => setEventAction("published")}
+                                onClick={() => {
+                                    setResult(null);
+                                    setEventAction("published");
+                                    setPageNumber(1);
+                                    setPageSize(10);
+                                    fetchEventsByIsPublish(true);
+                                }}
                             >
                                 Published
                             </button>
                             {/* Past Events */}
                             <button
                                 className={`${
-                                    eventAction === "past" &&
+                                    eventAction === "pasted" &&
                                     "bg-white text-primary rounded-t-md"
                                 } flex justify-center items-center h-12 w-40 font-semibold`}
-                                onClick={() => setEventAction("past")}
+                                onClick={() => setEventAction("pasted")}
                             >
-                                Past
+                                Pasted
                             </button>
                             {/* Upcoming Events */}
                             <button
@@ -75,28 +118,59 @@ const OrganizerProfile = () => {
             </div>
 
             {/* No Event */}
-            {/* <div className="flex justify-center">
+            <div
+                className={`${
+                    result.dataNumber > 0 && "hidden"
+                } flex justify-center`}
+            >
                 <div className="h-96 flex flex-col gap-6 px-4 w-full md:w-10/12 max-w-screen-xl items-center justify-center">
                     <IoTicketOutline className="text-[10rem] text-gray-400" />
                     <p
-                        className={`${
-                            eventAction !== "actual" && "hidden"
-                        } font-medium text-gray-600`}
+                        className="font-medium text-gray-600"
                     >
                         Oops, no events here!
                     </p>
-                    <p className={`${
-                            eventAction !== "past" && "hidden"
-                        } font-medium text-gray-600`}>
-                        You have no tickets purchased.
-                    </p>
                 </div>
-            </div> */}
+            </div>
 
             {/* Events */}
-            <div className="flex justify-center">
+            <div
+                className={`${
+                    result.dataNumber === 0 && "hidden"
+                } flex justify-center`}
+            >
                 <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 w-full md:w-10/12 max-w-screen-xl">
-                    <MyEventCard image={"/assets/images/bg3.jpg"} title={"Webinaire : Comment maîtriser son impôt sur le revenu ?"} time={"lun. 23 oct. 2023 17:30 WAT"} ticketsSold={0} totalSales={0} />
+                    {result["data"].map((event) => {
+                        return (
+                            <MyEventCard
+                                key={event["eventId"]}
+                                id={event["eventId"]}
+                                image={"/assets/images/bg3.jpg"}
+                                title={event["name"]}
+                                time={new Date(
+                                    event["startEvent"]
+                                ).toUTCString()}
+                                ticketsSold={0}
+                                totalSales={0}
+                            />
+                        );
+                    })}
+                </div>
+            </div>
+
+            <div className="flex flex-col items-center">
+                <span className="text-sm">
+                    Showing <span className="font-semibold text-primary">{pageNumber}</span> to{" "}
+                    <span className="font-semibold text-primary">{pageSize > result.dataNumber ? result.dataNumber : pageSize }</span> of{" "}
+                    <span className="font-semibold text-primary">{result.dataNumber}</span> Entries
+                </span>
+                <div className="inline-flex mt-2 xs:mt-0">
+                    <button className="flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-primary rounded-l hover:bg-gray-900">
+                        Prev
+                    </button>
+                    <button className="flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-primary border-0 border-l border-gray-700 rounded-r hover:bg-gray-900">
+                        Next
+                    </button>
                 </div>
             </div>
 

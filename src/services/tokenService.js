@@ -1,8 +1,8 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
-import { GetToken, SetToken, SetUserName } from "./token";
+import { GetToken, SetToken } from "./token";
 
-const cookies = new Cookies();
+const cookies = new Cookies(null, { path: '/' });
 const headers = { Authorization: "Bearer " + GetToken() };
 
 export const VerifyToken = async () => {
@@ -17,6 +17,8 @@ export const VerifyToken = async () => {
 
         return true;
     } catch (e) {
+        console.log("ok");
+        console.log(cookies.get("refreshToken"));
         try {
             await axios.post(
                 `${process.env.REACT_APP_API_URL}/api/auth/verifyRefreshToken`,
@@ -27,18 +29,18 @@ export const VerifyToken = async () => {
 
             try {
                 const response = await axios.post(
-                    `${process.env.REACT_APP_API_URL}/api/auth/verifyRefreshToken`,
+                    `${process.env.REACT_APP_API_URL}/api/auth/refresh`,
                     {
                         refreshToken: cookies.get("refreshToken"),
                     }
                 );
                 SetToken(await response.data["token"]);
-                SetUserName(await response.data["firstName"]);
                 return true;
             } catch (error) {
                 return false;
             }
         } catch (error) {
+            console.log('bad')
             return false;
         }
     }
