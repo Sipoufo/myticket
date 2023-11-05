@@ -16,7 +16,7 @@ const Home = () => {
     const [categories, setCategories] = useState(null);
 
     const fetchEvents = async () => {
-        await FetchAllEvents(1, 8)
+        FetchAllEvents(1, 8)
             .then((data) => {
                 if (!data.isError) {
                     setResult(data["data"]["data"]);
@@ -30,11 +30,9 @@ const Home = () => {
     };
 
     const fetchCategories = async () => {
-        await FetchAllCategories()
-            .then((data) => {
-                setCategories(data);
-            })
-            .catch((e) => {});
+        const data = await FetchAllCategories();
+        console.log(data);
+        setCategories(data);
     };
 
     useEffect(() => {

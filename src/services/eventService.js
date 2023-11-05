@@ -14,69 +14,77 @@ const headers = { Authorization: "Bearer " + GetToken() };
 
 // Fetch all event without restriction
 export const FetchAllEvents = async (pageNumber, pageSize) => {
-    try {
-        VerifyToken();
-        const response = await axios.get(
+    await VerifyToken();
+    return axios
+        .get(
             `${process.env.REACT_APP_API_URL}/api/permit/event/${pageNumber}/${pageSize}`,
             {
                 headers,
             }
-        );
-        return {
-            isError: false,
-            message: null,
-            data: response.data,
-        };
-    } catch (e) {
-        return {
-            isError: true,
-            message: e.response.data["message"],
-            data: [],
-        };
-    }
+        )
+        .then((response) => {
+            return {
+                isError: false,
+                message: null,
+                data: response.data,
+            };
+        })
+        .catch((e) => {
+            return {
+                isError: true,
+                message: e.response.data["message"],
+                data: [],
+            };
+        });
 };
 
 // Create one event by token
 export const createEventService = async (data) => {
-    try {
-        !VerifyToken() && window.location.replace("/");
-        const response = await axios.post(CreateEvent_endpoint, data, {
-            headers,
-        });
-        return {
-            isError: false,
-            message: response.data["message"],
-            data: null,
-        };
-    } catch (e) {
-        return {
-            isError: true,
-            message: e.response.data["message"],
-            data: null,
-        };
+    if (!VerifyToken()) {
+        window.location.replace("/");
     }
+    return axios
+        .post(CreateEvent_endpoint, data, {
+            headers,
+        })
+        .then((response) => {
+            return {
+                isError: false,
+                message: response.data["message"],
+                data: null,
+            };
+        })
+        .catch((e) => {
+            return {
+                isError: true,
+                message: e.response.data["message"],
+                data: null,
+            };
+        });
 };
 
 // Fetch one event by id
 export const FetchOneEvent = async (eventId) => {
-    try {
-        VerifyToken();
-        const response = await axios.get(Fetch_oneEvent_endpoint(eventId), {
+    await VerifyToken();
+    return axios
+        .get(Fetch_oneEvent_endpoint(eventId), {
             headers,
+        })
+        .then((response) => {
+            return {
+                isError: false,
+                message: null,
+                data: response.data,
+            };
+        })
+        .catch((e) => {
+            console.log(e);
+            return {
+                isError: true,
+                message: e.response.data["message"],
+                data: {},
+            };
         });
-        return {
-            isError: false,
-            message: null,
-            data: response.data,
-        };
-    } catch (e) {
-        console.log(e);
-        return {
-            isError: true,
-            message: e.response.data["message"],
-            data: {},
-        };
-    }
 };
 
 // Fetch events by categoryId
@@ -85,9 +93,9 @@ export const FetchEventsByCategoryId = async (
     pageNumber,
     pageSize
 ) => {
-    try {
-        VerifyToken();
-        const response = await axios.get(
+    await VerifyToken();
+    return axios
+        .get(
             Fetch_events_by_categoryId_endpoint(
                 categoryId,
                 pageNumber,
@@ -96,20 +104,22 @@ export const FetchEventsByCategoryId = async (
             {
                 headers,
             }
-        );
-        return {
-            isError: false,
-            message: null,
-            data: response.data,
-        };
-    } catch (e) {
-        console.log(e);
-        return {
-            isError: true,
-            message: e.response.data["message"],
-            data: {},
-        };
-    }
+        )
+        .then((response) => {
+            return {
+                isError: false,
+                message: null,
+                data: response.data,
+            };
+        })
+        .catch((e) => {
+            console.log(e);
+            return {
+                isError: true,
+                message: e.response.data["message"],
+                data: {},
+            };
+        });
 };
 
 // Fetch events by categoryId
@@ -118,27 +128,31 @@ export const FetchEventsByIsPublish = async (
     pageNumber,
     pageSize
 ) => {
-    try {
-        !VerifyToken() && window.location.replace("/");
-        const response = await axios.get(
+    if (!VerifyToken()) {
+        window.location.replace("/");
+    }
+    return axios
+        .get(
             Fetch_events_by_isPublish_endpoint(isPublish, pageNumber, pageSize),
             {
                 headers,
             }
-        );
-        return {
-            isError: false,
-            message: null,
-            data: response.data,
-        };
-    } catch (e) {
-        console.log(e);
-        return {
-            isError: true,
-            message: e.response.data["message"],
-            data: {},
-        };
-    }
+        )
+        .then((response) => {
+            return {
+                isError: false,
+                message: null,
+                data: response.data,
+            };
+        })
+        .catch((e) => {
+            console.log(e);
+            return {
+                isError: true,
+                message: e.response.data["message"],
+                data: {},
+            };
+        });
 };
 
 // Fetch old events by categoryId
@@ -147,27 +161,35 @@ export const FetchOldEventByIsPublish = async (
     pageNumber,
     pageSize
 ) => {
-    try {
-        !VerifyToken() && window.location.replace("/");
-        const response = await axios.get(
-            Fetch_old_events_by_isPublish_endpoint(isPublish, pageNumber, pageSize),
+    if (!VerifyToken()) {
+        window.location.replace("/");
+    }
+    return axios
+        .get(
+            Fetch_old_events_by_isPublish_endpoint(
+                isPublish,
+                pageNumber,
+                pageSize
+            ),
             {
                 headers,
             }
-        );
-        return {
-            isError: false,
-            message: null,
-            data: response.data,
-        };
-    } catch (e) {
-        console.log(e);
-        return {
-            isError: true,
-            message: e.response.data["message"],
-            data: {},
-        };
-    }
+        )
+        .then((response) => {
+            return {
+                isError: false,
+                message: null,
+                data: response.data,
+            };
+        })
+        .catch((e) => {
+            console.log(e);
+            return {
+                isError: true,
+                message: e.response.data["message"],
+                data: {},
+            };
+        });
 };
 
 // Fetch next events by categoryId
@@ -176,25 +198,33 @@ export const FetchNextEventByIsPublish = async (
     pageNumber,
     pageSize
 ) => {
-    try {
-        !VerifyToken() && window.location.replace("/");
-        const response = await axios.get(
-            Fetch_next_events_by_isPublish_endpoint(isPublish, pageNumber, pageSize),
+    if (!VerifyToken()) {
+        window.location.replace("/");
+    }
+    return axios
+        .get(
+            Fetch_next_events_by_isPublish_endpoint(
+                isPublish,
+                pageNumber,
+                pageSize
+            ),
             {
                 headers,
             }
-        );
-        return {
-            isError: false,
-            message: null,
-            data: response.data,
-        };
-    } catch (e) {
-        console.log(e);
-        return {
-            isError: true,
-            message: e.response.data["message"],
-            data: {},
-        };
-    }
+        )
+        .then((response) => {
+            return {
+                isError: false,
+                message: null,
+                data: response.data,
+            };
+        })
+        .catch((e) => {
+            console.log(e);
+            return {
+                isError: true,
+                message: e.response.data["message"],
+                data: {},
+            };
+        });
 };

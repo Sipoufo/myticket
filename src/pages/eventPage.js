@@ -13,12 +13,15 @@ const EventPage = () => {
     const [eventType, setEventType] = useState("all");
     const [result, setResult] = useState(null);
     const [categories, setCategories] = useState(null);
+    const [pageNumber, setPageNumber] = useState(1);
+    const pageSize = 10;
 
-    const fetchEvents = async () => {
-        await FetchAllEvents(1, 8)
+    const fetchEvents = async (pageNumber, pageSize) => {
+        console.log(pageNumber + " <=> " + pageSize)
+        await FetchAllEvents(pageNumber, pageSize)
             .then((data) => {
                 if (!data.isError) {
-                    setResult(data["data"]["data"]);
+                    setResult(data["data"]);
                 } else {
                     setResult(data["data"]);
                 }
@@ -29,7 +32,7 @@ const EventPage = () => {
     };
 
     const fetchEventsByCategoryId = async (categoryId) => {
-        await FetchEventsByCategoryId(categoryId, 1, 8)
+        await FetchEventsByCategoryId(categoryId, 1, 10)
             .then((data) => {
                 if (!data.isError) {
                     setResult(data["data"]["data"]);
@@ -51,9 +54,23 @@ const EventPage = () => {
     };
 
     useEffect(() => {
-        fetchEvents();
+        fetchEvents(pageNumber, pageSize);
         fetchCategories();
     }, []);
+
+    const prevOnClick = (e) => {
+        e.preventDefault();
+        setResult(null);
+        setPageNumber(pageNumber - 1);
+        fetchEvents(pageNumber - 1, pageSize);
+    }
+
+    const nextOnClick = (e) => {
+        e.preventDefault();
+        setResult(null);
+        setPageNumber(pageNumber + 1);
+        fetchEvents(pageNumber + 1, pageSize);
+    }
 
     if (result == null || categories == null) {
         return <Loading />;
@@ -111,7 +128,47 @@ const EventPage = () => {
                         })}
                     </ul>
                     {/* Event Presentation Part */}
-                    <Event data={result} />
+                    <Event data={result["data"]} />
+
+                    {/* Pagination */}
+                    <div className="flex flex-col items-center">
+                        <span className="text-sm">
+                            Showing{" "}
+                            <span className="font-semibold text-primary">
+                                {pageNumber}
+                            </span>{" "}
+                            to{" "}
+                            <span className="font-semibold text-primary">
+                                {pageSize > result.dataNumber
+                                    ? result.dataNumber
+                                    : pageSize}
+                            </span>{" "}
+                            of{" "}
+                            <span className="font-semibold text-primary">
+                                {result.dataNumber}
+                            </span>{" "}
+                            Entries
+                        </span>
+                        <div className="inline-flex mt-2 xs:mt-0">
+                            <button
+                                className={`${
+                                    pageNumber <= 1 && "cursor-not-allowed pointer-events-none"
+                                } flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-primary rounded-l hover:bg-gray-900`}
+                                onClick={prevOnClick}
+                            >
+                                Prev
+                            </button>
+                            <button
+                                className={`${
+                                    pageSize >= result.dataNumber &&
+                                    "cursor-not-allowed pointer-events-none"
+                                } flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-primary border-0 border-l border-gray-700 rounded-r hover:bg-gray-900`}
+                                onClick={nextOnClick}
+                            >
+                                Next
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 

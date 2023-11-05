@@ -8,78 +8,86 @@ import {
 import { SetToken, SetUserName } from "./token";
 import Cookies from "universal-cookie";
 
-const cookies = new Cookies(null, { path: '/' });
+const cookies = new Cookies(null, { path: "/" });
 
 export const SignInService = async (data) => {
-    try {
-        const response = await axios.post(SignIn_endpoint, data);
-        SetToken(await response.data["token"]);
-        SetUserName(await response.data["firstName"]);
-        cookies.set("refreshToken", await response.data["refreshToken"]);
-        return {
-            isError: false,
-            message: null,
-            data: null,
-        };
-    } catch (e) {
-        return {
-            isError: true,
-            message: e.response.data["message"],
-            data: null,
-        };
-    }
+    return axios
+        .post(SignIn_endpoint, data)
+        .then((response) => {
+            SetToken(response.data["token"]);
+            SetUserName(response.data["firstName"]);
+            cookies.set("refreshToken", response.data["refreshToken"]);
+            return {
+                isError: false,
+                message: null,
+                data: null,
+            };
+        })
+        .catch((e) => {
+            return {
+                isError: true,
+                message: e.response.data["message"],
+                data: null,
+            };
+        });
 };
 
 export const SignUpService = async (data) => {
-    try {
-        const response = await axios.post(SignUp_endpoint, data);
-        SetToken(await response.data["token"]);
-        SetUserName(await response.data["firstName"]);
-        cookies.set("refreshToken", await response.data["refreshToken"]);
-        return {
-            isError: false,
-            message: null,
-            data: null,
-        };
-    } catch (e) {
-        return {
-            isError: true,
-            message: e.response.data["message"],
-            data: null,
-        };
-    }
+    return axios
+        .post(SignUp_endpoint, data)
+        .then((response) => {
+            SetToken(response.data["token"]);
+            SetUserName(response.data["firstName"]);
+            cookies.set("refreshToken", response.data["refreshToken"]);
+            return {
+                isError: false,
+                message: null,
+                data: null,
+            };
+        })
+        .catch((e) => {
+            return {
+                isError: true,
+                message: e.response.data["message"],
+                data: null,
+            };
+        });
 };
 
 export const ForgetPasswordService = async (data) => {
-    try {
-        const response = await axios.post(ForgetPassword_endpoint, data);
-        return {
-            isError: false,
-            message: response.data["message"],
-            data: null,
-        };
-    } catch (e) {
-        return {
-            isError: true,
-            message: e.response.data["message"],
-            data: null,
-        };
-    }
+    return axios
+        .post(ForgetPassword_endpoint, data)
+        .then((response) => {
+            return {
+                isError: false,
+                message: response.data["message"],
+                data: null,
+            };
+        })
+        .catch((e) => {
+            return {
+                isError: true,
+                message: e.response.data["message"],
+                data: null,
+            };
+        });
 };
 
 export const ResetPasswordService = async (data) => {
-    try {
-        const response = await axios.post(ResetPassword_endpoint, data);
-        return {
-            isError: false,
-            message: response.data["message"],
-            data: null,
-        };
-    } catch (e) {
-        return {
-            isError: true,
-            message: e.response.data["message"],
-            data: null,
-        };
-    }
+    return axios
+        .post(ResetPassword_endpoint, data)
+        .then((response) => {
+            return {
+                isError: false,
+                message: response.data["message"],
+                data: null,
+            };
+        })
+        .catch((e) => {
+            return {
+                isError: true,
+                message: e.response.data["message"],
+                data: null,
+            };
+        });
 };

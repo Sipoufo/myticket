@@ -71,6 +71,7 @@ const OrganizerProfile = () => {
 
     const prevOnClick = (e) => {
         e.preventDefault();
+        setResult(null);
         setPageNumber(pageNumber - 1);
         if (eventAction === "drafted") {
             fetchEventsByIsPublish(false);
@@ -88,6 +89,7 @@ const OrganizerProfile = () => {
 
     const nextOnClick = (e) => {
         e.preventDefault();
+        setResult(null);
         setPageNumber(pageNumber + 1);
         if (eventAction === "drafted") {
             fetchEventsByIsPublish(false);
