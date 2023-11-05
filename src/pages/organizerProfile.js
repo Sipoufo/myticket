@@ -2,18 +2,57 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import MyEventCard from "../widgets/myEventCard";
-import { FetchEventsByIsPublish } from "../services/eventService";
+import {
+    FetchEventsByIsPublish,
+    FetchNextEventByIsPublish,
+    FetchOldEventByIsPublish,
+} from "../services/eventService";
 import Loading from "../components/loading";
 import { IoTicketOutline } from "react-icons/io5";
 
 const OrganizerProfile = () => {
     const [eventAction, setEventAction] = useState("drafted");
+    const [eventType, setEventType] = useState("drafted");
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [result, setResult] = useState(null);
 
+    const [pastEventPublish, setPastEventPublish] = useState(false);
+    const [upcomingEventPublish, setUpcomingEventPublish] = useState(false);
+
     const fetchEventsByIsPublish = async (isPublish) => {
         await FetchEventsByIsPublish(isPublish, pageNumber, pageSize)
+            .then((data) => {
+                console.log(data["data"]);
+                if (!data.isError) {
+                    setResult(data["data"]);
+                } else {
+                    setResult(data["data"]);
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+
+    // Old Events
+    const fetchPastEventsByIsPublish = async (isPublish) => {
+        await FetchOldEventByIsPublish(isPublish, pageNumber, pageSize)
+            .then((data) => {
+                if (!data.isError) {
+                    setResult(data["data"]);
+                } else {
+                    setResult(data["data"]);
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+
+    // Next Events
+    const fetchFutureEventsByIsPublish = async (isPublish) => {
+        await FetchNextEventByIsPublish(isPublish, pageNumber, pageSize)
             .then((data) => {
                 if (!data.isError) {
                     setResult(data["data"]);
@@ -29,6 +68,40 @@ const OrganizerProfile = () => {
     useEffect(() => {
         fetchEventsByIsPublish(false);
     }, [pageNumber, pageSize]);
+
+    const prevOnClick = (e) => {
+        e.preventDefault();
+        setPageNumber(pageNumber - 1);
+        if (eventAction === "drafted") {
+            fetchEventsByIsPublish(false);
+        }
+        if (eventAction === "published") {
+            fetchEventsByIsPublish(true);
+        }
+        if (eventAction === "pasted") {
+            fetchPastEventsByIsPublish(pastEventPublish);
+        }
+        if (eventAction === "upcoming") {
+            fetchFutureEventsByIsPublish(upcomingEventPublish);
+        }
+    }
+
+    const nextOnClick = (e) => {
+        e.preventDefault();
+        setPageNumber(pageNumber + 1);
+        if (eventAction === "drafted") {
+            fetchEventsByIsPublish(false);
+        }
+        if (eventAction === "published") {
+            fetchEventsByIsPublish(true);
+        }
+        if (eventAction === "pasted") {
+            fetchPastEventsByIsPublish(pastEventPublish);
+        }
+        if (eventAction === "upcoming") {
+            fetchFutureEventsByIsPublish(upcomingEventPublish);
+        }
+    }
 
     if (result == null) {
         return <Loading />;
@@ -98,7 +171,13 @@ const OrganizerProfile = () => {
                                     eventAction === "pasted" &&
                                     "bg-white text-primary rounded-t-md"
                                 } flex justify-center items-center h-12 w-40 font-semibold`}
-                                onClick={() => setEventAction("pasted")}
+                                onClick={() => {
+                                    setResult(null);
+                                    setEventAction("pasted");
+                                    setPageNumber(1);
+                                    setPageSize(10);
+                                    fetchPastEventsByIsPublish(pastEventPublish);
+                                }}
                             >
                                 Pasted
                             </button>
@@ -108,14 +187,75 @@ const OrganizerProfile = () => {
                                     eventAction === "upcoming" &&
                                     "bg-white text-primary rounded-t-md"
                                 } flex justify-center items-center h-12 w-40 font-semibold`}
-                                onClick={() => setEventAction("upcoming")}
+                                onClick={() => {
+                                    setResult(null);
+                                    setEventAction("upcoming");
+                                    setPageNumber(1);
+                                    setPageSize(10);
+                                    fetchFutureEventsByIsPublish(upcomingEventPublish);
+                                }}
                             >
                                 Upcoming
+                            </button>
+                            {/* Search */}
+                            <button
+                                className={`${
+                                    eventAction === "searching" &&
+                                    "bg-white text-primary rounded-t-md"
+                                } flex justify-center items-center h-12 w-40 font-semibold`}
+                                onClick={() => setEventAction("searching")}
+                            >
+                                Search
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <ul
+                className={`${
+                    eventAction === "drafted" ||
+                    eventAction === "published" ||
+                    result.dataNumber < 0
+                        ? "hidden"
+                        : ""
+                } flex flex-row gap-10 no-scrollbar mx-10`}
+            >
+                <li
+                    className={`${
+                        eventType === "drafted" &&
+                        "text-primary border-b-2 border-primary"
+                    } font-semibold pb-1 cursor-pointer text-gray-600`}
+                    onClick={() => {
+                        setPastEventPublish(false);
+                        setUpcomingEventPublish(false);
+                        setEventType("drafted");
+                        setResult(null);
+                        setPageNumber(1);
+                        setPageSize(10);
+                        eventAction === "pasted" ? fetchPastEventsByIsPublish(false) : fetchFutureEventsByIsPublish(false);
+                    }}
+                >
+                    Drafted
+                </li>
+                <li
+                    className={`${
+                        eventType === "published" &&
+                        "text-primary border-b-2 border-primary"
+                    } font-semibold pb-1 cursor-pointer text-gray-600`}
+                    onClick={() => {
+                        setPastEventPublish(true);
+                        setUpcomingEventPublish(true);
+                        setEventType("published");
+                        setResult(null);
+                        setPageNumber(1);
+                        setPageSize(10);
+                        eventAction === "pasted" ? fetchPastEventsByIsPublish(true) : fetchFutureEventsByIsPublish(true);
+                    }}
+                >
+                    Published
+                </li>
+            </ul>
 
             {/* No Event */}
             <div
@@ -125,9 +265,7 @@ const OrganizerProfile = () => {
             >
                 <div className="h-96 flex flex-col gap-6 px-4 w-full md:w-10/12 max-w-screen-xl items-center justify-center">
                     <IoTicketOutline className="text-[10rem] text-gray-400" />
-                    <p
-                        className="font-medium text-gray-600"
-                    >
+                    <p className="font-medium text-gray-600">
                         Oops, no events here!
                     </p>
                 </div>
@@ -160,15 +298,27 @@ const OrganizerProfile = () => {
 
             <div className="flex flex-col items-center">
                 <span className="text-sm">
-                    Showing <span className="font-semibold text-primary">{pageNumber}</span> to{" "}
-                    <span className="font-semibold text-primary">{pageSize > result.dataNumber ? result.dataNumber : pageSize }</span> of{" "}
-                    <span className="font-semibold text-primary">{result.dataNumber}</span> Entries
+                    Showing{" "}
+                    <span className="font-semibold text-primary">
+                        {pageNumber}
+                    </span>{" "}
+                    to{" "}
+                    <span className="font-semibold text-primary">
+                        {pageSize > result.dataNumber
+                            ? result.dataNumber
+                            : pageSize}
+                    </span>{" "}
+                    of{" "}
+                    <span className="font-semibold text-primary">
+                        {result.dataNumber}
+                    </span>{" "}
+                    Entries
                 </span>
                 <div className="inline-flex mt-2 xs:mt-0">
-                    <button className="flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-primary rounded-l hover:bg-gray-900">
+                    <button className={`${pageNumber === 1 && "cursor-not-allowed"} flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-primary rounded-l hover:bg-gray-900`} onClick={prevOnClick}>
                         Prev
                     </button>
-                    <button className="flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-primary border-0 border-l border-gray-700 rounded-r hover:bg-gray-900">
+                    <button className={`${pageSize > result.dataNumber && "cursor-not-allowed"} flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-primary border-0 border-l border-gray-700 rounded-r hover:bg-gray-900`} onClick={nextOnClick}>
                         Next
                     </button>
                 </div>

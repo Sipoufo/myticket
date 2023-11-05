@@ -16,3 +16,7 @@ export const Fetch_events_by_categoryId_endpoint = (id, pageNumber, pageSize) =>
     URL + "/api/permit/event/" + id + "/" + pageNumber + "/" + pageSize;
 export const Fetch_events_by_isPublish_endpoint = (isPublish, pageNumber, pageSize) =>
     URL + "/api/event/isPublish/" + isPublish + "/" + pageNumber + "/" + pageSize;
+export const Fetch_old_events_by_isPublish_endpoint = (isPublish, pageNumber, pageSize) =>
+    URL + "/api/event/lessThantToday/" + isPublish + "/" + pageNumber + "/" + pageSize;
+export const Fetch_next_events_by_isPublish_endpoint = (isPublish, pageNumber, pageSize) =>
+    URL + "/api/event/greaterThantToday/" + isPublish + "/" + pageNumber + "/" + pageSize;
