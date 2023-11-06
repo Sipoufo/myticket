@@ -20,3 +20,4 @@ export const Fetch_old_events_by_isPublish_endpoint = (isPublish, pageNumber, pa
     URL + "/api/event/lessThantToday/" + isPublish + "/" + pageNumber + "/" + pageSize;
 export const Fetch_next_events_by_isPublish_endpoint = (isPublish, pageNumber, pageSize) =>
     URL + "/api/event/greaterThantToday/" + isPublish + "/" + pageNumber + "/" + pageSize;
+export const updateEvent_endpoint = URL + "/api/event";

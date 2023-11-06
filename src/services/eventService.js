@@ -6,6 +6,7 @@ import {
     Fetch_next_events_by_isPublish_endpoint,
     Fetch_old_events_by_isPublish_endpoint,
     Fetch_oneEvent_endpoint,
+    updateEvent_endpoint,
 } from "../constants/endpoint";
 import axios from "axios";
 import { VerifyToken } from "./tokenService";
@@ -14,7 +15,6 @@ const headers = { Authorization: "Bearer " + GetToken() };
 
 // Fetch all event without restriction
 export const FetchAllEvents = async (pageNumber, pageSize) => {
-    await VerifyToken();
     return axios
         .get(
             `${process.env.REACT_APP_API_URL}/api/permit/event/${pageNumber}/${pageSize}`,
@@ -65,7 +65,7 @@ export const createEventService = async (data) => {
 
 // Fetch one event by id
 export const FetchOneEvent = async (eventId) => {
-    await VerifyToken();
+    // await VerifyToken();
     return axios
         .get(Fetch_oneEvent_endpoint(eventId), {
             headers,
@@ -93,7 +93,7 @@ export const FetchEventsByCategoryId = async (
     pageNumber,
     pageSize
 ) => {
-    await VerifyToken();
+    // await VerifyToken();
     return axios
         .get(
             Fetch_events_by_categoryId_endpoint(
@@ -225,6 +225,33 @@ export const FetchNextEventByIsPublish = async (
                 isError: true,
                 message: e.response.data["message"],
                 data: {},
+            };
+        });
+};
+
+// Update Event
+export const updateEventService = async (data) => {
+    if (!VerifyToken()) {
+        window.location.replace("/");
+    }
+    console.log(data);
+    return axios
+        .put(updateEvent_endpoint, data, {
+            headers,
+        })
+        .then((response) => {
+            return {
+                isError: false,
+                message: response.data.message,
+                data: response.data,
+            };
+        })
+        .catch((e) => {
+            console.log(e);
+            return {
+                isError: true,
+                message: e.response.data["message"],
+                data: [],
             };
         });
 };

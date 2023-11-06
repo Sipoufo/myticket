@@ -13,10 +13,10 @@ const ForgetPassword = ({ modalService, setShowOAuthModal }) => {
     const [loading, setLoading] = useState(false);
     const [isActive, setIsActive] = useState(false);
 
-    const forgetPassword = (event) => {
+    const forgetPassword = async (event) => {
         event.preventDefault();
         setLoading(true);
-        const res = ForgetPasswordService(data);
+        const res = await ForgetPasswordService(data);
         res.then((data) => {
             setResult(data);
             setIsActive(true);

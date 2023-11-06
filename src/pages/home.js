@@ -10,7 +10,6 @@ import { FetchAllCategories } from "../services/categoryService";
 
 const Home = () => {
     const { token } = useParams();
-
     // const [data, setData] = useState();
     const [result, setResult] = useState(null);
     const [categories, setCategories] = useState(null);

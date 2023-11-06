@@ -14,6 +14,11 @@ export const SetToken = (token) => {
 
 // UserName
 export const GetUserName = () => {
+    // if (!sessionStorage.getItem("userName")) {
+    //     sessionStorage.clear();
+    //     return null;
+    // }
+    // return Decrypt(sessionStorage.getItem("userName"));
     return sessionStorage.getItem("userName")
         ? sessionStorage.getItem("userName")
         : "";
@@ -23,8 +28,25 @@ export const SetUserName = (userName) => {
     sessionStorage.setItem("userName", userName);
 };
 
+// User Id
+export const GetUserId = () => {
+    if (!sessionStorage.getItem("userId")) {
+        sessionStorage.clear();
+        return null;
+    }
+    return Decrypt(sessionStorage.getItem("userId"));
+};
+
+export const SetUserId = (userId) => {
+    sessionStorage.setItem("userId", Encrypt(userId));
+};
+
 // Account State
 export const GetAccountState = () => {
+    if (!sessionStorage.getItem("accountState")) {
+        sessionStorage.clear();
+        return null;
+    }
     return sessionStorage.getItem("accountState");
 };
 
@@ -33,9 +55,21 @@ export const SetAccountState = (accountState) => {
 };
 
 export const RemoveItems = () => {
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("userName");
-    sessionStorage.removeItem("accountState");
+    sessionStorage.clear();
+    sessionStorage.removeItem("token")
+};
+
+// User Role
+export const GetUserRole = () => {
+    if (!sessionStorage.getItem("userRole")) {
+        sessionStorage.clear();
+        return null;
+    }
+    return sessionStorage.getItem("userRole");
+};
+
+export const SetUserRole = (userRole) => {
+    sessionStorage.setItem("userRole", userRole);
 };
 
 // Refresh token

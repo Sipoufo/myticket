@@ -107,13 +107,13 @@ const Navbar = ({ token }) => {
                         <div
                             className={`${
                                 !seeConnectModal && "hidden"
-                            } z-20 fixed flex top-0 left-0 bg-black bg-opacity-20 w-screen h-screen`}
+                            } z-30 fixed flex top-0 left-0 bg-black bg-opacity-20 w-screen h-screen`}
                             onClick={() => setConnectSeeModal(false)}
                         ></div>
                         <div
                             className={`${
                                 !seeConnectModal && "hidden"
-                            } z-20 absolute flex flex-col w-80 h-[25rem] bg-white top-0 bottom-0 mt-14 text-black rounded-md shadow-2xl`}
+                            } z-40 absolute flex flex-col w-80 h-[25rem] bg-white top-0 bottom-0 mt-14 text-black rounded-md shadow-2xl`}
                         >
                             <div className="flex flex-row gap-4 px-6 py-4 items-center">
                                 <div className="h-14 w-14 rounded-full bg-[#3B3A62] flex justify-center items-center font-semibold text-white text-lg">
@@ -186,7 +186,7 @@ const Navbar = ({ token }) => {
             <div
                 className={`${
                     !seeModal && "hidden"
-                } md:hidden fixed z-40 top-0 left-0 flex justify-center items-center w-screen h-screen overflow-hidden bg-white text-primary`}
+                } md:hidden fixed z-50 top-0 left-0 flex justify-center items-center w-screen h-screen overflow-hidden bg-white text-primary`}
             >
                 <ul className="flex flex-col w-10/12 text-center text-lg font-semibold gap-6">
                     <li className="flex justify-end">
