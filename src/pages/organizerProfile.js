@@ -23,7 +23,6 @@ const OrganizerProfile = () => {
     const fetchEventsByIsPublish = async (isPublish) => {
         await FetchEventsByIsPublish(isPublish, pageNumber, pageSize)
             .then((data) => {
-                console.log(data["data"]);
                 if (!data.isError) {
                     setResult(data["data"]);
                 } else {

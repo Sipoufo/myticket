@@ -1,9 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
+import Loading from "../loading";
+import { FetchAllTicketByEventId } from "../../services/ticketService";
+import { FetchAllTicketTypes } from "../../services/ticketTypeService";
+import TicketForm from "../../widgets/ticketForm";
 
-const TicketEvent = ({ active }) => {
+const TicketEvent = ({ active, eventId }) => {
+    const [tickets, setTickets] = useState([]);
+    const [ticketTypes, setTicketTypes] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [showCreateTicket, setShowCreateTicket] = useState(false);
+
+    const fetchTickets = async () => {
+        const data = await FetchAllTicketByEventId(eventId);
+        console.log("data.data")
+        console.log(data.data["data"])
+        setTickets(data.data["data"]);
+    };
+
+    const fetchTicketTypes = async () => {
+        const data = await FetchAllTicketTypes();
+        setTicketTypes(data.data);
+    };
+
+    useEffect(() => {
+        fetchTickets();
+        fetchTicketTypes();
+        setLoading(false);
+    }, [eventId]);
+
+    if (loading) {
+        <Loading />;
+    }
     return (
         <div
             className={`${
@@ -14,28 +44,40 @@ const TicketEvent = ({ active }) => {
                 <label>Tickets</label>
                 <IoArrowBackOutline />
             </div>
-            <form className="flex flex-col py-4 overflow-y-auto px-4 gap-4 text-xs">
+            <div className="flex flex-col py-4 overflow-y-auto px-4 gap-4 text-xs">
                 <span className="text-gray-600 font-medium text-sm">
                     Events Tickets
                 </span>
                 <p>Create and manage paid tickets, free tickets & donations.</p>
-                <button className="flex flex-row justify-between items-start border p-3 hover:bg-gray-100">
-                    <div className="flex flex-col gap-2">
-                        <h1 className="font-medium">ticket_name</h1>
-                        <p>Free (10 left)</p>
-                    </div>
-                    <button>
-                        <MdEdit className="text-xl text-gray-600" />
-                    </button>
-                </button>
                 <button
                     type="submit"
                     className="w-auto flex justify-center items-center gap-2 px-4 py-3 bg-primary text-white rounded-lg hover:bg-opacity-90 font-medium"
+                    onClick={() => setShowCreateTicket(true)}
                 >
                     <FaPlus />
-                    <label>Free Ticket</label>
+                    <label>Create Ticket</label>
                 </button>
-                <button
+                {tickets.map((ticket) => {
+                    return (
+                        <button
+                            key={ticket["ticketId"]}
+                            className="flex flex-row justify-between items-start border p-3 hover:bg-gray-100"
+                        >
+                            <div className="flex flex-col gap-2">
+                                <h1 className="font-medium">
+                                    {" "}
+                                    {ticket["name"]}{" "}
+                                </h1>
+                                <p>Free ({ticket["number_place"] - ticket["users"].length} left)</p>
+                            </div>
+                            <button>
+                                <MdEdit className="text-xl text-gray-600" />
+                            </button>
+                        </button>
+                    );
+                })}
+
+                {/* <button
                     type="submit"
                     className="w-auto flex justify-center items-center gap-2 px-4 py-3 bg-primary text-white rounded-lg hover:bg-opacity-90 font-medium"
                 >
@@ -48,8 +90,14 @@ const TicketEvent = ({ active }) => {
                 >
                     <FaPlus />
                     <label>Donation</label>
-                </button>
-            </form>
+                </button> */}
+            </div>
+            <TicketForm
+                showCreateTicket={showCreateTicket}
+                setShowCreateTicket={setShowCreateTicket}
+                ticketTypes={ticketTypes}
+                event_Id={eventId}
+            />
         </div>
     );
 };

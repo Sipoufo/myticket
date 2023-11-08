@@ -35,7 +35,6 @@ export const VerifyToken = async () => {
                                 )
                                 .then((response) => {
                                     SetToken(response.data["token"]);
-                                    console.log("ok");
                                     return true;
                                 })
                                 .catch((e) => {
@@ -43,7 +42,6 @@ export const VerifyToken = async () => {
                                     return false;
                                 });
                         } else {
-                            console.log(resultVerifyAccessToken["data"]);
                             RemoveItems();
                             return false;
                         }
@@ -53,7 +51,6 @@ export const VerifyToken = async () => {
                         return false;
                     });
             } else {
-                console.log("ok");
                 return true;
             }
         })

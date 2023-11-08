@@ -6,6 +6,7 @@ import {
     Fetch_next_events_by_isPublish_endpoint,
     Fetch_old_events_by_isPublish_endpoint,
     Fetch_oneEvent_endpoint,
+    publish_event_endpoint,
     updateEvent_endpoint,
 } from "../constants/endpoint";
 import axios from "axios";
@@ -230,7 +231,7 @@ export const FetchNextEventByIsPublish = async (
 };
 
 // Update Event
-export const updateEventService = async (data) => {
+export const UpdateEventService = async (data) => {
     if (!VerifyToken()) {
         window.location.replace("/");
     }
@@ -255,3 +256,31 @@ export const updateEventService = async (data) => {
             };
         });
 };
+
+// Update Event
+export const PublishEventService = async (eventId, isPublished) => {
+    if (!VerifyToken()) {
+        window.location.replace("/");
+    }
+    return axios
+        .get(publish_event_endpoint(eventId, isPublished), {
+            headers,
+        })
+        .then((response) => {
+            console.log(response);
+            return {
+                isError: false,
+                message: response.data.message,
+                data: response.data,
+            };
+        })
+        .catch((e) => {
+            console.log(e);
+            return {
+                isError: true,
+                message: e.response.data["message"],
+                data: e.response.data,
+            };
+        });
+};
+

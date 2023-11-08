@@ -23,6 +23,10 @@ const RouterManagement = () => {
                     element={<EventPresentation />}
                 />
                 <Route
+                    path="/events/:eventId/:isError/:message"
+                    element={<EventPresentation />}
+                />
+                <Route
                     path="/myevents"
                     element={
                         GetToken() != null ? <MyEvent /> : <Navigate to="/" />

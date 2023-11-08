@@ -17,7 +17,6 @@ const EventPage = () => {
     const pageSize = 10;
 
     const fetchEvents = async (pageNumber, pageSize) => {
-        console.log(pageNumber + " <=> " + pageSize)
         await FetchAllEvents(pageNumber, pageSize)
             .then((data) => {
                 if (!data.isError) {
@@ -35,7 +34,7 @@ const EventPage = () => {
         await FetchEventsByCategoryId(categoryId, 1, 10)
             .then((data) => {
                 if (!data.isError) {
-                    setResult(data["data"]["data"]);
+                    setResult(data["data"]);
                 } else {
                     setResult(data["data"]);
                 }

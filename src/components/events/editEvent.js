@@ -52,7 +52,7 @@ const EditEvent = ({data, categories, seeEditPart, setSeeEditPart}) => {
                     {/* Payment Part */}
                     <PaymentEvent active={active} />
                     {/* Ticket Part */}
-                    <TicketEvent active={active} />
+                    <TicketEvent active={active} eventId={data["eventId"]} />
                     {/* Setting Part */}
                     <SettingEvent active={active} />
                 </div>

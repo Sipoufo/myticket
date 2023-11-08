@@ -30,7 +30,6 @@ const Home = () => {
 
     const fetchCategories = async () => {
         const data = await FetchAllCategories();
-        console.log(data);
         setCategories(data);
     };
 

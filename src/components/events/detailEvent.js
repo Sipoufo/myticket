@@ -1,7 +1,7 @@
 import moment from "moment";
 import React, { useState } from "react";
 import { IoArrowBackOutline } from "react-icons/io5";
-import { updateEventService } from "../../services/eventService";
+import { UpdateEventService } from "../../services/eventService";
 import AlertMessage from "../../widgets/alert";
 import Loading from "../loading";
 
@@ -73,7 +73,7 @@ const DetailEvent = ({ active, data, categories }) => {
             twitter_link: twitterLink,
         };
 
-        await updateEventService(input)
+        await UpdateEventService(input)
             .then((data) => {
                 setMessage(data.message);
                 setIsError(data.isError);

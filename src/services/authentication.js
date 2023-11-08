@@ -14,8 +14,6 @@ export const SignInService = async (data) => {
     return axios
         .post(SignIn_endpoint, data)
         .then((response) => {
-            console.log(response.data["user"]["userId"]);
-            console.log(response.data);
             SetToken(response.data["token"]);
             SetUserName(response.data["firstName"]);
             SetUserId(response.data["user"]["userId"].toString());
@@ -41,7 +39,6 @@ export const SignUpService = async (data) => {
     return axios
         .post(SignUp_endpoint, data)
         .then((response) => {
-            console.log(response);
             SetToken(response.data["token"]);
             SetUserName(response.data["firstName"]);
             SetUserId(response.data["userId"]);
