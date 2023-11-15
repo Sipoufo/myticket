@@ -10,6 +10,7 @@ import OrganizerProfile from "../pages/organizerProfile";
 import MyAccount from "../pages/myAccount";
 import ManageEvent from "../pages/manageEvent";
 import { GetToken } from "../services/token";
+import ManagerEvent from "../pages/manager";
 
 const RouterManagement = () => {
     return (
@@ -55,10 +56,10 @@ const RouterManagement = () => {
                     }
                 />
                 <Route
-                    path="/manageevent"
+                    path="/manageevent/:eventId"
                     element={
                         GetToken() != null ? (
-                            <ManageEvent />
+                            <ManagerEvent />
                         ) : (
                             <Navigate to="/" />
                         )

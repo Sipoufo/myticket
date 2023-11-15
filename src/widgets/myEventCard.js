@@ -25,9 +25,9 @@ const MyEventCard = ({ id, image, title, time }) => {
                 <h1 className="text-sm font-semibold px-4">{title}</h1>
                 <h2 className="text-xs px-4">{time}</h2>
                 <div className="flex flex-row border-y text-gray-400">
-                    <button className="grow p-4 hover:text-primary hover:font-semibold">
+                    <Link to={`/manageevent/${id}`} className="grow p-4 hover:text-primary hover:font-semibold">
                         Manage
-                    </button>
+                    </Link>
                     <hr className="border-l h-full" />
                     <Link to={`/events/${id}`} className="grow p-4 hover:text-primary hover:font-semibold">
                         View/Edit

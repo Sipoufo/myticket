@@ -283,10 +283,10 @@ const EventPresentation = () => {
 
             <AlertMessage
                 isActive={activeAlert}
-                title={error === "true" || error ? "Error" : "Success"}
+                title={error === "true" || error === true ? "Error" : "Success"}
                 message={alertMessage}
                 setIsActive={setActiveAlert}
-                isError={error === "true" || error}
+                isError={error === "true" || error === true}
             />
         </div>
     );

@@ -231,6 +231,7 @@ const DetailEvent = ({ active, data, categories }) => {
                         value={moment(startEvent, "DD/MM/YYYY hh:mm").format(
                             "YYYY-MM-DD hh:mm"
                         )}
+                        min={new Date().toISOString().slice(0, -8)}
                         onChange={(e) => {
                             setStartEvent(
                                 moment(
@@ -252,7 +253,7 @@ const DetailEvent = ({ active, data, categories }) => {
                         value={moment(endEvent, "DD/MM/YYYY hh:mm").format(
                             "YYYY-MM-DD hh:mm"
                         )}
-                        min={new Date(endEvent).toISOString().slice(0, -8)}
+                        min={new Date(startEvent).toISOString().slice(0, -8)}
                         onChange={(e) => {
                             setEndEvent(
                                 moment(
@@ -331,7 +332,6 @@ const DetailEvent = ({ active, data, categories }) => {
                         className="border border-[#E6E6E6] text-black placeholder:text-secondary px-4 py-3 rounded-sm"
                         placeholder="Official event website"
                         onChange={(e) => setEventWebsite(e.target.value)}
-                        required
                     />
                 </div>
                 {/* Facebook page */}
@@ -344,7 +344,6 @@ const DetailEvent = ({ active, data, categories }) => {
                         className="border border-[#E6E6E6] text-black placeholder:text-secondary px-4 py-3 rounded-sm"
                         placeholder="https://facebook.com/yourenvent"
                         onChange={(e) => setFacebookLink(e.target.value)}
-                        required
                     />
                 </div>
                 {/* Twitter Profile */}
@@ -357,7 +356,6 @@ const DetailEvent = ({ active, data, categories }) => {
                         className="border border-[#E6E6E6] text-black placeholder:text-secondary px-4 py-3 rounded-sm"
                         placeholder="https://twitter.com/yourenvent"
                         onChange={(e) => setTwitterLink(e.target.value)}
-                        required
                     />
                 </div>
                 <button

@@ -110,6 +110,7 @@ export const MyTicketsService = async () => {
             };
         })
         .catch((e) => {
+            console.log(e);
             return {
                 isError: true,
                 message: e.response.data["message"],

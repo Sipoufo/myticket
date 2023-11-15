@@ -44,6 +44,8 @@ export const createEventService = async (data) => {
     if (!VerifyToken()) {
         window.location.replace("/");
     }
+    console.log(headers)
+    console.log(data)
     return axios
         .post(CreateEvent_endpoint, data, {
             headers,
