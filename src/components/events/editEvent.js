@@ -8,7 +8,7 @@ import PaymentEvent from "./paymentEvent";
 import TicketEvent from "./ticketEvent";
 import SettingEvent from "./settingEvent";
 
-const EditEvent = ({seeEditPart, setSeeEditPart}) => {
+const EditEvent = ({data, categories, seeEditPart, setSeeEditPart}) => {
     const [active, setActive] = useState("detail");
 
     return (
@@ -48,11 +48,11 @@ const EditEvent = ({seeEditPart, setSeeEditPart}) => {
                         </button>
                     </div>
                     {/* Details Part */}
-                    <DetailEvent active={active} />
+                    <DetailEvent active={active} data={data} categories={categories} />
                     {/* Payment Part */}
                     <PaymentEvent active={active} />
                     {/* Ticket Part */}
-                    <TicketEvent active={active} />
+                    <TicketEvent active={active} eventId={data["eventId"]} />
                     {/* Setting Part */}
                     <SettingEvent active={active} />
                 </div>

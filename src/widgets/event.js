@@ -2,10 +2,10 @@ import React from "react";
 import EventCard from "./eventCard";
 
 const Event = ({ data }) => {
+    console.log(data)
     return (
         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {data.map((input) => {
-                console.log(input)
                 const date = new Date(input.startEvent);
                 return (
                     <EventCard

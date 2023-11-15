@@ -5,41 +5,45 @@ import { GetToken } from "./token";
 const headers = { Authorization: "Bearer " + GetToken() };
 
 export const FetUserInfoByToken = async () => {
-    try {
-        const response = await axios.get(UserInfoByToken_endpoint, {
+    return axios
+        .get(UserInfoByToken_endpoint, {
             headers,
+        })
+        .then((response) => {
+            return {
+                isError: false,
+                message: null,
+                data: response.data,
+            };
+        })
+        .catch((e) => {
+            console.log(e);
+            return {
+                isError: true,
+                message: e.response.data["message"],
+                data: [],
+            };
         });
-        return {
-            isError: false,
-            message: null,
-            data: response.data,
-        };
-    } catch (e) {
-        console.log(e);
-        return {
-            isError: true,
-            message: e.response.data["message"],
-            data: [],
-        };
-    }
 };
 
 export const UpdateUserByTokenService = async (data) => {
-    try {
-        const response = await axios.put(UserInfoByToken_endpoint, data, {
+    return axios
+        .put(UserInfoByToken_endpoint, data, {
             headers,
+        })
+        .then((response) => {
+            return {
+                isError: false,
+                message: response.data.message,
+                data: response.data,
+            };
+        })
+        .catch((e) => {
+            console.log(e);
+            return {
+                isError: true,
+                message: e.response.data["message"],
+                data: [],
+            };
         });
-        return {
-            isError: false,
-            message: response.data.message,
-            data: response.data,
-        };
-    } catch (e) {
-        console.log(e);
-        return {
-            isError: true,
-            message: e.response.data["message"],
-            data: [],
-        };
-    }
 };

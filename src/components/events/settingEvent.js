@@ -6,7 +6,7 @@ const SettingEvent = ({ active }) => {
         <div
             className={`${
                 active !== "setting" && "hidden"
-            } flex flex-col w-80 h-full bg-white animate-wiggle`}
+            } flex flex-col w-full md:w-80 h-full bg-white animate-wiggle`}
         >
             <div className="flex flex-row justify-between items-center py-4 px-4 text-gray-600 text-base font-medium border-b">
                 <label>Setting</label>

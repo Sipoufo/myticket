@@ -1,10 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import MyTicketCard from "../widgets/myTicketCard";
+import { MyTicketsService } from "../services/ticketService";
+import Loading from "../components/loading";
 
 const MyTicket = () => {
-    const [eventAction, setEventAction] = useState("actual");
+    // const [eventAction, setEventAction] = useState("actual");
+    const [myTickets, setMyTickets] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    const fetchMyTickets = async () => {
+        const data = await MyTicketsService();
+        console.log(data);
+        setMyTickets(data);
+    };
+
+    useEffect(() => {
+        fetchMyTickets();
+        setLoading(false);
+    }, []);
+
+    if (loading) {
+        <Loading />
+    }
     return (
         <div className="w-full h-full flex flex-col overflow-y-auto gap-10 pb-40 md:pb-0">
             {/* Header */}
@@ -26,7 +45,7 @@ const MyTicket = () => {
                     <div className="absolute bottom-0 w-full flex justify-center">
                         <div className="flex flex-row items-center text-white px-4 w-full md:w-10/12 max-w-screen-xl">
                             {/* Actual */}
-                            <button
+                            {/* <button
                                 className={`${
                                     eventAction === "actual" &&
                                     "bg-white text-primary rounded-t-md"
@@ -34,9 +53,9 @@ const MyTicket = () => {
                                 onClick={() => setEventAction("actual")}
                             >
                                 Actual
-                            </button>
+                            </button> */}
                             {/* Past */}
-                            <button
+                            {/* <button
                                 className={`${
                                     eventAction === "past" &&
                                     "bg-white text-primary rounded-t-md"
@@ -44,7 +63,7 @@ const MyTicket = () => {
                                 onClick={() => setEventAction("past")}
                             >
                                 Past
-                            </button>
+                            </button> */}
                         </div>
                     </div>
                 </div>

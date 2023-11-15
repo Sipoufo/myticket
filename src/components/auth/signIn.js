@@ -14,21 +14,22 @@ const SignIn = ({ modalService, setModalService, setShowOAuthModal }) => {
     const [loading, setLoading] = useState(false);
     const [isError, setIsError] = useState(false);
 
-    const SignIn = (event) => {
+    const SignIn = async (event) => {
         event.preventDefault();
         setLoading(true);
-        const res = SignInService(data);
-        res.then((data) => {
-            if (!data.isError) {
-                setShowOAuthModal(false);
-                window.location.replace("/");
-            }
-            setResult(data);
-            setIsError(data.isError);
-            setLoading(false);
-        }).catch((e) => {
-            setLoading(false);
-        });
+        return SignInService(data)
+            .then((data) => {
+                if (!data.isError) {
+                    setShowOAuthModal(false);
+                    window.location.replace("/");
+                }
+                setResult(data);
+                setIsError(data.isError);
+                setLoading(false);
+            })
+            .catch((e) => {
+                setLoading(false);
+            });
     };
 
     if (loading) {

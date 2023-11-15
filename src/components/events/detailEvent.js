@@ -1,8 +1,44 @@
+import moment from "moment";
 import React, { useState } from "react";
 import { IoArrowBackOutline } from "react-icons/io5";
+import { UpdateEventService } from "../../services/eventService";
+import AlertMessage from "../../widgets/alert";
+import Loading from "../loading";
 
-const DetailEvent = ({ active }) => {
+const DetailEvent = ({ active, data, categories }) => {
     const [image, setImage] = useState(null);
+    const [eventTitle, setEventTitle] = useState(data["name"]);
+    const [eventDescription, setEventDescription] = useState(
+        data["description"]
+    );
+    const [link, setLink] = useState(data["link"]);
+    const [additionalInfo, setAdditionalInfo] = useState(
+        data["additional_info"]
+    );
+    const [sendLink, setSendLink] = useState(data["send_link"]);
+    const [eventSummary, setEventSummary] = useState(data["event_summary"]);
+    const [eventCategory, setEventCategory] = useState(
+        data["category"]["categoryId"]
+    );
+    const [eventType, setEventType] = useState(data["event_type"]);
+    const [startEvent, setStartEvent] = useState(
+        moment(data["startEvent"], "YYYY-MM-DD HH:mm+ZZ").format(
+            "DD/MM/YYYY hh:mm"
+        )
+    );
+    const [endEvent, setEndEvent] = useState(
+        moment(data["endEvent"], "YYYY-MM-DD HH:mm+ZZ").format(
+            "DD/MM/YYYY hh:mm"
+        )
+    );
+    const [eventWebsite, setEventWebsite] = useState(data["event_website"]);
+    const [facebookLink, setFacebookLink] = useState(data["facebook_link"]);
+    const [twitterLink, setTwitterLink] = useState(data["twitter_link"]);
+
+    const [message, setMessage] = useState("");
+    const [isError, setIsError] = useState(false);
+    const [isActive, setIsActive] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleFileInput = (e) => {
         // console.log("handleFileInput working!");
@@ -16,13 +52,56 @@ const DetailEvent = ({ active }) => {
         );
         setImage(formData);
     };
+
+    const updateEvent = async (event) => {
+        event.preventDefault();
+        setLoading(true);
+        const input = {
+            eventId: data["eventId"],
+            name: eventTitle,
+            description: eventDescription,
+            link,
+            additional_info: additionalInfo,
+            send_link: sendLink,
+            event_summary: eventSummary,
+            categoryId: eventCategory,
+            eventType,
+            startEvent,
+            endEvent,
+            event_website: eventWebsite,
+            facebook_link: facebookLink,
+            twitter_link: twitterLink,
+        };
+
+        await UpdateEventService(input)
+            .then((data) => {
+                setMessage(data.message);
+                setIsError(data.isError);
+                setIsActive(true);
+                setLoading(false);
+            })
+            .catch((e) => {
+                setLoading(false);
+            });
+    };
+
+    if (loading) {
+        <Loading />;
+    }
     return (
-        <div className={`${active !== "detail" && "hidden"} flex flex-col w-80 h-full bg-white animate-wiggle`}>
+        <div
+            className={`${
+                active !== "detail" && "hidden"
+            } flex flex-col w-full md:w-80 h-full bg-white animate-wiggle`}
+        >
             <div className="flex flex-row justify-between items-center py-4 px-4 text-gray-600 text-base font-medium border-b">
                 <label>Event Details</label>
                 <IoArrowBackOutline />
             </div>
-            <form className="flex flex-col py-4 overflow-y-auto px-4 gap-4 text-xs">
+            <form
+                className="flex flex-col py-4 overflow-y-auto px-4 gap-4 text-xs"
+                onSubmit={updateEvent}
+            >
                 <span className="text-gray-600 font-medium text-sm">
                     Livestream
                 </span>
@@ -32,8 +111,11 @@ const DetailEvent = ({ active }) => {
                     <input
                         type="text"
                         name="link"
+                        value={link}
                         className="border border-[#E6E6E6] text-black placeholder:text-secondary px-4 py-3 rounded-sm"
                         placeholder="Link"
+                        onChange={(e) => setLink(e.target.value)}
+                        required
                     />
                 </div>
                 {/* Additional Info */}
@@ -42,13 +124,23 @@ const DetailEvent = ({ active }) => {
                     <input
                         type="text"
                         name="additionalInfo"
+                        value={additionalInfo}
                         className="border border-[#E6E6E6] text-black placeholder:text-secondary px-4 py-3 rounded-sm"
                         placeholder="Additional info"
+                        onChange={(e) => setAdditionalInfo(e.target.value)}
+                        required
                     />
                 </div>
                 {/* Send Link */}
                 <div className="flex flex-row gap-2 items-start">
-                    <input type="checkbox" name="sendLink" />
+                    <input
+                        type="checkbox"
+                        name="sendLink"
+                        onChange={(e) => {
+                            setSendLink(e.target.checked);
+                        }}
+                        checked={sendLink}
+                    />
                     <label>
                         Send this link to all the users who bought the tickets
                     </label>
@@ -61,8 +153,11 @@ const DetailEvent = ({ active }) => {
                     <input
                         type="text"
                         name="eventTitle"
+                        value={eventTitle}
                         className="border border-[#E6E6E6] text-black placeholder:text-secondary px-4 py-3 rounded-sm"
                         placeholder="Event Title"
+                        onChange={(e) => setEventTitle(e.target.value)}
+                        required
                     />
                 </div>
                 {/* Event Summary */}
@@ -71,26 +166,56 @@ const DetailEvent = ({ active }) => {
                     <textarea
                         type="text"
                         name="eventSummary"
+                        value={eventSummary}
                         className="border border-[#E6E6E6] text-black placeholder:text-secondary px-4 py-3 rounded-sm"
                         placeholder="Event Summary"
+                        onChange={(e) => setEventSummary(e.target.value)}
+                        required
                     />
                 </div>
                 {/* Category */}
                 <div className="flex flex-col gap-2">
                     <label>Category</label>
-                    <select className="border border-[#E6E6E6] text-black placeholder:text-secondary px-4 py-3 rounded-sm bg-white">
-                        <option>Business</option>
-                        <option>Food</option>
-                        <option>Art</option>
-                        <option>Code</option>
+                    <select
+                        className="border border-[#E6E6E6] text-black placeholder:text-secondary px-4 py-3 rounded-sm bg-white"
+                        onChange={(e) => setEventCategory(e.target.value)}
+                        required
+                    >
+                        {categories["data"].map((category) => {
+                            return (
+                                <option
+                                    key={category.categoryId}
+                                    value={category.categoryId}
+                                    selected={
+                                        eventCategory === category.categoryId
+                                    }
+                                >
+                                    {category.name}
+                                </option>
+                            );
+                        })}
                     </select>
                 </div>
                 {/* Event Type */}
                 <div className="flex flex-col gap-2">
                     <label>Event type</label>
-                    <select className="border border-[#E6E6E6] text-black placeholder:text-secondary px-4 py-3 rounded-sm bg-white">
-                        <option>Online</option>
-                        <option>Presential</option>
+                    <select
+                        className="border border-[#E6E6E6] text-black placeholder:text-secondary px-4 py-3 rounded-sm bg-white"
+                        onChange={(e) => setEventType(e.target.value)}
+                        required
+                    >
+                        <option
+                            value={"Online"}
+                            selected={eventType === "Present"}
+                        >
+                            Online
+                        </option>
+                        <option
+                            value={"Present"}
+                            selected={eventType === "Present"}
+                        >
+                            Presential
+                        </option>
                     </select>
                 </div>
 
@@ -103,7 +228,20 @@ const DetailEvent = ({ active }) => {
                     <input
                         type="datetime-local"
                         name="start"
+                        value={moment(startEvent, "DD/MM/YYYY hh:mm").format(
+                            "YYYY-MM-DD hh:mm"
+                        )}
+                        min={new Date().toISOString().slice(0, -8)}
+                        onChange={(e) => {
+                            setStartEvent(
+                                moment(
+                                    e.target.value,
+                                    "YYYY-MM-DD HH:mm+ZZ"
+                                ).format("DD/MM/YYYY hh:mm")
+                            );
+                        }}
                         className="border border-[#E6E6E6] text-black placeholder:text-secondary px-4 py-3 rounded-sm"
+                        required
                     />
                 </div>
                 {/* End date & time */}
@@ -112,7 +250,20 @@ const DetailEvent = ({ active }) => {
                     <input
                         type="datetime-local"
                         name="end"
+                        value={moment(endEvent, "DD/MM/YYYY hh:mm").format(
+                            "YYYY-MM-DD hh:mm"
+                        )}
+                        min={new Date(startEvent).toISOString().slice(0, -8)}
+                        onChange={(e) => {
+                            setEndEvent(
+                                moment(
+                                    e.target.value,
+                                    "YYYY-MM-DD HH:mm+ZZ"
+                                ).format("DD/MM/YYYY hh:mm")
+                            );
+                        }}
                         className="border border-[#E6E6E6] text-black placeholder:text-secondary px-4 py-3 rounded-sm"
+                        required
                     />
                 </div>
 
@@ -122,9 +273,7 @@ const DetailEvent = ({ active }) => {
                 <div className="flex flex-col gap-2">
                     {/* <label>End date & time</label> */}
                     <div className="flex items-center justify-center w-full">
-                        <label
-                            className="flex flex-col items-center justify-center w-full h-40 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-                        >
+                        <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                             <div className="flex flex-col items-center justify-center pt-5 pb-6">
                                 <svg
                                     className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
@@ -166,8 +315,11 @@ const DetailEvent = ({ active }) => {
                     <textarea
                         type="text"
                         name="eventDescription"
+                        value={eventDescription}
                         className="border border-[#E6E6E6] text-black placeholder:text-secondary px-4 py-3 rounded-sm"
                         placeholder="Event Description"
+                        onChange={(e) => setEventDescription(e.target.value)}
+                        required
                     />
                 </div>
                 {/* Event website */}
@@ -176,8 +328,10 @@ const DetailEvent = ({ active }) => {
                     <input
                         type="text"
                         name="eventWebsite"
+                        value={eventWebsite}
                         className="border border-[#E6E6E6] text-black placeholder:text-secondary px-4 py-3 rounded-sm"
                         placeholder="Official event website"
+                        onChange={(e) => setEventWebsite(e.target.value)}
                     />
                 </div>
                 {/* Facebook page */}
@@ -186,8 +340,10 @@ const DetailEvent = ({ active }) => {
                     <input
                         type="text"
                         name="facebookPage"
+                        value={facebookLink}
                         className="border border-[#E6E6E6] text-black placeholder:text-secondary px-4 py-3 rounded-sm"
                         placeholder="https://facebook.com/yourenvent"
+                        onChange={(e) => setFacebookLink(e.target.value)}
                     />
                 </div>
                 {/* Twitter Profile */}
@@ -196,8 +352,10 @@ const DetailEvent = ({ active }) => {
                     <input
                         type="text"
                         name="twitterProfile"
+                        value={twitterLink}
                         className="border border-[#E6E6E6] text-black placeholder:text-secondary px-4 py-3 rounded-sm"
-                        placeholder="https://facebook.com/yourenvent"
+                        placeholder="https://twitter.com/yourenvent"
+                        onChange={(e) => setTwitterLink(e.target.value)}
                     />
                 </div>
                 <button
@@ -207,6 +365,15 @@ const DetailEvent = ({ active }) => {
                     Save
                 </button>
             </form>
+
+            {/* Alert */}
+            <AlertMessage
+                isActive={isActive}
+                title={isError ? "Error" : "Success"}
+                message={message}
+                setIsActive={setIsActive}
+                isError={isError}
+            />
         </div>
     );
 };

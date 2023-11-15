@@ -2,16 +2,27 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
-// import Event from "../widgets/event";
 import { FiHeart, FiUpload } from "react-icons/fi";
 import EditEvent from "../components/events/editEvent";
-import { FetchOneEvent } from "../services/eventService";
+import { FetchOneEvent, PublishEventService } from "../services/eventService";
 import Loading from "../components/loading";
+import { GetUserId } from "../services/token";
+import { FetchAllCategories } from "../services/categoryService";
+import AlertMessage from "../widgets/alert";
+import BuyTicket from "../widgets/buyTicket";
+import { FetchAllTicketByEventId } from "../services/ticketService";
 
 const EventPresentation = () => {
+    const { eventId, isError, message } = useParams();
     const [seeEditPart, setSeeEditPart] = useState(false);
     const [result, setResult] = useState(null);
-    let params = useParams();
+    const [categories, setCategories] = useState(null);
+    const [activeAlert, setActiveAlert] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(isError);
+    const [tickets, setTickets] = useState(null);
+    const [showBuyTicket, setShowBuyTicket] = useState(false);
+    const [alertMessage, setAlertMessage] = useState(message);
 
     const FetchEventById = (EventId) => {
         const res = FetchOneEvent(EventId);
@@ -27,11 +38,50 @@ const EventPresentation = () => {
         });
     };
 
-    useEffect(() => {
-        FetchEventById(params.eventId);
-    }, [params.eventId]);
+    const fetchCategories = async () => {
+        const data = await FetchAllCategories();
+        setCategories(data);
+    };
 
-    if (result == null) {
+    const publishEvent = async (e, eventId, isPublish) => {
+        let message;
+        e.preventDefault();
+        setLoading(true);
+        console.log(isPublish);
+        const data = await PublishEventService(eventId, isPublish);
+        if (data.isError) {
+            message = `
+                ${data.message} :
+                ${data.data["missingFields"].map((out) => {
+                    return out;
+                })}
+            `;
+            setActiveAlert(true);
+            setError(data.isError);
+            setAlertMessage(message);
+            setLoading(false);
+        } else {
+            // message = data.message;
+            window.location.reload(false);
+        }
+    };
+
+    const fetchTickets = async () => {
+        const data = await FetchAllTicketByEventId(eventId);
+        setTickets(data.data["data"]);
+    };
+
+    useEffect(() => {
+        FetchEventById(eventId);
+        fetchCategories();
+        fetchTickets();
+
+        if (isError && message) {
+            setActiveAlert(true);
+        }
+    }, [eventId, isError, message]);
+
+    if (result == null || categories == null || tickets == null || loading) {
         return <Loading />;
     }
     return (
@@ -48,7 +98,10 @@ const EventPresentation = () => {
                 <div className="w-full h-full z-10 flex flex-col justify-center">
                     <Navbar />
                     <button
-                        className="z-10 fixed left-0 top-auto bottom-auto px-6 py-3 bg-emerald-400 text-base font-semibold -rotate-90 -translate-x-10"
+                        className={`${
+                            result["organizer"]["userId"].toString() !==
+                                GetUserId() && "hidden"
+                        } z-10 fixed left-0 top-auto bottom-auto px-6 py-3 bg-emerald-400 text-base font-semibold -rotate-90 -translate-x-10`}
                         onClick={() => setSeeEditPart(true)}
                     >
                         Edit Event
@@ -62,10 +115,24 @@ const EventPresentation = () => {
                                         {result["name"]}
                                     </h1>
                                     <h2 className="font-semibold mt-2">
-                                        {new Date(result["startEvent"]).toDateString()} <span className="text-lg font-semibold">to</span> {new Date(result["endEvent"]).toDateString()}
+                                        {new Date(
+                                            result["startEvent"]
+                                        ).toDateString()}{" "}
+                                        <span className="text-lg font-semibold">
+                                            to
+                                        </span>{" "}
+                                        {new Date(
+                                            result["endEvent"]
+                                        ).toDateString()}
                                     </h2>
                                     <h3 className="font-medium text-gray-300">
-                                    {new Date(result["startEvent"]).toLocaleTimeString()} - {new Date(result["endEvent"]).toLocaleTimeString()}
+                                        {new Date(
+                                            result["startEvent"]
+                                        ).toLocaleTimeString()}{" "}
+                                        -{" "}
+                                        {new Date(
+                                            result["endEvent"]
+                                        ).toLocaleTimeString()}
                                     </h3>
                                 </div>
                                 {/* User */}
@@ -76,7 +143,8 @@ const EventPresentation = () => {
                                     <div className="flex flex-col gap-1 text-xs">
                                         <label>Organized by:</label>
                                         <h1 className="font-medium">
-                                            {result["organizer"]["firstName"]} {result["organizer"]["lastName"]}
+                                            {result["organizer"]["firstName"]}{" "}
+                                            {result["organizer"]["lastName"]}
                                         </h1>
                                     </div>
                                 </div>
@@ -100,7 +168,9 @@ const EventPresentation = () => {
                         <div className="flex flex-col gap-2">
                             <h1 className="text-xl font-bold">Description</h1>
                             <p className="text-gray-500">
-                            {result["description"] ? result["description"] : "No description add"}
+                                {result["description"]
+                                    ? result["description"]
+                                    : "No description add"}
                             </p>
                         </div>
                         <div className="flex flex-col gap-2">
@@ -113,22 +183,66 @@ const EventPresentation = () => {
                             </p>
                         </div>
                     </div>
-                    <div className="fixed bottom-0 z-20 sm:relative flex flex-grow flex-col items-end justify-start bg-white w-full sm:w-auto">
+                    <div className="fixed bottom-0 z-10 sm:relative flex flex-grow flex-col items-end justify-start bg-white w-full sm:w-auto">
                         <div className="flex flex-col gap-4 px-4 py-6 w-full sm:w-80 rounded-lg border">
                             <div className="flex flex-row justify-between items-center">
                                 <button className="w-10 h-10 rounded-full border border-black flex justify-center items-center bg-white hover:bg-gray-100">
                                     <FiUpload className="text-lg" />
                                 </button>
-                                <p className="font-semibold">
+                                {/* <p className="font-semibold">
                                     À partir de 10.24$
-                                </p>
-                                <button className="w-10 h-10 rounded-full border border-black flex justify-center items-center bg-white hover:bg-gray-100">
+                                </p> */}
+                                <button
+                                    className={`w-10 h-10 rounded-full border border-black flex justify-center items-center bg-white hover:bg-gray-100`}
+                                >
                                     <FiHeart className="text-lg" />
                                 </button>
                             </div>
-                            <button className="w-full bg-primary px-4 py-2 text-lg text-white font-semibold rounded-sm">
-                                buy ticket
+                            <button
+                                className={`${
+                                    result["organizer"]["userId"].toString() !==
+                                        GetUserId() && "hidden"
+                                } w-full ${
+                                    result["published"]
+                                        ? "bg-rose-400"
+                                        : "bg-emerald-400"
+                                } px-4 py-2 text-lg text-white font-semibold rounded-sm`}
+                                onClick={(e) =>
+                                    publishEvent(
+                                        e,
+                                        eventId,
+                                        !result["published"]
+                                    )
+                                }
+                            >
+                                {result["published"] ? "Unpublish" : "Publish"}
                             </button>
+                            {
+                                tickets.length > 0 ? (
+                                    <button
+                                        className={`${
+                                            result["organizer"]["userId"].toString() !==
+                                            GetUserId()
+                                                ? ""
+                                                : "hidden"
+                                        } w-full bg-primary px-4 py-2 text-lg text-white font-semibold rounded-sm`}
+                                        onClick={() => setShowBuyTicket(true)}
+                                    >
+                                        buy ticket
+                                    </button>
+                                ) : (
+                                    <button
+                                        className={`${
+                                            result["organizer"]["userId"].toString() !==
+                                            GetUserId()
+                                                ? ""
+                                                : "hidden"
+                                        } w-full bg-rose-400 px-4 py-2 text-lg text-white font-semibold rounded-sm`}
+                                    >
+                                        No Ticket
+                                    </button>
+                                )
+                            }
                         </div>
                     </div>
                 </div>
@@ -146,10 +260,33 @@ const EventPresentation = () => {
 
             {/* Footer */}
             <Footer />
+            {result["organizer"]["userId"].toString() === GetUserId() && (
+                <EditEvent
+                    data={result}
+                    categories={categories}
+                    seeEditPart={seeEditPart}
+                    setSeeEditPart={setSeeEditPart}
+                />
+            )}
 
-            <EditEvent
-                seeEditPart={seeEditPart}
-                setSeeEditPart={setSeeEditPart}
+            {tickets.length > 0 && (
+                <BuyTicket
+                    setShowBuyTicket={setShowBuyTicket}
+                    showBuyTicket={showBuyTicket}
+                    tickets={tickets}
+                    setError={setError}
+                    setActiveAlert={setActiveAlert}
+                    setAlertMessage={setAlertMessage}
+
+                />
+            )}
+
+            <AlertMessage
+                isActive={activeAlert}
+                title={error === "true" || error === true ? "Error" : "Success"}
+                message={alertMessage}
+                setIsActive={setActiveAlert}
+                isError={error === "true" || error === true}
             />
         </div>
     );

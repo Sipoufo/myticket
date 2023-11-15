@@ -1,12 +1,12 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
-import { GetToken, SetToken } from "./token";
+import { GetToken, RemoveItems, SetToken } from "./token";
 
 const cookies = new Cookies(null, { path: "/" });
 const headers = { Authorization: "Bearer " + GetToken() };
 
 export const VerifyToken = async () => {
-    await axios
+    return axios
         .post(
             `${process.env.REACT_APP_API_URL}/api/auth/verifyAccessToken`,
             undefined,
@@ -14,18 +14,18 @@ export const VerifyToken = async () => {
                 headers,
             }
         )
-        .then(async (resultVerifyAccessToken) => {
-            if (!resultVerifyAccessToken["isValid"]) {
-                await axios
+        .then( (resultVerifyAccessToken) => {
+            if (!resultVerifyAccessToken["data"]["valid"]) {
+                axios
                     .post(
                         `${process.env.REACT_APP_API_URL}/api/auth/verifyRefreshToken`,
                         {
                             refreshToken: cookies.get("refreshToken"),
                         }
                     )
-                    .then(async (resultVerifyRefreshToken) => {
-                        if (resultVerifyRefreshToken["isValid"]) {
-                            await axios
+                    .then( (resultVerifyRefreshToken) => {
+                        if (resultVerifyRefreshToken["data"]["valid"]) {
+                            axios
                                 .post(
                                     `${process.env.REACT_APP_API_URL}/api/auth/refresh`,
                                     {
@@ -33,23 +33,29 @@ export const VerifyToken = async () => {
                                             cookies.get("refreshToken"),
                                     }
                                 )
-                                .then(async (response) => {
-                                    SetToken(await response.data["token"]);
+                                .then((response) => {
+                                    SetToken(response.data["token"]);
                                     return true;
                                 })
                                 .catch((e) => {
+                                    RemoveItems();
                                     return false;
                                 });
                         } else {
+                            RemoveItems();
                             return false;
                         }
-                    }).catch(e => {
+                    })
+                    .catch((e) => {
+                        RemoveItems();
                         return false;
                     });
             } else {
                 return true;
             }
-        }).catch(e => {
+        })
+        .catch((e) => {
+            RemoveItems();
             return false;
         });
 };

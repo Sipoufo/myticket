@@ -23,7 +23,6 @@ const OrganizerProfile = () => {
     const fetchEventsByIsPublish = async (isPublish) => {
         await FetchEventsByIsPublish(isPublish, pageNumber, pageSize)
             .then((data) => {
-                console.log(data["data"]);
                 if (!data.isError) {
                     setResult(data["data"]);
                 } else {
@@ -71,6 +70,7 @@ const OrganizerProfile = () => {
 
     const prevOnClick = (e) => {
         e.preventDefault();
+        setResult(null);
         setPageNumber(pageNumber - 1);
         if (eventAction === "drafted") {
             fetchEventsByIsPublish(false);
@@ -88,6 +88,7 @@ const OrganizerProfile = () => {
 
     const nextOnClick = (e) => {
         e.preventDefault();
+        setResult(null);
         setPageNumber(pageNumber + 1);
         if (eventAction === "drafted") {
             fetchEventsByIsPublish(false);

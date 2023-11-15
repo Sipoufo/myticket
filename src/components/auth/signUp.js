@@ -17,10 +17,10 @@ const SignUp = ({ modalService, setModalService, setShowOAuthModal }) => {
     const [loading, setLoading] = useState(false);
     const [isError, setIsError] = useState(false);
 
-    const SignUp = (event) => {
+    const SignUp = async (event) => {
         event.preventDefault();
         setLoading(true);
-        const res = SignUpService(data);
+        const res = await SignUpService(data);
         res.then((data) => {
             if (!data.isError) {
                 setShowOAuthModal(false);

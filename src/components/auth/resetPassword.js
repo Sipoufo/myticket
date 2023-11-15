@@ -20,10 +20,10 @@ const ResetPassword = ({
     const [loading, setLoading] = useState(false);
     const [isActive, setIsActive] = useState(false);
 
-    const resetPassword = (event) => {
+    const resetPassword = async (event) => {
         event.preventDefault();
         setLoading(true);
-        const res = ResetPasswordService(data);
+        const res = await ResetPasswordService(data);
         res.then((data) => {
             setResult(data);
             setIsActive(true);

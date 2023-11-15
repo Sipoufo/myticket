@@ -20,3 +20,16 @@ export const Fetch_old_events_by_isPublish_endpoint = (isPublish, pageNumber, pa
     URL + "/api/event/lessThantToday/" + isPublish + "/" + pageNumber + "/" + pageSize;
 export const Fetch_next_events_by_isPublish_endpoint = (isPublish, pageNumber, pageSize) =>
     URL + "/api/event/greaterThantToday/" + isPublish + "/" + pageNumber + "/" + pageSize;
+export const publish_event_endpoint = (eventId, isPublish) =>
+    URL + "/api/event/publish/" + eventId + "/" + isPublish;
+export const updateEvent_endpoint = URL + "/api/event";
+
+// Ticket
+export const Ticket_by_eventId_endPoint = (eventId) => 
+    URL + "/api/ticket/" + eventId;
+export const buy_ticket_endPoint = (ticketId, numberPlace) => 
+    URL + "/api/ticket/paid/" + ticketId + "/" + numberPlace;
+export const My_Ticket_endPoint = URL + "/api/ticket/myTicket";
+
+// Ticket Type
+export const Ticket_type_endPoint = URL + "/api/ticketType";

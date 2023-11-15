@@ -10,13 +10,12 @@ import { FetchAllCategories } from "../services/categoryService";
 
 const Home = () => {
     const { token } = useParams();
-
     // const [data, setData] = useState();
     const [result, setResult] = useState(null);
     const [categories, setCategories] = useState(null);
 
     const fetchEvents = async () => {
-        await FetchAllEvents(1, 8)
+        FetchAllEvents(1, 8)
             .then((data) => {
                 if (!data.isError) {
                     setResult(data["data"]["data"]);
@@ -30,11 +29,8 @@ const Home = () => {
     };
 
     const fetchCategories = async () => {
-        await FetchAllCategories()
-            .then((data) => {
-                setCategories(data);
-            })
-            .catch((e) => {});
+        const data = await FetchAllCategories();
+        setCategories(data);
     };
 
     useEffect(() => {
