@@ -1,7 +1,7 @@
 import { Ticket_type_endPoint } from "../constants/endpoint";
 import axios from "axios";
 import { VerifyToken } from "./tokenService";
-import { GetToken } from "./token";
+import { GetToken, RemoveItems } from "./token";
 
 const headers = { Authorization: "Bearer " + GetToken() };
 
@@ -26,10 +26,20 @@ export const FetchAllTicketTypes = async () => {
             };
         })
         .catch((e) => {
-            return {
-                isError: true,
-                message: e.response.data["message"],
-                data: [],
-            };
+            if (!e.response) {
+                RemoveItems();
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                RemoveItems();
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
         });
 };

@@ -253,7 +253,7 @@ const DetailEvent = ({ active, data, categories }) => {
                         value={moment(endEvent, "DD/MM/YYYY hh:mm").format(
                             "YYYY-MM-DD hh:mm"
                         )}
-                        min={new Date(startEvent).toISOString().slice(0, -8)}
+                        min={new Date(moment(data["startEvent"])).toISOString().slice(0, -8)}
                         onChange={(e) => {
                             setEndEvent(
                                 moment(

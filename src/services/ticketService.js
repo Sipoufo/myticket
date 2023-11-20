@@ -1,7 +1,7 @@
-import { My_Ticket_endPoint, Ticket_by_eventId_endPoint, buy_ticket_endPoint } from "../constants/endpoint";
+import { My_Ticket_by_eventId_endPoint, My_Ticket_endPoint, Ticket_by_eventId_endPoint, buy_ticket_endPoint } from "../constants/endpoint";
 import axios from "axios";
 import { VerifyToken } from "./tokenService";
-import { GetToken } from "./token";
+import { GetToken, RemoveItems } from "./token";
 
 const headers = { Authorization: "Bearer " + GetToken() };
 
@@ -26,11 +26,21 @@ export const FetchAllTicketByEventId = async (eventId) => {
             };
         })
         .catch((e) => {
-            return {
-                isError: true,
-                message: e.response.data["message"],
-                data: [],
-            };
+            if (!e.response) {
+                RemoveItems();
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                RemoveItems();
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
         });
 };
 
@@ -54,11 +64,21 @@ export const CreateTicketByEventId = async (data, eventId) => {
             };
         })
         .catch((e) => {
-            return {
-                isError: true,
-                message: e.response.data["message"],
-                data: [],
-            };
+            if (!e.response) {
+                RemoveItems();
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                RemoveItems();
+                window.location.replace("/error");
+            }else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
         });
 };
 
@@ -82,11 +102,21 @@ export const BuyTicketService = async (ticketId, numberPlace) => {
             };
         })
         .catch((e) => {
-            return {
-                isError: true,
-                message: e.response.data["message"],
-                data: e.response.data,
-            };
+            if (!e.response) {
+                RemoveItems();
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                RemoveItems();
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
         });
 };
 
@@ -97,11 +127,49 @@ export const MyTicketsService = async () => {
     }
     return axios
         .get(
-            My_Ticket_endPoint,
+            My_Ticket_endPoint(1, 10),
             {
                 headers,
             }
         )
+        .then((response) => {
+            console.log(response)
+            return {
+                isError: false,
+                message: null,
+                data: response.data,
+            };
+        })
+        .catch((e) => {
+            if (!e.response) {
+                RemoveItems();
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                RemoveItems();
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
+        });
+};
+
+// Fetch all ticket buy by event by id
+export const FetchTicketByEventId = async (eventId) => {
+    // await VerifyToken();
+    if (!VerifyToken()) {
+        window.location.replace("/");
+    }
+    console.log("response");
+    return axios
+        .get(My_Ticket_by_eventId_endPoint(eventId), {
+            headers,
+        })
         .then((response) => {
             return {
                 isError: false,
@@ -110,11 +178,20 @@ export const MyTicketsService = async () => {
             };
         })
         .catch((e) => {
-            console.log(e);
-            return {
-                isError: true,
-                message: e.response.data["message"],
-                data: e.response.data,
-            };
+            if (!e.response) {
+                RemoveItems();
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                RemoveItems();
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
         });
 };

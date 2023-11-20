@@ -5,7 +5,7 @@ import {
     SignIn_endpoint,
     SignUp_endpoint,
 } from "../constants/endpoint";
-import { SetToken, SetUserId, SetUserName, SetUserRole } from "./token";
+import { RemoveItems, SetToken, SetUserId, SetUserName, SetUserRole } from "./token";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies(null, { path: "/" });
@@ -26,23 +26,36 @@ export const SignInService = async (data) => {
             };
         })
         .catch((e) => {
-            console.log(e)
-            return {
-                isError: true,
-                message: e.response.data["message"],
-                data: null,
-            };
+            if (!e.response) {
+                RemoveItems();
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                RemoveItems();
+                window.location.replace("/error");
+                RemoveItems();
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
         });
 };
 
 export const SignUpService = async (data) => {
+    console.log("response");
     return axios
         .post(SignUp_endpoint, data)
         .then((response) => {
+            console.log(response);
+            console.log(response.data["user"]);
             SetToken(response.data["token"]);
             SetUserName(response.data["firstName"]);
-            SetUserId(response.data["userId"]);
-            SetUserRole(response.data["role"]["name"]);
+            SetUserId(response.data["user"]["userId"].toString());
+            SetUserRole(response.data["user"]["role"]["name"]);
             cookies.set("refreshToken", response.data["refreshToken"]);
             return {
                 isError: false,
@@ -51,11 +64,22 @@ export const SignUpService = async (data) => {
             };
         })
         .catch((e) => {
-            return {
-                isError: true,
-                message: e.response.data["message"],
-                data: null,
-            };
+            console.log(e)
+            if (!e.response) {
+                // RemoveItems();
+                // window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                // RemoveItems();
+                // window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
         });
 };
 
@@ -70,11 +94,21 @@ export const ForgetPasswordService = async (data) => {
             };
         })
         .catch((e) => {
-            return {
-                isError: true,
-                message: e.response.data["message"],
-                data: null,
-            };
+            if (!e.response) {
+                RemoveItems();
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                RemoveItems();
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
         });
 };
 
@@ -89,10 +123,20 @@ export const ResetPasswordService = async (data) => {
             };
         })
         .catch((e) => {
-            return {
-                isError: true,
-                message: e.response.data["message"],
-                data: null,
-            };
+            if (!e.response) {
+                RemoveItems();
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                RemoveItems();
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
         });
 };

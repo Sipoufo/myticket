@@ -1,4 +1,4 @@
-import { GetToken } from "./token";
+import { GetToken, RemoveItems } from "./token";
 import {
     CreateEvent_endpoint,
     Fetch_events_by_categoryId_endpoint,
@@ -31,11 +31,21 @@ export const FetchAllEvents = async (pageNumber, pageSize) => {
             };
         })
         .catch((e) => {
-            return {
-                isError: true,
-                message: e.response.data["message"],
-                data: [],
-            };
+            if (!e.response) {
+                RemoveItems();
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                RemoveItems();
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
         });
 };
 
@@ -44,8 +54,8 @@ export const createEventService = async (data) => {
     if (!VerifyToken()) {
         window.location.replace("/");
     }
-    console.log(headers)
-    console.log(data)
+    console.log(headers);
+    console.log(data);
     return axios
         .post(CreateEvent_endpoint, data, {
             headers,
@@ -58,17 +68,30 @@ export const createEventService = async (data) => {
             };
         })
         .catch((e) => {
-            return {
-                isError: true,
-                message: e.response.data["message"],
-                data: null,
-            };
+            if (!e.response) {
+                RemoveItems();
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                RemoveItems();
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
         });
 };
 
 // Fetch one event by id
 export const FetchOneEvent = async (eventId) => {
     // await VerifyToken();
+    if (!VerifyToken()) {
+        window.location.replace("/");
+    }
     return axios
         .get(Fetch_oneEvent_endpoint(eventId), {
             headers,
@@ -81,12 +104,21 @@ export const FetchOneEvent = async (eventId) => {
             };
         })
         .catch((e) => {
-            console.log(e);
-            return {
-                isError: true,
-                message: e.response.data["message"],
-                data: {},
-            };
+            if (!e.response) {
+                RemoveItems();
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                RemoveItems();
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
         });
 };
 
@@ -116,12 +148,21 @@ export const FetchEventsByCategoryId = async (
             };
         })
         .catch((e) => {
-            console.log(e);
-            return {
-                isError: true,
-                message: e.response.data["message"],
-                data: {},
-            };
+            if (!e.response) {
+                RemoveItems();
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                RemoveItems();
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
         });
 };
 
@@ -149,12 +190,21 @@ export const FetchEventsByIsPublish = async (
             };
         })
         .catch((e) => {
-            console.log(e);
-            return {
-                isError: true,
-                message: e.response.data["message"],
-                data: {},
-            };
+            if (!e.response) {
+                RemoveItems();
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                RemoveItems();
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
         });
 };
 
@@ -186,12 +236,21 @@ export const FetchOldEventByIsPublish = async (
             };
         })
         .catch((e) => {
-            console.log(e);
-            return {
-                isError: true,
-                message: e.response.data["message"],
-                data: {},
-            };
+            if (!e.response) {
+                RemoveItems();
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                RemoveItems();
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
         });
 };
 
@@ -223,12 +282,21 @@ export const FetchNextEventByIsPublish = async (
             };
         })
         .catch((e) => {
-            console.log(e);
-            return {
-                isError: true,
-                message: e.response.data["message"],
-                data: {},
-            };
+            if (!e.response) {
+                RemoveItems();
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                RemoveItems();
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
         });
 };
 
@@ -250,12 +318,21 @@ export const UpdateEventService = async (data) => {
             };
         })
         .catch((e) => {
-            console.log(e);
-            return {
-                isError: true,
-                message: e.response.data["message"],
-                data: [],
-            };
+            if (!e.response) {
+                RemoveItems();
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                RemoveItems();
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
         });
 };
 
@@ -277,12 +354,20 @@ export const PublishEventService = async (eventId, isPublished) => {
             };
         })
         .catch((e) => {
-            console.log(e);
-            return {
-                isError: true,
-                message: e.response.data["message"],
-                data: e.response.data,
-            };
+            if (!e.response) {
+                RemoveItems();
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                RemoveItems();
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
         });
 };
-

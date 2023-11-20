@@ -8,9 +8,10 @@ import MyEvent from "../pages/myEvent";
 import MyTicket from "../pages/myTicket";
 import OrganizerProfile from "../pages/organizerProfile";
 import MyAccount from "../pages/myAccount";
-import ManageEvent from "../pages/manageEvent";
+// import ManageEvent from "../pages/manageEvent";
 import { GetToken } from "../services/token";
 import ManagerEvent from "../pages/manager";
+import Error from "../pages/error";
 
 const RouterManagement = () => {
     return (
@@ -66,6 +67,7 @@ const RouterManagement = () => {
                     }
                 />
             </Route>
+            <Route path="/error" element={<Error />} />
         </Routes>
     );
 };

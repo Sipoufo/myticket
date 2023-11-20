@@ -21,17 +21,14 @@ const SignUp = ({ modalService, setModalService, setShowOAuthModal }) => {
         event.preventDefault();
         setLoading(true);
         const res = await SignUpService(data);
-        res.then((data) => {
-            if (!data.isError) {
-                setShowOAuthModal(false);
-                window.location.replace("/");
-            }
-            setResult(data);
-            setIsError(data.isError);
-            setLoading(false);
-        }).catch((e) => {
-            setLoading(false);
-        });
+        console.log(res);
+        if (!res.isError) {
+            setShowOAuthModal(false);
+            window.location.replace("/");
+        }
+        setResult(res);
+        setIsError(res.isError);
+        setLoading(false);
     };
 
     if (loading) {
