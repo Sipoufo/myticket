@@ -5,7 +5,7 @@ import {
     SignIn_endpoint,
     SignUp_endpoint,
 } from "../constants/endpoint";
-import { RemoveItems, SetToken, SetUserId, SetUserName, SetUserRole } from "./token";
+import { RemoveItems, SetEmail, SetToken, SetUserId, SetUserName, SetUserRole } from "./token";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies(null, { path: "/" });
@@ -14,8 +14,11 @@ export const SignInService = async (data) => {
     return axios
         .post(SignIn_endpoint, data)
         .then((response) => {
+            console.log("Je passe");
+            console.log(response.data["user"]["email"]);
             SetToken(response.data["token"]);
             SetUserName(response.data["firstName"]);
+            SetEmail(response.data["user"]["email"]);
             SetUserId(response.data["user"]["userId"].toString());
             SetUserRole(response.data["user"]["role"]["name"]);
             cookies.set("refreshToken", response.data["refreshToken"]);
@@ -50,10 +53,9 @@ export const SignUpService = async (data) => {
     return axios
         .post(SignUp_endpoint, data)
         .then((response) => {
-            console.log(response);
-            console.log(response.data["user"]);
             SetToken(response.data["token"]);
             SetUserName(response.data["firstName"]);
+            SetEmail(response.data["user"]["email"]);
             SetUserId(response.data["user"]["userId"].toString());
             SetUserRole(response.data["user"]["role"]["name"]);
             cookies.set("refreshToken", response.data["refreshToken"]);

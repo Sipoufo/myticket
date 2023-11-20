@@ -61,6 +61,8 @@ const EventPresentation = () => {
         console.log(isPublish);
         const data = await PublishEventService(eventId, isPublish);
         if (data.isError) {
+            console.log("data")
+            console.log(data)
             message = `
                 ${data.message} :
                 ${data.data["missingFields"].map((out) => {

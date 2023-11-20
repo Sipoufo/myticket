@@ -54,6 +54,19 @@ export const SetAccountState = (accountState) => {
     sessionStorage.setItem("accountState", accountState);
 };
 
+// Email
+export const GetEmail = () => {
+    if (!sessionStorage.getItem("email")) {
+        return null;
+    }
+    return Decrypt(sessionStorage.getItem("email"));
+};
+
+export const SetEmail = (email) => {
+    sessionStorage.setItem("email", Encrypt(email));
+};
+
+
 export const RemoveItems = () => {
     sessionStorage.clear();
     sessionStorage.removeItem("token")
