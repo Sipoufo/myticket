@@ -7,13 +7,14 @@ import Loading from "../components/loading";
 
 const MyTicket = () => {
     // const [eventAction, setEventAction] = useState("actual");
-    const [myTickets, setMyTickets] = useState(null);
+    const [myTickets, setMyTickets] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const fetchMyTickets = async () => {
         const data = await MyTicketsService();
         console.log(data);
-        setMyTickets(data);
+        console.log(data.data["data"]);
+        setMyTickets(data.data["data"]);
     };
 
     useEffect(() => {
@@ -22,7 +23,7 @@ const MyTicket = () => {
     }, []);
 
     if (loading) {
-        <Loading />
+        <Loading />;
     }
     return (
         <div className="w-full h-full flex flex-col overflow-y-auto gap-10 pb-40 md:pb-0">
@@ -91,7 +92,22 @@ const MyTicket = () => {
             {/* Events */}
             <div className="flex justify-center">
                 <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 w-full md:w-10/12 max-w-screen-xl">
-                    <MyTicketCard image={"/assets/images/bg3.jpg"} title={"Webinaire : Comment maîtriser son impôt sur le revenu ?"} time={"lun. 23 oct. 2023 17:30 WAT"} ticketsSold={0} totalSales={0} />
+                    {myTickets.map((myTicket) => {
+                        console.log("myTicket");
+                        console.log(myTicket);
+                        return (
+                            <MyTicketCard
+                                eventId={myTicket["ticket"]["event"]["eventId"]}
+                                image={"/assets/images/bg3.jpg"}
+                                title={myTicket["ticket"]["name"]}
+                                time={new Date(
+                                    myTicket["ticket"]["event"]["startEvent"]
+                                ).toDateString()}
+                                ticketsSold={myTicket["ticket"]["price"]}
+                                totalSales={myTicket["ticket"]["price"]}
+                            />
+                        );
+                    })}
                 </div>
             </div>
 

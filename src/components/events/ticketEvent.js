@@ -15,8 +15,6 @@ const TicketEvent = ({ active, eventId }) => {
 
     const fetchTickets = async () => {
         const data = await FetchAllTicketByEventId(eventId);
-        console.log("data.data")
-        console.log(data.data["data"])
         setTickets(data.data["data"]);
     };
 
@@ -65,10 +63,13 @@ const TicketEvent = ({ active, eventId }) => {
                         >
                             <div className="flex flex-col gap-2">
                                 <h1 className="font-medium">
-                                    {" "}
                                     {ticket["name"]}{" "}
                                 </h1>
-                                <p>Free ({ticket["number_place"] - ticket["users"].length} left)</p>
+                                {/* <p>Free ({ticket["number_place"] - ticket["users"].length} left)</p> */}
+                                <p>
+                                    Free ({ticket["number_place"]} place
+                                    {ticket["number_place"] > 0 ? "s" : ""})
+                                </p>
                             </div>
                             <button>
                                 <MdEdit className="text-xl text-gray-600" />

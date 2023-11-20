@@ -95,8 +95,7 @@ const BuyTicket = ({
                                             value={ticket["ticketId"]}
                                             onClick={() => {
                                                 setMaxPlace(
-                                                    ticket["number_place"] -
-                                                        ticket["users"].length
+                                                    ticket["number_place"]
                                                 );
                                                 setTicketPrice(
                                                     ticket["price"] *

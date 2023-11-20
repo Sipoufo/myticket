@@ -1,4 +1,5 @@
 import axios from "axios";
+import { RemoveItems } from "./token";
 
 export const FetchAllCategories = async () => {
     return axios
@@ -11,10 +12,20 @@ export const FetchAllCategories = async () => {
             };
         })
         .catch((e) => {
-            return {
-                isError: true,
-                message: e.response.data["message"],
-                data: null,
-            };
+            if (!e.response) {
+                RemoveItems();
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                RemoveItems();
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
         });
 };

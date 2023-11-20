@@ -10,12 +10,16 @@ import { GetUserId } from "../services/token";
 import { FetchAllCategories } from "../services/categoryService";
 import AlertMessage from "../widgets/alert";
 import BuyTicket from "../widgets/buyTicket";
-import { FetchAllTicketByEventId } from "../services/ticketService";
+import {
+    FetchAllTicketByEventId,
+    FetchTicketByEventId,
+} from "../services/ticketService";
 
 const EventPresentation = () => {
     const { eventId, isError, message } = useParams();
     const [seeEditPart, setSeeEditPart] = useState(false);
     const [result, setResult] = useState(null);
+    const [myTickets, setMyTickets] = useState([]);
     const [categories, setCategories] = useState(null);
     const [activeAlert, setActiveAlert] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -30,7 +34,7 @@ const EventPresentation = () => {
             if (!data.isError) {
                 setResult(data["data"]);
             } else {
-                setResult(data["data"]);
+                // setResult(data["data"]);
                 window.location.replace("/");
             }
         }).catch((e) => {
@@ -41,6 +45,13 @@ const EventPresentation = () => {
     const fetchCategories = async () => {
         const data = await FetchAllCategories();
         setCategories(data);
+    };
+
+    const fetchMyTicket = async () => {
+        const data = await FetchTicketByEventId(eventId);
+        console.log("data.data");
+        console.log(data.data["tickets"]);
+        setMyTickets(data.data["tickets"]);
     };
 
     const publishEvent = async (e, eventId, isPublish) => {
@@ -75,6 +86,7 @@ const EventPresentation = () => {
         FetchEventById(eventId);
         fetchCategories();
         fetchTickets();
+        fetchMyTicket();
 
         if (isError && message) {
             setActiveAlert(true);
@@ -183,7 +195,7 @@ const EventPresentation = () => {
                             </p>
                         </div>
                     </div>
-                    <div className="fixed bottom-0 z-10 sm:relative flex flex-grow flex-col items-end justify-start bg-white w-full sm:w-auto">
+                    <div className="fixed bottom-0 z-10 sm:relative flex flex-grow flex-col items-end justify-start bg-white w-full sm:w-auto h-44 md:h-auto overflow-auto">
                         <div className="flex flex-col gap-4 px-4 py-6 w-full sm:w-80 rounded-lg border">
                             <div className="flex flex-row justify-between items-center">
                                 <button className="w-10 h-10 rounded-full border border-black flex justify-center items-center bg-white hover:bg-gray-100">
@@ -217,32 +229,53 @@ const EventPresentation = () => {
                             >
                                 {result["published"] ? "Unpublish" : "Publish"}
                             </button>
-                            {
-                                tickets.length > 0 ? (
+                            {tickets.length > 0 ? (
+                                <button
+                                    className={`${
+                                        result["organizer"][
+                                            "userId"
+                                        ].toString() !== GetUserId()
+                                            ? ""
+                                            : "hidden"
+                                    } w-full bg-primary px-4 py-2 text-lg text-white font-semibold rounded-sm`}
+                                    onClick={() => setShowBuyTicket(true)}
+                                >
+                                    buy ticket
+                                </button>
+                            ) : (
+                                <button
+                                    className={`${
+                                        result["organizer"][
+                                            "userId"
+                                        ].toString() !== GetUserId()
+                                            ? ""
+                                            : "hidden"
+                                    } w-full bg-rose-400 px-4 py-2 text-lg text-white font-semibold rounded-sm`}
+                                >
+                                    No Ticket
+                                </button>
+                            )}
+                            {myTickets.map((ticket) => {
+                                return (
                                     <button
-                                        className={`${
-                                            result["organizer"]["userId"].toString() !==
-                                            GetUserId()
-                                                ? ""
-                                                : "hidden"
-                                        } w-full bg-primary px-4 py-2 text-lg text-white font-semibold rounded-sm`}
-                                        onClick={() => setShowBuyTicket(true)}
+                                        key={ticket["ticketId"]}
+                                        className="flex flex-row justify-between items-start border p-3 hover:bg-gray-100"
                                     >
-                                        buy ticket
+                                        <div className="flex flex-col gap-2">
+                                            <h1 className="font-medium">
+                                                {ticket["ticket"]["name"]}{" "}
+                                            </h1>
+                                            <p>
+                                                ({ticket["ticketNumber"]} ticket
+                                                {ticket["number_place"] > 0
+                                                    ? "s"
+                                                    : ""}{" "}
+                                                buy )
+                                            </p>
+                                        </div>
                                     </button>
-                                ) : (
-                                    <button
-                                        className={`${
-                                            result["organizer"]["userId"].toString() !==
-                                            GetUserId()
-                                                ? ""
-                                                : "hidden"
-                                        } w-full bg-rose-400 px-4 py-2 text-lg text-white font-semibold rounded-sm`}
-                                    >
-                                        No Ticket
-                                    </button>
-                                )
-                            }
+                                );
+                            })}
                         </div>
                     </div>
                 </div>
@@ -277,7 +310,6 @@ const EventPresentation = () => {
                     setError={setError}
                     setActiveAlert={setActiveAlert}
                     setAlertMessage={setAlertMessage}
-
                 />
             )}
 
