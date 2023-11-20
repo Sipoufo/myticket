@@ -115,7 +115,6 @@ const DetailEvent = ({ active, data, categories }) => {
                         className="border border-[#E6E6E6] text-black placeholder:text-secondary px-4 py-3 rounded-sm"
                         placeholder="Link"
                         onChange={(e) => setLink(e.target.value)}
-                        required
                     />
                 </div>
                 {/* Additional Info */}
@@ -128,7 +127,6 @@ const DetailEvent = ({ active, data, categories }) => {
                         className="border border-[#E6E6E6] text-black placeholder:text-secondary px-4 py-3 rounded-sm"
                         placeholder="Additional info"
                         onChange={(e) => setAdditionalInfo(e.target.value)}
-                        required
                     />
                 </div>
                 {/* Send Link */}

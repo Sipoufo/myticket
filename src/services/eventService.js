@@ -341,11 +341,13 @@ export const PublishEventService = async (eventId, isPublished) => {
     if (!VerifyToken()) {
         window.location.replace("/");
     }
+    console.log("response");
     return axios
         .get(publish_event_endpoint(eventId, isPublished), {
             headers,
         })
         .then((response) => {
+            console.log("response");
             console.log(response);
             return {
                 isError: false,
@@ -354,6 +356,7 @@ export const PublishEventService = async (eventId, isPublished) => {
             };
         })
         .catch((e) => {
+            console.log(e);
             if (!e.response) {
                 RemoveItems();
                 window.location.replace("/error");
@@ -363,7 +366,7 @@ export const PublishEventService = async (eventId, isPublished) => {
                 window.location.replace("/error");
             } else {
                 return {
-                    data: null,
+                    data: e.response["data"],
                     isError: true,
                     code: e.response.status,
                     message: e.response.data["message"],

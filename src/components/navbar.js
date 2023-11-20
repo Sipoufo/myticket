@@ -3,7 +3,7 @@ import { FaBars, FaPlus } from "react-icons/fa6";
 import { IoMdClose, IoMdLogOut } from "react-icons/io";
 import Auth from "./auth/auth";
 import { Link } from "react-router-dom";
-import { GetToken, GetUserName, RemoveItems } from "../services/token";
+import { GetEmail, GetToken, GetUserName, RemoveItems } from "../services/token";
 import { FetchAllCategories } from "../services/categoryService";
 import Loading from "./loading";
 import AlertMessage from "../widgets/alert";
@@ -59,7 +59,11 @@ const Navbar = ({ token }) => {
                 <div className="flex flex-row justify-between items-center px-10 md:px-20 lg:px-32 py-8 text-white">
                     {/* Logo */}
                     {/* <img src={process.env.PUBLIC_URL + "/logo.png"} className="w-20 object-cover" alt="bg_image_home"/> */}
-                    <img src={process.env.PUBLIC_URL + "/assets/logos/logo.png"} className="w-2/12 bg-white object-contain" alt="logo" />
+                    <img
+                        src={process.env.PUBLIC_URL + "/assets/logos/logo.png"}
+                        className="w-2/12 bg-white object-contain"
+                        alt="logo"
+                    />
                     <ul
                         className={`${
                             isSignIn ? "hidden" : "hidden md:flex"
@@ -115,14 +119,14 @@ const Navbar = ({ token }) => {
                         >
                             <div className="flex flex-row gap-4 px-6 py-4 items-center">
                                 <div className="h-14 w-14 rounded-full bg-[#3B3A62] flex justify-center items-center font-semibold text-white text-lg">
-                                    S
+                                    {GetUserName()[0]}
                                 </div>
                                 <div className="flex flex-col justify-between">
                                     <h1 className="font-semibold">
-                                        SIPOUFO Yvan
+                                        {GetUserName()}
                                     </h1>
                                     <p className="text-xs text-gray-400">
-                                        sipjeux@gmail.com
+                                        {GetEmail()}
                                     </p>
                                 </div>
                             </div>
@@ -161,11 +165,14 @@ const Navbar = ({ token }) => {
                             >
                                 My Account
                             </Link>
-                            <button className="flex flex-row px-6 py-4 justify-between border-t hover:bg-slate-200 hover:text-primary hover:font-semibold" onClick={(e) => {
-                                e.preventDefault();
-                                RemoveItems();
-                                window.location.replace("/");
-                            }}>
+                            <button
+                                className="flex flex-row px-6 py-4 justify-between border-t hover:bg-slate-200 hover:text-primary hover:font-semibold"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    RemoveItems();
+                                    window.location.replace("/");
+                                }}
+                            >
                                 <label>Logout</label>
                                 <IoMdLogOut className="text-gray-400 text-xl" />
                             </button>
