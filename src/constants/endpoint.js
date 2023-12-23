@@ -54,6 +54,8 @@ export const publish_event_endpoint = (eventId, isPublish) =>
     URL + "/api/event/publish/" + eventId + "/" + isPublish;
 export const updateEvent_endpoint = URL + "/api/event";
 
+export const deleteEvent_endpoint = (eventId) => URL + "/api/event" + "/" + eventId;
+
 // Ticket
 export const Ticket_by_eventId_endPoint = (eventId) =>
     URL + "/api/ticket/" + eventId;
