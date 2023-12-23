@@ -8,6 +8,7 @@ import {
     Fetch_oneEvent_endpoint,
     publish_event_endpoint,
     updateEvent_endpoint,
+    deleteEvent_endpoint,
 } from "../constants/endpoint";
 import axios from "axios";
 import { VerifyToken } from "./tokenService";
@@ -367,6 +368,40 @@ export const PublishEventService = async (eventId, isPublished) => {
             } else {
                 return {
                     data: e.response["data"],
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
+        });
+};
+
+  export const deleteEvent = async (eventId) => {
+    if (!VerifyToken()) {
+        window.location.replace("/");
+    }
+    return axios
+        .delete(deleteEvent_endpoint(eventId), {
+            headers,
+        })
+        .then((response) => {
+            return {
+                isError: false,
+                message: response.data["message"],
+                data: null,
+            };
+        })
+        .catch((e) => {
+            if (!e.response) {
+                RemoveItems();
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                RemoveItems();
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
                     isError: true,
                     code: e.response.status,
                     message: e.response.data["message"],
