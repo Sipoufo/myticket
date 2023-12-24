@@ -4,13 +4,6 @@ import deleteEventModal from "./deleteEventModal";
 
 const MyEventCard = ({ id, image, title, time }) => {
     const [showModal, setShowModal] = useState(false);
-
-    const handleDelete = (id) => {
-        // Code to handle the delete action
-        setShowModal(true);
-        console.log(`Deleting item with id ${id}`);
-    };
-
     return (
         <div className="flex flex-col  shadow-md  text-black my-2 border border-gray-200 text-start">
             <div className="h-40 relative flex">
@@ -42,13 +35,13 @@ const MyEventCard = ({ id, image, title, time }) => {
                         View/Edit
                     </Link>
                     <hr className="border-l h-full" />
-                    <button onClick={handleDelete} className="grow p-4 hover:bg-red-600 hover:text-white hover:font-semibold">
+                    <button onClick={() => setShowModal(true)} className="grow p-4 hover:bg-red-600 hover:text-white hover:font-semibold">
                         Delete
                     </button>
                 </div>
             </div>
             {showModal && (
-                deleteEventModal({"title": title, "id": id, "setShowModal": setShowModal, "handleDelete": handleDelete}))}
+                deleteEventModal({"title": title, "eventid": id, "setShowModal": setShowModal}))}
         </div>
     );
             };
