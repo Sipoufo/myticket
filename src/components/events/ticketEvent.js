@@ -6,12 +6,14 @@ import Loading from "../loading";
 import { FetchAllTicketByEventId } from "../../services/ticketService";
 import { FetchAllTicketTypes } from "../../services/ticketTypeService";
 import TicketForm from "../../widgets/ticketForm";
-
+import TicketUpdateForm from "../../widgets/ticketUpdateForm";
 const TicketEvent = ({ active, eventId }) => {
     const [tickets, setTickets] = useState([]);
     const [ticketTypes, setTicketTypes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showCreateTicket, setShowCreateTicket] = useState(false);
+    const [showUpdateTicket, setShowUpdateTicket] = useState(false);
+    const [currentTicket, setCurrentTicket] = useState({});
 
     const fetchTickets = async () => {
         const data = await FetchAllTicketByEventId(eventId);
@@ -71,10 +73,16 @@ const TicketEvent = ({ active, eventId }) => {
                                     {ticket["number_place"] > 0 ? "s" : ""})
                                 </p>
                             </div>
-                            <button>
+                            <button
+                            onClick={() => 
+                                {
+                                    setCurrentTicket(ticket);
+                                    setShowUpdateTicket(true);
+                                }
+                                 } >
                                 <MdEdit className="text-xl text-gray-600" />
                             </button>
-                        </button>
+                        </button>                        
                     );
                 })}
 
@@ -99,6 +107,18 @@ const TicketEvent = ({ active, eventId }) => {
                 ticketTypes={ticketTypes}
                 event_Id={eventId}
             />
+            <TicketUpdateForm
+                showUpdateTicket={showUpdateTicket}
+                setShowUpdateTicket={setShowUpdateTicket}
+                ticketId={currentTicket["ticketId"]}
+                ticketTypes={ticketTypes}
+                ticketName={currentTicket["name"]}
+                ticketPrice={currentTicket["price"]}
+                ticketNumberPlace={currentTicket["number_place"]}
+                ticketDescription={currentTicket["description"]}
+                eventId={eventId}
+            />
+            
         </div>
     );
 };

@@ -49,8 +49,6 @@ const EventPresentation = () => {
 
     const fetchMyTicket = async () => {
         const data = await FetchTicketByEventId(eventId);
-        console.log("data.data");
-        console.log(data.data["tickets"]);
         setMyTickets(data.data["tickets"]);
     };
 
