@@ -1,4 +1,4 @@
-import { My_Ticket_by_eventId_endPoint, My_Ticket_endPoint, Ticket_by_eventId_endPoint, buy_ticket_endPoint } from "../constants/endpoint";
+import { My_Ticket_by_eventId_endPoint, My_Ticket_endPoint, Ticket_by_eventId_endPoint, buy_ticket_endPoint, TicketUpdate_by_ticketId_endPoint } from "../constants/endpoint";
 import axios from "axios";
 import { VerifyToken } from "./tokenService";
 import { GetToken, RemoveItems } from "./token";
@@ -186,6 +186,44 @@ export const FetchTicketByEventId = async (eventId) => {
                 RemoveItems();
                 window.location.replace("/error");
             } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
+        });
+};
+
+// Update one ticket by ticketId
+export const UpdateOneTicket = async (data, ticketId) => {
+    if (!VerifyToken()) {
+        window.location.replace("/");
+    }
+    return axios
+        .put(
+            TicketUpdate_by_ticketId_endPoint(ticketId), data,
+            {
+                headers,
+            }
+        )
+        .then((response) => {
+            return {
+                isError: false,
+                message: response.data["message"],
+                data: response.data,
+            };
+        })
+        .catch((e) => {
+            if (!e.response) {
+                RemoveItems();
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                RemoveItems();
+                window.location.replace("/error");
+            }else {
                 return {
                     data: null,
                     isError: true,
