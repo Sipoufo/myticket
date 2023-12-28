@@ -15,7 +15,7 @@ const ManagerEvent = () => {
     const [dataStats, setDataStats] = useState([]);
     const [globalDataStats, setGlobalDataStats] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(4);
     const [tickets, setTickets] = useState([]);
     const [selectedTicket, setSelectedTicket] = useState("");
     const [usersWithTicketCount, setUsersWithTicketCount] = useState([]);
@@ -167,7 +167,7 @@ const ManagerEvent = () => {
                         <select
                         onChange={(e) => {setItemsPerPage(e.target.value);}}
                             class="appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                            <option selected>1</option>
+                            <option selected>4</option>
                             <option>10</option>
                             <option>20</option>
                         </select>
@@ -295,47 +295,6 @@ const ManagerEvent = () => {
             </div>
         </div>
     </div>
-
-
-            
-
-            {/* <div className="flex flex-col items-center">
-                <span className="text-sm">
-                    Showing{" "}
-                    <span className="font-semibold text-primary">
-                        {pageNumber}
-                    </span>{" "}
-                    to{" "}
-                    <span className="font-semibold text-primary">
-                        {pageSize > result.dataNumber
-                            ? result.dataNumber
-                            : pageSize}
-                    </span>{" "}
-                    of{" "}
-                    <span className="font-semibold text-primary">
-                        {result.dataNumber}
-                    </span>{" "}
-                    Entries
-                </span>
-                <div className="inline-flex mt-2 xs:mt-0">
-                    <button
-                        className={`${
-                            pageNumber === 1 && "cursor-not-allowed"
-                        } flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-primary rounded-l hover:bg-gray-900`}
-                        onClick={prevOnClick}
-                    >
-                        Prev
-                    </button>
-                    <button
-                        className={`${
-                            pageSize > result.dataNumber && "cursor-not-allowed"
-                        } flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-primary border-0 border-l border-gray-700 rounded-r hover:bg-gray-900`}
-                        onClick={nextOnClick}
-                    >
-                        Next
-                    </button>
-                </div>
-            </div> */}
 
             {/* Footer */}
             <Footer />
