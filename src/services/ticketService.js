@@ -265,13 +265,13 @@ export const UpdateOneTicket = async (data, ticketId) => {
     }
 };
 
-export const FetchTicketBuyByTicketId = async (ticketId) => {
+export const FetchTicketBuyByTicketId = async (ticketId, currentPage, itemsPerPage) => {
     // await VerifyToken();
     if (!VerifyToken()) {
         window.location.replace("/");
     }
     try {
-        const response = await axios.get(TicketBuy_endPoint(ticketId), { headers });
+        const response = await axios.get(TicketBuy_endPoint(ticketId, currentPage, itemsPerPage), { headers });
         return {
             isError: false,
             message: null,
