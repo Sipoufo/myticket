@@ -78,4 +78,4 @@ export const My_Ticket_by_eventId_endPoint = (eventId) =>
 export const Ticket_type_endPoint = URL + "/api/ticketType";
 
 //Ticket Buy 
-export const TicketBuy_endPoint = (ticketId) => URL + "/api/ticketBuy/ticket/"+ ticketId+"/1/2";
+export const TicketBuy_endPoint = (ticketId, currentPage, itemsPerPage) => URL + "/api/ticketBuy/ticket/"+ ticketId+ "/" + currentPage + "/" + itemsPerPage;
