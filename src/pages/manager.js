@@ -13,14 +13,21 @@ const ManagerEvent = () => {
     const { eventId, isError, message } = useParams();
     const [event, setEvent] = useState([]);
     const [dataStats, setDataStats] = useState([]);
+    const [globalDataStats, setGlobalDataStats] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(4)
+    const [itemsPerPage, setItemsPerPage] = useState(1);
     const [tickets, setTickets] = useState([]);
     const [selectedTicket, setSelectedTicket] = useState("");
     const [usersWithTicketCount, setUsersWithTicketCount] = useState([]);
     const [totalTicketSold, setTotalTicketSold] = useState(0);
     const [totalSubscribers, setTotalSubscribers] = useState(0);
     const [totalEarningString, setTotalEarningString] = useState("0");
+    const firstEntry = (currentPage - 1) * itemsPerPage + 1;
+    const lastEntry = Math.min(currentPage * itemsPerPage, globalDataStats.length);
+
+    const changePage = (newPage) => {
+        setCurrentPage(newPage);
+    };
 
 
     const fetchOneEvent = async () => {
@@ -40,10 +47,16 @@ const ManagerEvent = () => {
         }
     }
 
-    const fetchTicketBuyService = async () =>{
+    const fetchOneTicketBuyService = async () =>{
         if(selectedTicket){
-        const data = await FetchTicketBuyByTicketId(selectedTicket);
+        const data = await FetchTicketBuyByTicketId(selectedTicket, currentPage, itemsPerPage);
         setDataStats(data.data["data"]);
+    }
+    }
+    const fetchGlobalTicketBuyService = async () =>{
+        if(selectedTicket){
+        const data = await FetchTicketBuyByTicketId(selectedTicket, 1, 10000);
+        setGlobalDataStats(data.data["data"]);
     }
     }
 
@@ -64,16 +77,17 @@ const ManagerEvent = () => {
     //function reacting to selected ticket change to fetch data
 
     // Add pagination and search bar
-    // const [pageNumber, setPageNumber] = useState(1);
-    // const [pageSize, setPageSize] = useState(10);
-    // const [result, setResult] = useState(null);
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
+    const [result, setResult] = useState(null);
     useEffect(() => {
         fetchOneEvent();
         fetchTickets();
     }, [eventId]);
     useEffect(() => {
-        fetchTicketBuyService();
-    }, [selectedTicket]);
+        fetchOneTicketBuyService();
+        fetchGlobalTicketBuyService();
+    }, [selectedTicket, itemsPerPage, currentPage]);
     useEffect(() => {
         const updatedUsersWithTicketCount = dataStats.map(item => ({
             userId: item.user.userId,
@@ -86,9 +100,14 @@ const ManagerEvent = () => {
         setUsersWithTicketCount(updatedUsersWithTicketCount);
     }, [dataStats]);
     useEffect(() => {
-        setTotalTicketSold(usersWithTicketCount.reduce((total, item) => total + item.ticketCount, 0));
-        setTotalSubscribers(usersWithTicketCount.length);
-    }, [usersWithTicketCount]);
+        setTotalTicketSold(globalDataStats.reduce((total, item) => total + item.ticketCount, 0));
+        setTotalSubscribers(globalDataStats.length);
+        // setTotalTicketSold(usersWithTicketCount.reduce((total, item) => total + item.ticketCount, 0));
+        // setTotalSubscribers(usersWithTicketCount.length);
+    }, 
+    // [usersWithTicketCount]
+    [globalDataStats]
+    );
     useEffect(() => {
         fetchOneTicketEarning();
     }, [totalTicketSold]);
@@ -146,8 +165,9 @@ const ManagerEvent = () => {
                 <div class="flex flex-row mb-1 sm:mb-0">
                     <div class="relative">
                         <select
+                        onChange={(e) => {setItemsPerPage(e.target.value);}}
                             class="appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                            <option>4</option>
+                            <option selected>1</option>
                             <option>10</option>
                             <option>20</option>
                         </select>
@@ -254,16 +274,18 @@ const ManagerEvent = () => {
                         </tbody>
                     </table>
                     <div
-                        class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
+                        class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
                         <span class="text-xs xs:text-sm text-gray-900">
-                            Showing 1 to 4 of 50 Entries
+                            {!usersWithTicketCount.length < itemsPerPage ? `Showing ${firstEntry} to ${lastEntry} of ${globalDataStats.length} entries` : ''}
                         </span>
                         <div class="inline-flex mt-2 xs:mt-0">
                             <button
+                                onClick={() => changePage(currentPage - 1)} disabled={currentPage === 1}
                                 class="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-l">
                                 Prev
                             </button>
                             <button
+                                onClick={() => changePage(currentPage + 1)} disabled={usersWithTicketCount.length < itemsPerPage}
                                 class="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-r">
                                 Next
                             </button>
