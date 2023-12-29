@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { BuyTicketService } from "../services/ticketService";
 // import Loading from "../loading";
+import {FetchOneTicketByTicketId} from "../services/ticketService";
 
 const BuyTicket = ({
     showBuyTicket,
@@ -13,8 +14,9 @@ const BuyTicket = ({
 }) => {
     const [number_place, setNumber_place] = useState(0);
     const [ticketTypeId, setTicketTypeId] = useState("");
-    const [maxPlace, setMaxPlace] = useState(25);
-    const [ticketPrice, setTicketPrice] = useState(500);
+    const [maxPlace, setMaxPlace] = useState(0);
+    const [ticketPrice, setTicketPrice] = useState(0);
+    const [totalCost, setTotalCost] = useState(0);
 
     const payTicket = async (e) => {
         e.preventDefault();
@@ -24,6 +26,27 @@ const BuyTicket = ({
         setError(data.isError);
         setAlertMessage(data.message);
     };
+
+
+    const fetchOneTicketInfo = async () => {
+        if(ticketTypeId){
+            const data = await FetchOneTicketByTicketId(ticketTypeId);
+            setMaxPlace(data.data["number_place"]);
+            setTicketPrice(data.data["price"]);
+            setTotalCost(ticketPrice * number_place);
+        }
+    }
+    useEffect(() => {
+        fetchOneTicketInfo();
+    }, [ticketTypeId]);
+
+    useEffect(() => {
+        if(ticketTypeId){
+            setTotalCost(ticketPrice * number_place);
+        }
+
+    }, [number_place]);
+
 
     return (
         <div
@@ -58,7 +81,7 @@ const BuyTicket = ({
                             name="price"
                             className="w-full border border-[#E6E6E6] text-black placeholder:text-secondary px-4 py-3 rounded-sm"
                             placeholder="Total price"
-                            value={"Total : " + ticketPrice * number_place}
+                            value={"Total : " + totalCost + " XAF"}
                             disabled
                         />
                         <div className="flex flex-col sm:flex-row items-start gap-4 w-full">
@@ -93,15 +116,6 @@ const BuyTicket = ({
                                         <option
                                             key={ticket["ticketId"]}
                                             value={ticket["ticketId"]}
-                                            onClick={() => {
-                                                setMaxPlace(
-                                                    ticket["number_place"]
-                                                );
-                                                setTicketPrice(
-                                                    ticket["price"] *
-                                                        number_place
-                                                );
-                                            }}
                                         >
                                             {ticket["name"]}
                                         </option>
