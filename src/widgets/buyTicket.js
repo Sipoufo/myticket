@@ -13,8 +13,8 @@ const BuyTicket = ({
 }) => {
     const [number_place, setNumber_place] = useState(0);
     const [ticketTypeId, setTicketTypeId] = useState("");
-    const [maxPlace, setMaxPlace] = useState(0);
-    const [ticketPrice, setTicketPrice] = useState(0);
+    const [maxPlace, setMaxPlace] = useState(25);
+    const [ticketPrice, setTicketPrice] = useState(500);
 
     const payTicket = async (e) => {
         e.preventDefault();

@@ -6,7 +6,7 @@ import AlertMessage from "../../widgets/alert";
 import Loading from "../loading";
 
 const DetailEvent = ({ active, data, categories }) => {
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState('');
     const [eventTitle, setEventTitle] = useState(data["name"]);
     const [eventDescription, setEventDescription] = useState(
         data["description"]
