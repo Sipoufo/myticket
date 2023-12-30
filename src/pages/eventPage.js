@@ -14,13 +14,15 @@ const EventPage = () => {
     const [result, setResult] = useState(null);
     const [categories, setCategories] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
-    const pageSize = 10;
+    const pageSize = 20;
 
-    const fetchEvents = async (pageNumber, pageSize) => {
+    const fetchEvents = async () => {
         await FetchAllEvents(pageNumber, pageSize)
             .then((data) => {
                 if (!data.isError) {
                     setResult(data["data"]);
+                    // console.log(data["data"]["data"])
+                    // setResult(data["data"]["data"]);
                 } else {
                     setResult(data["data"]);
                 }
@@ -88,7 +90,8 @@ const EventPage = () => {
                             Événements populaires :
                         </label>
                         <select className="px-4 py-2 text-xl text-primary font-bold bg-white">
-                            <option>On Line</option>
+                            <option>OnLine</option>
+                            <option>Present</option>
                         </select>
                     </div>
                     <ul className="flex flex-row gap-10 overflow-x-auto no-scrollbar">

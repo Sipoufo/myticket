@@ -17,7 +17,7 @@ const RouterManagement = () => {
     return (
         <Routes>
             <Route path="/" element={<IndexPage />}>
-                <Route index element={<Home />} />
+                <Route path="/" element={<Home />} />
                 <Route path="/:token" element={<Home />} />
                 <Route path="/events" element={<EventPage />} />
                 <Route

@@ -15,21 +15,26 @@ const Home = () => {
     const [categories, setCategories] = useState(null);
 
     const fetchEvents = async () => {
-        FetchAllEvents(1, 8)
-            .then((data) => {
-                if (!data.isError) {
-                    setResult(data["data"]["data"]);
-                } else {
-                    setResult(data["data"]);
-                }
-            })
-            .catch((e) => {
-                console.log(e);
-            });
+        // FetchAllEvents(1, 8)
+        //     .then((data) => {
+        //         if (!data.isError) {
+        //             console.log(data["data"]["data"]);
+        //             setResult(data["data"]["data"]);
+        //         } else {
+        //             // setResult(data["data"]);
+        //         }
+        //     })
+        //     .catch((e) => {
+        //         console.log(e);
+        //     });
+        const data = await FetchAllEvents(1, 8);
+        setResult(data["data"]["data"]);
+        // console.log(data["data"]);
     };
 
     const fetchCategories = async () => {
         const data = await FetchAllCategories();
+        console.log(data);
         setCategories(data);
     };
 
