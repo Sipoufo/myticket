@@ -16,7 +16,7 @@ const EventPage = () => {
     const [pageNumber, setPageNumber] = useState(1);
     const pageSize = 20;
 
-    const fetchEvents = async () => {
+    const fetchEvents = async (pageNumber, pageSize) => {
         await FetchAllEvents(pageNumber, pageSize)
             .then((data) => {
                 if (!data.isError) {
@@ -57,7 +57,7 @@ const EventPage = () => {
     useEffect(() => {
         fetchEvents(pageNumber, pageSize);
         fetchCategories();
-    }, []);
+    }, [pageNumber, pageSize]);
 
     const prevOnClick = (e) => {
         e.preventDefault();
