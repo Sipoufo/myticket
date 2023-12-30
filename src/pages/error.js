@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { IoReload } from "react-icons/io5";
+import {RemoveItems} from "../services/token";
 
 const Error = () => {
+
+    useEffect(() => {
+        RemoveItems();
+    }, []);
     return (
         <div className="w-screen h-screen bg-background flex justify-center items-center">
             <div className="flex flex-col gap-2 w-full max-w-screen-2xl text-center text-xl">
