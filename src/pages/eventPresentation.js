@@ -51,7 +51,8 @@ const EventPresentation = () => {
     const fetchMyTicket = async (eventId) => {
         if (GetToken() !== null) {
             const data = await FetchTicketByEventId(eventId);
-            setMyTickets(data.data["tickets"]);
+            console.log(data);
+            // setMyTickets(data.data["tickets"]);
         }
     };
 
@@ -83,7 +84,8 @@ const EventPresentation = () => {
     const fetchTickets = async (eventId) => {
         if (GetToken() !== null) {
             const data = await FetchAllTicketByEventId(eventId);
-            setTickets(data.data["data"]);
+            console.log(data);
+            // setTickets(data.data["data"]);
         }
     };
 
