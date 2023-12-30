@@ -1,4 +1,4 @@
-import { My_Ticket_by_eventId_endPoint, My_Ticket_endPoint, Ticket_by_eventId_endPoint, buy_ticket_endPoint, TicketUpdate_by_ticketId_endPoint } from "../constants/endpoint";
+import { My_Ticket_by_eventId_endPoint, My_Ticket_endPoint, Ticket_by_eventId_endPoint, buy_ticket_endPoint, TicketUpdate_by_ticketId_endPoint, TicketBuy_endPoint, Ticket_by_ticketId_endPoint } from "../constants/endpoint";
 import axios from "axios";
 import { VerifyToken } from "./tokenService";
 import { GetToken, RemoveItems } from "./token";
@@ -232,4 +232,65 @@ export const UpdateOneTicket = async (data, ticketId) => {
                 };
             }
         });
+};
+
+
+ export const FetchOneTicketByTicketId = async (ticketId) => {
+    // await VerifyToken();
+    if (!VerifyToken()) {
+        window.location.replace("/");
+    }
+    try {
+        const response = await axios.get(Ticket_by_ticketId_endPoint(ticketId), { headers });
+        return {
+            isError: false,
+            message: null,
+            data: response.data,
+        };
+    } catch (e) {
+        if (!e.response) {
+            // RemoveItems();
+            // window.location.replace("/error");
+        } else if (e.response.status !== 400) {
+            // RemoveItems();
+            // window.location.replace("/error");
+        } else {
+            return {
+                data: null,
+                isError: true,
+                code: e.response.status,
+                message: e.response.data["message"],
+            };
+        }
+    }
+};
+
+export const FetchTicketBuyByTicketId = async (ticketId, currentPage, itemsPerPage) => {
+    // await VerifyToken();
+    if (!VerifyToken()) {
+        window.location.replace("/");
+    }
+    try {
+        const response = await axios.get(TicketBuy_endPoint(ticketId, currentPage, itemsPerPage), { headers });
+        return {
+            isError: false,
+            message: null,
+            data: response.data,
+        };
+    } catch (e) {
+        if (!e.response) {
+            RemoveItems();
+            window.location.replace("/error");
+        } else if (e.response.status !== 400) {
+            RemoveItems();
+            window.location.replace("/error");
+        } else {
+            return {
+                data: null,
+                isError: true,
+                code: e.response.status,
+                message: e.response.data["message"],
+            };
+        }
+    }
 };

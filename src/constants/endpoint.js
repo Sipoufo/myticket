@@ -60,6 +60,9 @@ export const deleteEvent_endpoint = (eventId) => URL + "/api/event/" + eventId;
 export const Ticket_by_eventId_endPoint = (eventId) =>
     URL + "/api/ticket/" + eventId;
 
+export const Ticket_by_ticketId_endPoint = (ticketId) =>
+    URL + "/api/ticket/oneTicket/" + ticketId;
+
 // Ticket Update
 export const TicketUpdate_by_ticketId_endPoint =(ticketId) => 
     URL + "/api/ticket/" + ticketId;
@@ -73,3 +76,6 @@ export const My_Ticket_by_eventId_endPoint = (eventId) =>
 
 // Ticket Type
 export const Ticket_type_endPoint = URL + "/api/ticketType";
+
+//Ticket Buy 
+export const TicketBuy_endPoint = (ticketId, currentPage, itemsPerPage) => URL + "/api/ticketBuy/ticket/"+ ticketId+ "/" + currentPage + "/" + itemsPerPage;
