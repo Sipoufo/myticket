@@ -41,7 +41,7 @@ $ npm i
 
 > Setting up .env files
 <br />
-Set them up accoring to your needs 🙂
+Set them up according to your needs 🙂
 
 
 ## Available Scripts
