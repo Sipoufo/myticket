@@ -51,8 +51,7 @@ const EventPresentation = () => {
     const fetchMyTicket = async (eventId) => {
         if (GetToken() !== null) {
             const data = await FetchTicketByEventId(eventId);
-            console.log(data);
-            // setMyTickets(data.data["tickets"]);
+            setMyTickets(data.data["tickets"]);
         }
     };
 
@@ -84,16 +83,15 @@ const EventPresentation = () => {
     const fetchTickets = async (eventId) => {
         if (GetToken() !== null) {
             const data = await FetchAllTicketByEventId(eventId);
-            console.log(data);
-            // setTickets(data.data["data"]);
+            setTickets(data["data"]);
         }
     };
 
     useEffect(() => {
         FetchEventById(eventId);
         fetchCategories();
-        fetchTickets();
-        fetchMyTicket();
+        fetchTickets(eventId);
+        fetchMyTicket(eventId);
 
         if (isError && message) {
             setActiveAlert(true);
