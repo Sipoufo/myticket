@@ -69,7 +69,8 @@ export const SetEmail = (email) => {
 
 export const RemoveItems = () => {
     sessionStorage.clear();
-    sessionStorage.removeItem("token")
+    sessionStorage.removeItem("token");
+    document.cookie = "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 };
 
 // User Role

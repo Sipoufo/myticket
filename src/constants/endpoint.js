@@ -11,6 +11,8 @@ export const UserInfoByToken_endpoint = URL + "/api/users";
 
 // Event
 export const CreateEvent_endpoint = URL + "/api/event";
+export const FetchAllEvents_endpoint = (pageNumber, pageSize) =>
+    URL + "/api/permit/event/" + pageNumber + "/" + pageSize;
 export const Fetch_oneEvent_endpoint = (id) => URL + "/api/permit/event/" + id;
 export const Fetch_events_by_categoryId_endpoint = (id, pageNumber, pageSize) =>
     URL + "/api/permit/event/" + id + "/" + pageNumber + "/" + pageSize;

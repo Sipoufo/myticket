@@ -14,6 +14,7 @@ import {
     FetchAllTicketByEventId,
     FetchTicketByEventId,
 } from "../services/ticketService";
+import { GetToken } from "../services/token";
 
 const EventPresentation = () => {
     const { eventId, isError, message } = useParams();
@@ -24,7 +25,7 @@ const EventPresentation = () => {
     const [activeAlert, setActiveAlert] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(isError);
-    const [tickets, setTickets] = useState(null);
+    const [tickets, setTickets] = useState([]);
     const [showBuyTicket, setShowBuyTicket] = useState(false);
     const [alertMessage, setAlertMessage] = useState(message);
 
@@ -47,9 +48,11 @@ const EventPresentation = () => {
         setCategories(data);
     };
 
-    const fetchMyTicket = async () => {
-        const data = await FetchTicketByEventId(eventId);
-        setMyTickets(data.data["tickets"]);
+    const fetchMyTicket = async (eventId) => {
+        if (GetToken() !== null) {
+            const data = await FetchTicketByEventId(eventId);
+            setMyTickets(data.data["tickets"]);
+        }
     };
 
     const publishEvent = async (e, eventId, isPublish) => {
@@ -77,9 +80,11 @@ const EventPresentation = () => {
         }
     };
 
-    const fetchTickets = async () => {
-        const data = await FetchAllTicketByEventId(eventId);
-        setTickets(data.data["data"]);
+    const fetchTickets = async (eventId) => {
+        if (GetToken() !== null) {
+            const data = await FetchAllTicketByEventId(eventId);
+            setTickets(data.data["data"]);
+        }
     };
 
     useEffect(() => {
@@ -109,7 +114,9 @@ const EventPresentation = () => {
                 <div className="absolute h-full w-full bg-gradient-to-t bg-primary to-transparent bg-opacity-70"></div>
                 <div className="w-full h-full z-10 flex flex-col justify-center">
                     <Navbar />
-                    <button
+                    {GetToken() !== null && (
+                        
+                            <button
                         className={`${
                             result["organizer"]["userId"].toString() !==
                                 GetUserId() && "hidden"
@@ -118,6 +125,8 @@ const EventPresentation = () => {
                     >
                         Edit Event
                     </button>
+                    )}
+                    
                     <div className="flex justify-center">
                         <div className="flex flex-col-reverse gap-6 md:gap-0 md:flex-row justify-between items-center text-white px-4 w-full md:w-10/12 max-w-screen-xl">
                             {/* Information */}
@@ -182,7 +191,7 @@ const EventPresentation = () => {
                             <p className="text-gray-500">
                                 {result["description"]
                                     ? result["description"]
-                                    : "No description add"}
+                                    : "No description added"}
                             </p>
                         </div>
                         <div className="flex flex-col gap-2">
@@ -195,7 +204,8 @@ const EventPresentation = () => {
                             </p>
                         </div>
                     </div>
-                    <div className="fixed bottom-0 z-10 sm:relative flex flex-grow flex-col items-end justify-start bg-white w-full sm:w-auto h-44 md:h-auto overflow-auto">
+                    {GetToken() !== null && (
+                        <div className="fixed bottom-0 z-10 sm:relative flex flex-grow flex-col items-end justify-start bg-white w-full sm:w-auto h-44 md:h-auto overflow-auto">
                         <div className="flex flex-col gap-4 px-4 py-6 w-full sm:w-80 rounded-lg border">
                             <div className="flex flex-row justify-between items-center">
                                 <button className="w-10 h-10 rounded-full border border-black flex justify-center items-center bg-white hover:bg-gray-100">
@@ -210,6 +220,8 @@ const EventPresentation = () => {
                                     <FiHeart className="text-lg" />
                                 </button>
                             </div>
+
+                            
                             <button
                                 className={`${
                                     result["organizer"]["userId"].toString() !==
@@ -229,6 +241,9 @@ const EventPresentation = () => {
                             >
                                 {result["published"] ? "Unpublish" : "Publish"}
                             </button>
+                            
+                            
+                            
                             {tickets.length > 0 ? (
                                 <button
                                     className={`${
@@ -278,6 +293,7 @@ const EventPresentation = () => {
                             })}
                         </div>
                     </div>
+                    )}
                 </div>
             </div>
 
@@ -293,7 +309,7 @@ const EventPresentation = () => {
 
             {/* Footer */}
             <Footer />
-            {result["organizer"]["userId"].toString() === GetUserId() && (
+            {GetToken() !== null &&  result["organizer"]["userId"].toString() === GetUserId() && (
                 <EditEvent
                     data={result}
                     categories={categories}
@@ -302,7 +318,7 @@ const EventPresentation = () => {
                 />
             )}
 
-            {tickets.length > 0 && (
+            {GetToken() !== null && tickets.length > 0 && (
                 <BuyTicket
                     setShowBuyTicket={setShowBuyTicket}
                     showBuyTicket={showBuyTicket}

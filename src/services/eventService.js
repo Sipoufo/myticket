@@ -1,6 +1,7 @@
 import { GetToken, RemoveItems } from "./token";
 import {
     CreateEvent_endpoint,
+    FetchAllEvents_endpoint,
     Fetch_events_by_categoryId_endpoint,
     Fetch_events_by_isPublish_endpoint,
     Fetch_next_events_by_isPublish_endpoint,
@@ -19,7 +20,7 @@ const headers = { Authorization: "Bearer " + GetToken() };
 export const FetchAllEvents = async (pageNumber, pageSize) => {
     return axios
         .get(
-            `${process.env.REACT_APP_API_URL}/api/permit/event/${pageNumber}/${pageSize}`,
+            FetchAllEvents_endpoint(pageNumber, pageSize),
             {
                 headers,
             }
