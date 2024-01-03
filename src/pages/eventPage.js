@@ -17,33 +17,13 @@ const EventPage = () => {
     const pageSize = 20;
 
     const fetchEvents = async (pageNumber, pageSize) => {
-        await FetchAllEvents(pageNumber, pageSize)
-            .then((data) => {
-                if (!data.isError) {
-                    setResult(data["data"]);
-                    // console.log(data["data"]["data"])
-                    // setResult(data["data"]["data"]);
-                } else {
-                    setResult(data["data"]);
-                }
-            })
-            .catch((e) => {
-                console.log(e);
-            });
+        const data = await FetchAllEvents(pageNumber, pageSize);
+            setResult(data["data"]);
     };
 
-    const fetchEventsByCategoryId = async (categoryId) => {
-        await FetchEventsByCategoryId(categoryId, 1, 10)
-            .then((data) => {
-                if (!data.isError) {
-                    setResult(data["data"]);
-                } else {
-                    setResult(data["data"]);
-                }
-            })
-            .catch((e) => {
-                console.log(e);
-            });
+    const fetchEventsByCategoryId = async (eventType, pageNumber, pageSize) => {
+            const data = await FetchEventsByCategoryId(eventType, pageNumber, pageSize);
+            setResult(data["data"]);
     };
 
     const fetchCategories = async () => {
@@ -58,6 +38,16 @@ const EventPage = () => {
         fetchEvents(pageNumber, pageSize);
         fetchCategories();
     }, [pageNumber, pageSize]);
+
+    useEffect(() => {
+        console.log(eventType);
+        if(eventType !== "all"){
+            fetchEventsByCategoryId(eventType, pageNumber, pageSize);
+        }else{
+            fetchEvents(pageNumber, pageSize);
+        }
+        
+    }, [eventType, pageNumber, pageSize]);
 
     const prevOnClick = (e) => {
         e.preventDefault();
@@ -90,8 +80,9 @@ const EventPage = () => {
                             Événements populaires :
                         </label>
                         <select className="px-4 py-2 text-xl text-primary font-bold bg-white">
-                            <option>OnLine</option>
-                            <option>Present</option>
+                        <option selected disabled value="">Select event type</option>
+                        <option value="OnLine">OnLine</option>
+                        <option value="Present">Present</option>
                         </select>
                     </div>
                     <ul className="flex flex-row gap-10 overflow-x-auto no-scrollbar">
@@ -101,8 +92,8 @@ const EventPage = () => {
                                 "text-primary border-b-2 border-primary"
                             } font-semibold pb-4 cursor-pointer text-gray-600`}
                             onClick={() => {
-                                setResult(null);
-                                fetchEvents();
+                                // setResult(null);
+                                // fetchEvents();
                                 setEventType("all");
                             }}
                         >
@@ -117,10 +108,10 @@ const EventPage = () => {
                                         "text-primary border-b-2 border-primary"
                                     } font-semibold pb-4 cursor-pointer text-gray-600`}
                                     onClick={() => {
-                                        setResult(null);
-                                        fetchEventsByCategoryId(
-                                            input.categoryId
-                                        );
+                                        // setResult(null);
+                                        // fetchEventsByCategoryId(
+                                        //     input.categoryId
+                                        // );
                                         setEventType(input.categoryId);
                                     }}
                                 >

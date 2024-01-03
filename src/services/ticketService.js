@@ -27,11 +27,9 @@ export const FetchAllTicketByEventId = async (eventId) => {
         })
         .catch((e) => {
             if (!e.response) {
-                RemoveItems();
                 window.location.replace("/error");
             }
             if (e.response["status"] !== 400) {
-                RemoveItems();
                 window.location.replace("/error");
             } else {
                 return {
@@ -179,11 +177,11 @@ export const FetchTicketByEventId = async (eventId) => {
         })
         .catch((e) => {
             if (!e.response) {
-                RemoveItems();
+                // RemoveItems();
                 window.location.replace("/error");
             }
             if (e.response["status"] !== 400) {
-                RemoveItems();
+                // RemoveItems();
                 window.location.replace("/error");
             } else {
                 return {
@@ -221,7 +219,7 @@ export const UpdateOneTicket = async (data, ticketId) => {
                 window.location.replace("/error");
             }
             if (e.response["status"] !== 400) {
-                RemoveItems();
+                // RemoveItems();
                 window.location.replace("/error");
             }else {
                 return {
@@ -250,10 +248,10 @@ export const UpdateOneTicket = async (data, ticketId) => {
     } catch (e) {
         if (!e.response) {
             // RemoveItems();
-            // window.location.replace("/error");
+            window.location.replace("/error");
         } else if (e.response.status !== 400) {
             // RemoveItems();
-            // window.location.replace("/error");
+            window.location.replace("/error");
         } else {
             return {
                 data: null,
