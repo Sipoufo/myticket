@@ -12,6 +12,7 @@ import MyAccount from "../pages/myAccount";
 import { GetToken } from "../services/token";
 import ManagerEvent from "../pages/manager";
 import Error from "../pages/error";
+import EventCategoryPage from "../pages/eventCategoryPage";
 
 const RouterManagement = () => {
     return (
@@ -20,6 +21,7 @@ const RouterManagement = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/:token" element={<Home />} />
                 <Route path="/events" element={<EventPage />} />
+                <Route path="/events/category/:categoryId" element={<EventCategoryPage />} />
                 <Route
                     path="/events/:eventId"
                     element={<EventPresentation />}
