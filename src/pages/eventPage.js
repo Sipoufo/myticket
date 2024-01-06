@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
 import Header from "../components/header";
 import Event from "../widgets/event";
 import Footer from "../components/footer";
@@ -10,6 +11,7 @@ import Loading from "../components/loading";
 import { FetchAllCategories } from "../services/categoryService";
 
 const EventPage = () => {
+    const { categoryId } = useParams();
     const [eventType, setEventType] = useState("all");
     const [result, setResult] = useState(null);
     const [categories, setCategories] = useState(null);
@@ -48,6 +50,11 @@ const EventPage = () => {
         }
         
     }, [eventType, pageNumber, pageSize]);
+    useEffect(() => {
+        if (categoryId) {
+            setEventType(categoryId);
+        }
+    }, [categoryId]);
 
     const prevOnClick = (e) => {
         e.preventDefault();
@@ -99,7 +106,7 @@ const EventPage = () => {
                         >
                             All
                         </li>
-                        {categories["data"].map((input) => {
+                        {/* {categories["data"].map((input) => {
                             return (
                                 <li
                                     key={input.categoryId}
@@ -117,6 +124,28 @@ const EventPage = () => {
                                 >
                                     {input.name}
                                 </li>
+                            );
+                        })} */}
+                        {categories["data"].map((input) => {
+                            return (
+                                <Link to={`/events/category/${input.categoryId}`}>
+                                <li
+                                    key={input.categoryId}
+                                    className={`${
+                                        (eventType === input.categoryId || categoryId === input.categoryId) &&
+                                        "text-primary border-b-2 border-primary"
+                                    } font-semibold pb-4 cursor-pointer text-gray-600`}
+                                    onClick={() => {
+                                        // setResult(null);
+                                        // fetchEventsByCategoryId(
+                                        //     input.categoryId
+                                        // );
+                                        setEventType(input.categoryId);
+                                    }}
+                                >
+                                    {input.name}
+                                </li>
+                            </Link>
                             );
                         })}
                     </ul>
