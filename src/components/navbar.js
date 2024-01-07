@@ -9,6 +9,7 @@ import Loading from "./loading";
 import AlertMessage from "../widgets/alert";
 import { FetUserInfoByToken } from "../services/userService";
 import ORModal from "../widgets/organizerRequestModal";
+import MessageModal from "../widgets/messageModal";
 
 const Navbar = ({ token }) => {
     const [seeModal, setSeeModal] = useState(false);
@@ -23,6 +24,7 @@ const Navbar = ({ token }) => {
     const [isError, setIsError] = useState(false);
     const [isActive, setIsActive] = useState(false);
     const [isOrganizer, setIsOrganizer] = useState(false);
+    const [mesModal, setMesModal] = useState(false);
 
     const fetchCategories = () => {
         const res = FetchAllCategories();
@@ -177,7 +179,12 @@ const Navbar = ({ token }) => {
                             <button
                                     className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold"
                                     onClick={() => {
-                                        setShowORModal(true);
+                                        if(!true){
+                                            setShowORModal(true);
+                                        }else{
+                                            setMesModal(true);
+                                        }
+                                        
                                     }}
                                 >
                                 Become an Organizer
@@ -341,6 +348,11 @@ const Navbar = ({ token }) => {
                 showORModal={showORModal}
                 setShowORModal={setShowORModal}
             />
+            )}
+
+            {mesModal && (
+                <MessageModal 
+                setShowModal={setMesModal}/>
             )}
         </>
     );
