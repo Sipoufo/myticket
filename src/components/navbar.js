@@ -7,6 +7,7 @@ import { GetEmail, GetToken, GetUserName, RemoveItems } from "../services/token"
 import { FetchAllCategories } from "../services/categoryService";
 import Loading from "./loading";
 import AlertMessage from "../widgets/alert";
+import { FetUserInfoByToken } from "../services/userService";
 
 const Navbar = ({ token }) => {
     const [seeModal, setSeeModal] = useState(false);
@@ -19,6 +20,7 @@ const Navbar = ({ token }) => {
     const [message, setMessage] = useState("");
     const [isError, setIsError] = useState(false);
     const [isActive, setIsActive] = useState(false);
+    const [isOrganizer, setIsOrganizer] = useState(false);
 
     const fetchCategories = () => {
         const res = FetchAllCategories();
@@ -27,9 +29,22 @@ const Navbar = ({ token }) => {
         }).catch((e) => {});
     };
 
+    const fetchOrganizerStatus = async () => {
+        const res = FetUserInfoByToken();
+        res.then((data) => {
+            if (!data.isError) {
+                setIsOrganizer(data["data"]["_organizer"]);
+                console.log(data["data"]["_organizer"]);
+            }
+        }).catch((e) => {
+            console.log(e);
+        });
+    }
+
     useEffect(() => {
         if (GetToken() != null) {
             setIsSignIn(true);
+            fetchOrganizerStatus();
         }
 
         if (token) {
@@ -153,12 +168,22 @@ const Navbar = ({ token }) => {
                             >
                                 My Events
                             </Link>
+                            {isOrganizer ? 
                             <Link
-                                to="/organizerprofile"
-                                className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold"
+                            to="/organizerprofile"
+                            className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold"
                             >
                                 Organizer Profile
                             </Link>
+                            :
+                            <Link
+                                    to="/organizerprofile"
+                                    className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold"
+                                >
+                                Become an Organizer
+                            </Link>
+                            }
+                            
                             <Link
                                 to="/myaccount"
                                 className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold"
