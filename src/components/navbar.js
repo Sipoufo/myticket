@@ -16,7 +16,7 @@ const Navbar = ({ token }) => {
     const [modalService, setModalService] = useState("signIn");
     const [isSignIn, setIsSignIn] = useState(false);
     const [categories, setCategories] = useState(null);
-    const [showOrganizerModal, setShowOrganizerModal] = useState(false);
+    const [showORModal, setShowORModal] = useState(false);
 
     const [message, setMessage] = useState("");
     const [isError, setIsError] = useState(false);
@@ -336,6 +336,8 @@ const Navbar = ({ token }) => {
                 setIsError={setIsError}
                 setIsActive={setIsActive}
             />
+
+            <
         </>
     );
 };
