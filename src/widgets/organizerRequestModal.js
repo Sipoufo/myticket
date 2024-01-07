@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IoMdClose } from "react-icons/io";
-import Loading from "../loading";
-import AlertMessage from "../../widgets/alert";
+import Loading from "../components/loading";
+import AlertMessage from "./alert";
 
 const ORModal = ({showORModal, setShowORModal}) => {
 
