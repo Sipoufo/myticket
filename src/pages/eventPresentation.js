@@ -81,10 +81,8 @@ const EventPresentation = () => {
     };
 
     const fetchTickets = async (eventId) => {
-        if (GetToken() !== null) {
             const data = await FetchAllTicketByEventId(eventId);
-            setTickets(data["data"]);
-        }
+            setTickets(data.data["data"]);
     };
 
     useEffect(() => {
@@ -92,6 +90,7 @@ const EventPresentation = () => {
         fetchCategories();
         fetchTickets(eventId);
         fetchMyTicket(eventId);
+        
 
         if (isError && message) {
             setActiveAlert(true);
@@ -309,7 +308,7 @@ const EventPresentation = () => {
 
             {/* Footer */}
             <Footer />
-            {GetToken() !== null &&  result["organizer"]["userId"].toString() === GetUserId() && (
+            {result["organizer"]["userId"].toString() === GetUserId() && (
                 <EditEvent
                     data={result}
                     categories={categories}
@@ -318,7 +317,7 @@ const EventPresentation = () => {
                 />
             )}
 
-            {GetToken() !== null && tickets.length > 0 && (
+            {tickets.length > 0 && (
                 <BuyTicket
                     setShowBuyTicket={setShowBuyTicket}
                     showBuyTicket={showBuyTicket}
