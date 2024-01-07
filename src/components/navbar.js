@@ -175,7 +175,6 @@ const Navbar = ({ token }) => {
                             </Link>
                             :
                             <button
-                                    to="/organizerprofile"
                                     className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold"
                                     onClick={() => {
                                         setShowORModal(true);
@@ -338,10 +337,11 @@ const Navbar = ({ token }) => {
                 setIsActive={setIsActive}
             />
 
-            <ORModal
+            {showORModal && (<ORModal
                 showORModal={showORModal}
                 setShowORModal={setShowORModal}
             />
+            )}
         </>
     );
 };
