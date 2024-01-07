@@ -31,14 +31,10 @@ const Navbar = ({ token }) => {
 
     const fetchOrganizerStatus = async () => {
         const res = FetUserInfoByToken();
-        res.then((data) => {
-            if (!data.isError) {
-                setIsOrganizer(data["data"]["_organizer"]);
-                console.log(data["data"]["_organizer"]);
-            }
-        }).catch((e) => {
-            console.log(e);
-        });
+        const data = await FetUserInfoByToken();
+        if (!data.isError) {
+            setIsOrganizer(data["data"]["_organizer"]);
+        }
     }
 
     useEffect(() => {
