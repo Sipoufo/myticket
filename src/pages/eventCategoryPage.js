@@ -1,32 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Header from "../components/header";
 import Event from "../widgets/event";
 import Footer from "../components/footer";
 import {
-    FetchAllEvents,
     FetchEventsByCategoryId,
 } from "../services/eventService";
 import Loading from "../components/loading";
 import { FetchAllCategories } from "../services/categoryService";
+import { useLocation } from 'react-router-dom';
 
-const EventPage = () => {
+const EventCategoryPage = () => {
     const { categoryId } = useParams();
-    const [eventType, setEventType] = useState("all");
     const [result, setResult] = useState(null);
     const [categories, setCategories] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
     const pageSize = 20;
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const location = useLocation();
+    const categoryName = location.state.name;
 
 
-    const fetchEvents = async (pageNumber, pageSize) => {
-        const data = await FetchAllEvents(pageNumber, pageSize);
-            setResult(data["data"]);
-    };
-
-    const fetchEventsByCategoryId = async (eventType, pageNumber, pageSize) => {
-            const data = await FetchEventsByCategoryId(eventType, pageNumber, pageSize);
-            setResult(data["data"]);
+    const fetchEventsByCategoryId = async (categoryId, pageNumber, pageSize) => {
+            const data = await FetchEventsByCategoryId(categoryId, pageNumber, pageSize);
+            setResult(data["data"]);   
     };
 
     const fetchCategories = async () => {
@@ -38,37 +35,30 @@ const EventPage = () => {
     };
 
     useEffect(() => {
-        fetchEvents(pageNumber, pageSize);
+        fetchEventsByCategoryId(categoryId, pageNumber, pageSize);
         fetchCategories();
     }, [pageNumber, pageSize]);
 
     useEffect(() => {
-        console.log(eventType);
-        if(eventType !== "all"){
-            fetchEventsByCategoryId(eventType, pageNumber, pageSize);
-        }else{
-            fetchEvents(pageNumber, pageSize);
+        if(categories){
+            setSelectedCategory(categories["data"].find(category => category.categoryId === categoryId));
         }
         
-    }, [eventType, pageNumber, pageSize]);
-    useEffect(() => {
-        if (categoryId) {
-            setEventType(categoryId);
-        }
-    }, [categoryId]);
+    }, [categories, categoryId]);
 
     const prevOnClick = (e) => {
         e.preventDefault();
         setResult(null);
         setPageNumber(pageNumber - 1);
-        fetchEvents(pageNumber - 1, pageSize);
+        fetchEventsByCategoryId(pageNumber - 1, pageSize);
     }
 
     const nextOnClick = (e) => {
         e.preventDefault();
         setResult(null);
         setPageNumber(pageNumber + 1);
-        fetchEvents(pageNumber + 1, pageSize);
+        fetchEventsByCategoryId(pageNumber + 1, pageSize);
+        
     }
 
     if (result == null || categories == null) {
@@ -95,60 +85,12 @@ const EventPage = () => {
                     </div>
                     <ul className="flex flex-row gap-10 overflow-x-auto no-scrollbar">
                         <li
-                            className={`${
-                                eventType === "all" &&
-                                "text-primary border-b-2 border-primary"
-                            } font-semibold pb-4 cursor-pointer text-gray-600`}
-                            onClick={() => {
-                                // setResult(null);
-                                // fetchEvents();
-                                setEventType("all");
-                            }}
+                            className={
+
+                                "text-primary border-b-2 border-primary"}
                         >
-                            All
+                            <strong>{categoryName ? categoryName : "..."}</strong>
                         </li>
-                        {/* {categories["data"].map((input) => {
-                            return (
-                                <li
-                                    key={input.categoryId}
-                                    className={`${
-                                        eventType === input.categoryId &&
-                                        "text-primary border-b-2 border-primary"
-                                    } font-semibold pb-4 cursor-pointer text-gray-600`}
-                                    onClick={() => {
-                                        // setResult(null);
-                                        // fetchEventsByCategoryId(
-                                        //     input.categoryId
-                                        // );
-                                        setEventType(input.categoryId);
-                                    }}
-                                >
-                                    {input.name}
-                                </li>
-                            );
-                        })} */}
-                        {categories["data"].map((input) => {
-                            return (
-                                
-                                <li
-                                    key={input.categoryId}
-                                    className={`${
-                                        (eventType === input.categoryId || categoryId === input.categoryId) &&
-                                        "text-primary border-b-2 border-primary"
-                                    } font-semibold pb-4 cursor-pointer text-gray-600`}
-                                    onClick={() => {
-                                        // setResult(null);
-                                        // fetchEventsByCategoryId(
-                                        //     input.categoryId
-                                        // );
-                                        setEventType(input.categoryId);
-                                    }}
-                                >
-                                    {input.name}
-                                </li>
-                            
-                            );
-                        })}
                     </ul>
                     {/* Event Presentation Part */}
                     <Event data={result["data"]} />
@@ -201,4 +143,4 @@ const EventPage = () => {
     );
 };
 
-export default EventPage;
+export default EventCategoryPage;
