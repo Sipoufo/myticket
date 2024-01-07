@@ -18,6 +18,7 @@ const EventPage = () => {
     const [pageNumber, setPageNumber] = useState(1);
     const pageSize = 20;
 
+
     const fetchEvents = async (pageNumber, pageSize) => {
         const data = await FetchAllEvents(pageNumber, pageSize);
             setResult(data["data"]);
@@ -128,7 +129,7 @@ const EventPage = () => {
                         })} */}
                         {categories["data"].map((input) => {
                             return (
-                                <Link to={`/events/category/${input.categoryId}`}>
+                                
                                 <li
                                     key={input.categoryId}
                                     className={`${
@@ -145,7 +146,7 @@ const EventPage = () => {
                                 >
                                     {input.name}
                                 </li>
-                            </Link>
+                            
                             );
                         })}
                     </ul>
