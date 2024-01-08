@@ -6,32 +6,63 @@ import { CreateOrganizerRequest } from "../services/organizerRequestService";
 
 const ORModal = ({showORModal, setShowORModal}) => {
 
-    const [frontImage, setFrontImage] = useState(null);
-    const [backImage, setBackImage] = useState(null);
+    const [frontImage, setFrontImage] = useState('');
+    const [backImage, setBackImage] = useState('');
     const [loading, setLoading] = useState(false);
     const [isError, setIsError] = useState(false);
+    const [isAlertActive, setIsAlertActive] = useState(false);
     const [alertTitle, SetAlertTitle] = useState("Error");
     const [alertMessage, SetAlertMessage] = useState("");
 
 
-    const verifyImageSize = (imageFile) =>{
+    const verifyImage = (imageFile) =>{
+
+        if (!['image/png', 'image/jpeg', 'image/jpg'].includes(imageFile.type)) {
+            SetAlertTitle("Error");
+            SetAlertMessage("Invalid file type! Please select a PNG, JPG or JPEG file.");
+            setIsError(true);
+            setIsAlertActive(true);
+            return true;
+          }
+
         if (imageFile.size > 5000000){
-            SetAlertTitle("Warning");
+            SetAlertTitle("Error");
             SetAlertMessage("File is too big! Please select a file smaller than 5MB.");
             setIsError(true);
+            setIsAlertActive(true);
             return true;
-    }
+        }
+        SetAlertTitle("Success");
+        SetAlertMessage("You successfully added an image");
+        setIsError(false);
+        setIsAlertActive(true);
         return false;
     }
 
     const handleFileFrontImage = (event) => {
-        if (verifyImageSize(event.target.files[0]))
+        if(!event.target.files[0]){
+            SetAlertTitle("Error");
+            SetAlertMessage("Please Select an image for the Front of the Card");
+            setIsError(true);
+            setIsAlertActive(true);
+            setFrontImage('');
+            return;
+        }
+        if (verifyImage(event.target.files[0]))
             return;
         setFrontImage(event.target.files[0]);
       };
       
       const handleFileBackImage = (event) => {
-        if (verifyImageSize(event.target.files[0]))
+        if(!event.target.files[0]){
+            SetAlertTitle("Error");
+            SetAlertMessage("Please Select an image for the Back of the Card");
+            setIsError(true);
+            setIsAlertActive(true);
+            setBackImage('');
+            return;
+        }
+        if (verifyImage(event.target.files[0]))
             return;
         setBackImage(event.target.files[0]);
       };
@@ -47,11 +78,16 @@ const ORModal = ({showORModal, setShowORModal}) => {
         console.log(res);
         if (!res.isError) {
             window.location.replace("/");
+            SetAlertTitle("Success");
+            SetAlertMessage("You Applied successfully to your request");
+            setIsError(false);
+            setIsAlertActive(true);
+        }else{
+            SetAlertTitle("Error");
+            SetAlertMessage(res.message);
+            setIsError(true);
+            setIsAlertActive(true); 
         }
-        setResult(res);
-        setIsError(res.isError);
-        SetAlertTitle("Error");
-        SetAlertMessage(res.message);
         setLoading(false);
     }
 
@@ -84,39 +120,22 @@ const ORModal = ({showORModal, setShowORModal}) => {
                     <div className="flex items-center justify-center w-full">
                         <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                             <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                Face avant
-                                <svg
-                                    className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 20 16"
-                                >
-                                    <path
-                                        stroke="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                                    />
-                                </svg>
-                                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                                    <span className="font-semibold">
-                                        Click to upload
-                                    </span>{" "}
-                                    or drag and drop
-                                </p>
-                                <p className="text-xs text-gray-500 dark:text-gray-400">
-                                    PNG, JPG or JPEG (MAX 5Mb)
-                                </p>
+                            Front of the Card
+                            {/* ... */}
+                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                {frontImage ? `Selected file: ${frontImage.name}` : 'Click to upload or drag and drop'}
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                                PNG, JPG or JPEG (MAX 5Mb)
+                            </p>
                             </div>
                             <input
-                                id="dropzone-file"
-                                type="file"
-                                className="hidden"
-                                onChange={handleFileFrontImage}
-                                accept=".png, .jpg, .jpeg"
-                                required
+                            id="dropzone-file-1"
+                            type="file"
+                            className="hidden"
+                            onChange={handleFileFrontImage}
+                            accept=".png, .jpg, .jpeg"
+                            required
                             />
                         </label>
                     </div>
@@ -124,43 +143,24 @@ const ORModal = ({showORModal, setShowORModal}) => {
                     <div className="flex items-center justify-center w-full">
                         <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                             <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                Face arriere
-                                <svg
-                                    className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 20 16"
-                                >
-                                    <path
-                                        stroke="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                                    />
-                                </svg>
-                                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                                    <span className="font-semibold">
-                                        Click to upload
-                                    </span>{" "}
-                                    or drag and drop
-                                </p>
-                                <p className="text-xs text-gray-500 dark:text-gray-400">
-                                    PNG, JPG or JPEG (MAX 5Mb)
-                                </p>
+                            Back of the Card
+                            {/* ... */}
+                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                {backImage ? `Selected file: ${backImage.name}` : 'Click to upload or drag and drop'}
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                                PNG, JPG or JPEG (MAX 5Mb)
+                            </p>
                             </div>
                             <input
-                                id="dropzone-file"
-                                type="file"
-                                className="hidden"
-                                onChange={handleFileBackImage}
-                                accept=".png, .jpg, .jpeg"
-                                required
+                            id="dropzone-file-2"
+                            type="file"
+                            className="hidden"
+                            onChange={handleFileBackImage}
+                            accept=".png, .jpg, .jpeg"
+                            required
                             />
                         </label>
-
-                        
                     </div>
                     <button
                         type="submit"
@@ -176,10 +176,11 @@ const ORModal = ({showORModal, setShowORModal}) => {
 
 
             <AlertMessage
-                isActive={isError}
+                isActive={isAlertActive}
                 title={alertTitle}
                 message={alertMessage}
-                setIsActive={setIsError}
+                setIsActive={setIsAlertActive}
+                isError={isError}
             />
         </div>
             </div>
