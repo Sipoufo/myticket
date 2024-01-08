@@ -34,7 +34,6 @@ const Navbar = ({ token }) => {
     };
 
     const fetchOrganizerStatus = async () => {
-        const res = FetUserInfoByToken();
         const data = await FetUserInfoByToken();
         if (!data.isError) {
             setIsOrganizer(data["data"]["_organizer"]);
@@ -180,7 +179,7 @@ const Navbar = ({ token }) => {
                                     className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold"
                                     onClick={() => {
                                         // if(!true){
-                                        //     setShowORModal(true);
+                                            setShowORModal(true);
                                         // }else{
                                         //     setMesModal(true);
                                         // }
