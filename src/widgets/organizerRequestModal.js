@@ -8,31 +8,56 @@ const ORModal = ({showORModal, setShowORModal}) => {
 
     const [frontImage, setFrontImage] = useState(null);
     const [backImage, setBackImage] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [isError, setIsError] = useState(false);
+
+
+    const verifyImageSize = (imageFile) =>{
+        if (imageFile.size > 5000000){
+            alert("File is too big! Please select a file smaller than 5MB.");
+            return true;
+    }
+        return false;
+    }
 
     const handleFileFrontImage = (event) => {
+        if (verifyImageSize(event.target.files[0]))
+            return;
         setFrontImage(event.target.files[0]);
       };
       
       const handleFileBackImage = (event) => {
+        if (verifyImageSize(event.target.files[0]))
+            return;
         setBackImage(event.target.files[0]);
       };
 
-      const handleSubmit = async (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
       
         const formData = new FormData();
         formData.append('cni_face', frontImage);
         formData.append('cni_back', backImage);
-      
-        // Ensuite, vous pouvez envoyer formData à votre serveur
-        const response = await fetch('/your-api-endpoint', {
-          method: 'POST',
-          body: formData,
-        });
-      
-        // Gérer la réponse...
-      };
 
+        setLoading(true);
+        return CreateOrganizerRequest(formData)
+        .then((formData) => {
+            if (!formData.isError) {
+                setShowOAuthModal(false);
+                formData.location.replace("/");
+            }
+            setResult(data);
+            setIsError(data.isError);
+            setLoading(false);
+        })
+        .catch((e) => {
+            setLoading(false);
+        });
+      };
+    
+    if (loading) {
+        return <Loading />;
+    } else{
     return(
         <div className="fixed z-50 w-screen h-screen top-0 overflow-hidden  text-white">
             <div className="relative w-full h-full flex justify-center items-center overflow-y-auto">
@@ -90,6 +115,7 @@ const ORModal = ({showORModal, setShowORModal}) => {
                                 type="file"
                                 className="hidden"
                                 onChange={handleFileFrontImage}
+                                accept=".png, .jpg, .jpeg"
                                 required
                             />
                         </label>
@@ -129,6 +155,7 @@ const ORModal = ({showORModal, setShowORModal}) => {
                                 type="file"
                                 className="hidden"
                                 onChange={handleFileBackImage}
+                                accept=".png, .jpg, .jpeg"
                                 required
                             />
                         </label>
@@ -159,6 +186,7 @@ const ORModal = ({showORModal, setShowORModal}) => {
         </div>
 
     );
+    }
 };
 
 export default ORModal;
