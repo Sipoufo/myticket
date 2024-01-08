@@ -81,3 +81,6 @@ export const Ticket_type_endPoint = URL + "/api/ticketType";
 
 //Ticket Buy 
 export const TicketBuy_endPoint = (ticketId, currentPage, itemsPerPage) => URL + "/api/ticketBuy/ticket/"+ ticketId+ "/" + currentPage + "/" + itemsPerPage;
+
+//Organizer Request end Point
+export const OrganizerRequest_endPoint = URL + "/api/requestOrganizer";
