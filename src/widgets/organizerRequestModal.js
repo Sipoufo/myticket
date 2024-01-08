@@ -10,11 +10,15 @@ const ORModal = ({showORModal, setShowORModal}) => {
     const [backImage, setBackImage] = useState(null);
     const [loading, setLoading] = useState(false);
     const [isError, setIsError] = useState(false);
+    const [alertTitle, SetAlertTitle] = useState("Error");
+    const [alertMessage, SetAlertMessage] = useState("");
 
 
     const verifyImageSize = (imageFile) =>{
         if (imageFile.size > 5000000){
-            alert("File is too big! Please select a file smaller than 5MB.");
+            SetAlertTitle("Warning");
+            SetAlertMessage("File is too big! Please select a file smaller than 5MB.");
+            setIsError(true);
             return true;
     }
         return false;
@@ -38,23 +42,19 @@ const ORModal = ({showORModal, setShowORModal}) => {
         const formData = new FormData();
         formData.append('cni_face', frontImage);
         formData.append('cni_back', backImage);
-
         setLoading(true);
-        return CreateOrganizerRequest(formData)
-        .then((formData) => {
-            if (!formData.isError) {
-                setShowOAuthModal(false);
-                formData.location.replace("/");
-            }
-            setResult(data);
-            setIsError(data.isError);
-            setLoading(false);
-        })
-        .catch((e) => {
-            setLoading(false);
-        });
-      };
-    
+        const res = await CreateOrganizerRequest(formData);
+        console.log(res);
+        if (!res.isError) {
+            window.location.replace("/");
+        }
+        setResult(res);
+        setIsError(res.isError);
+        SetAlertTitle("Error");
+        SetAlertMessage(res.message);
+        setLoading(false);
+    }
+
     if (loading) {
         return <Loading />;
     } else{
@@ -175,12 +175,12 @@ const ORModal = ({showORModal, setShowORModal}) => {
 
 
 
-            {/* <AlertMessage
-                    isActive={true}
-                    title={"Error"}
-                    message={"Congratulations"}
-                    setIsActive={true}
-            /> */}
+            <AlertMessage
+                isActive={isError}
+                title={alertTitle}
+                message={alertMessage}
+                setIsActive={setIsError}
+            />
         </div>
             </div>
         </div>
