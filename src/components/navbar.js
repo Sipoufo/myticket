@@ -7,7 +7,7 @@ import { GetEmail, GetToken, GetUserName, RemoveItems } from "../services/token"
 import { FetchAllCategories } from "../services/categoryService";
 import Loading from "./loading";
 import AlertMessage from "../widgets/alert";
-import { FetUserInfoByToken } from "../services/userService";
+import { FetUserInfoByToken, FetchUserTypeByToken } from "../services/userService";
 import ORModal from "../widgets/organizerRequestModal";
 import MessageModal from "../widgets/messageModal";
 
@@ -24,6 +24,7 @@ const Navbar = ({ token }) => {
     const [isError, setIsError] = useState(false);
     const [isActive, setIsActive] = useState(false);
     const [isOrganizer, setIsOrganizer] = useState(false);
+    const [organizerRStatus, setOrganizerRStatus] = useState(false);
     const [mesModal, setMesModal] = useState(false);
 
     const fetchCategories = () => {
@@ -40,10 +41,19 @@ const Navbar = ({ token }) => {
         }
     }
 
+    const fetchOrganizerRequestStatus = async () => {
+        const data = await FetchUserTypeByToken();
+        if (!data.isError) {
+            // setIsOrganizer(data["data"]["_organizer"]);
+            data.data === "NOT_ORGANISER" ? setOrganizerRStatus(true) : setOrganizerRStatus(false);
+        }
+    }
+
     useEffect(() => {
         if (GetToken() != null) {
             setIsSignIn(true);
             fetchOrganizerStatus();
+            fetchOrganizerRequestStatus();
         }
 
         if (token) {
@@ -178,11 +188,11 @@ const Navbar = ({ token }) => {
                             <button
                                     className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold"
                                     onClick={() => {
-                                        // if(!true){
+                                        if(organizerRStatus){
                                             setShowORModal(true);
-                                        // }else{
-                                        //     setMesModal(true);
-                                        // }
+                                        }else{
+                                            setMesModal(true);
+                                        }
                                         
                                     }}
                                 >
