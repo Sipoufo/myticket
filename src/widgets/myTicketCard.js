@@ -17,9 +17,13 @@ const MyTicketCard = ({ eventId, image, title, time, totalSales, ticketsSold }) 
                 <h2 className="text-xs px-4">{time}</h2>
                 <h2 className="text-xs px-4">Price: {ticketsSold}</h2>
                 <div className="flex flex-row border-y text-gray-400">
-                    <Link to={`/events/${eventId}`} className="grow p-4 hover:text-primary hover:font-semibold text-center">
+                    <Link to={`/events/${eventId}`} className="grow p-4 hover:text-white hover:font-semibold hover:bg-primary text-center">
                         View
                     </Link>
+                    <hr className="border-l h-full" />
+                    <button className="grow p-4 hover:bg-third hover:text-white hover:font-semibold">
+                        Print
+                    </button>
                     <hr className="border-l h-full" />
                     <button className="grow p-4 hover:bg-red-600 hover:text-white hover:font-semibold">
                         Remove
