@@ -81,8 +81,10 @@ const EventPresentation = () => {
     };
 
     const fetchTickets = async (eventId) => {
+        if (GetToken() !== null) {
             const data = await FetchAllTicketByEventId(eventId);
             setTickets(data.data["data"]);
+        }
     };
 
     useEffect(() => {
