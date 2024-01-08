@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import Loading from "../components/loading";
 import AlertMessage from "./alert";
+import { CreateOrganizerRequest } from "../services/organizerRequestService";
 
 const ORModal = ({showORModal, setShowORModal}) => {
 
@@ -20,8 +21,8 @@ const ORModal = ({showORModal, setShowORModal}) => {
         event.preventDefault();
       
         const formData = new FormData();
-        formData.append('frontImage', frontImage);
-        formData.append('backImage', backImage);
+        formData.append('cni_face', frontImage);
+        formData.append('cni_back', backImage);
       
         // Ensuite, vous pouvez envoyer formData à votre serveur
         const response = await fetch('/your-api-endpoint', {
@@ -89,6 +90,7 @@ const ORModal = ({showORModal, setShowORModal}) => {
                                 type="file"
                                 className="hidden"
                                 onChange={handleFileFrontImage}
+                                required
                             />
                         </label>
                     </div>
@@ -127,6 +129,7 @@ const ORModal = ({showORModal, setShowORModal}) => {
                                 type="file"
                                 className="hidden"
                                 onChange={handleFileBackImage}
+                                required
                             />
                         </label>
 
