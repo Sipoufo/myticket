@@ -11,25 +11,26 @@ export const CreateOrganizerRequest = async () => {
         window.location.replace("/");
     }
     return axios
-        .get(
-            OrganizerRequest_endPoint(),
+        .post(
+            OrganizerRequest_endPoint(), data,
             {
                 headers,
             }
         )
         .then((response) => {
-            console.log(response);
             return {
                 isError: false,
-                message: null,
+                message: response.data["message"],
                 data: response.data,
             };
         })
         .catch((e) => {
             if (!e.response) {
+                RemoveItems();
                 window.location.replace("/error");
             }
             if (e.response["status"] !== 400) {
+                RemoveItems();
                 window.location.replace("/error");
             } else {
                 return {
