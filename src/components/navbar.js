@@ -179,11 +179,11 @@ const Navbar = ({ token }) => {
                             <button
                                     className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold"
                                     onClick={() => {
-                                        if(!true){
-                                            setShowORModal(true);
-                                        }else{
-                                            setMesModal(true);
-                                        }
+                                        // if(!true){
+                                        //     setShowORModal(true);
+                                        // }else{
+                                        //     setMesModal(true);
+                                        // }
                                         
                                     }}
                                 >
