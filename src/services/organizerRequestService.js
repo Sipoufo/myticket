@@ -5,7 +5,7 @@ import { GetToken, RemoveItems } from "./token";
 
 const headers = { Authorization: "Bearer " + GetToken() };
 
-export const CreateOrganizerRequest = async () => {
+export const CreateOrganizerRequest = async (data) => {
 
     if (!VerifyToken()) {
         window.location.replace("/");
