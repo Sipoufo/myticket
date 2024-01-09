@@ -49,10 +49,6 @@ const Navbar = ({ token }) => {
         }
     }
 
-    // const handleOrganizerRequest = () =>{
-
-    // }
-
     useEffect(() => {
         if (GetToken() != null) {
             setIsSignIn(true);
