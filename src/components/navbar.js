@@ -44,7 +44,6 @@ const Navbar = ({ token }) => {
     const fetchOrganizerRequestStatus = async () => {
         const data = await FetchUserTypeByToken();
         if (!data.isError) {
-            console.log(data["data"]);
             data.data === "NOT_ORGANISER" ? setOrganizerRStatus(true) : setOrganizerRStatus(false);
         }
     }
