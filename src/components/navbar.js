@@ -83,11 +83,12 @@ const Navbar = ({ token }) => {
                 <div className="flex flex-row justify-between items-center px-10 md:px-20 lg:px-32 py-8 text-white">
                     {/* Logo */}
                     {/* <img src={process.env.PUBLIC_URL + "/logo.png"} className="w-20 object-cover" alt="bg_image_home"/> */}
-                    <img
+                    {/* <img
                         src={process.env.PUBLIC_URL + "/assets/logos/logo.png"}
                         className="w-2/12 bg-white object-contain"
                         alt="logo"
-                    />
+                    /> */}
+                    <div className="w-2/12 bg-white object-contain"></div>
                     <ul
                         className={`${
                             isSignIn ? "hidden" : "hidden md:flex"
@@ -139,7 +140,7 @@ const Navbar = ({ token }) => {
                         <div
                             className={`${
                                 !seeConnectModal && "hidden"
-                            } z-40 absolute flex flex-col w-80 h-[30rem] bg-white top-0 bottom-0 mt-14 text-black rounded-md shadow-2xl`}
+                            } z-40 absolute flex flex-col w-80 ${isOrganizer ? "h-[28rem]" : "h-[25rem]"} bg-white top-0 bottom-0 mt-14 text-black rounded-md shadow-2xl`}
                         >
                             <div className="flex flex-row gap-4 px-6 py-4 items-center">
                                 <div className="h-14 w-14 rounded-full bg-[#3B3A62] flex justify-center items-center font-semibold text-white text-lg">
@@ -163,7 +164,8 @@ const Navbar = ({ token }) => {
                                 >
                                 Home
                             </Link>
-                            <button
+                            {isOrganizer && (
+                                <button
                                 className="flex flex-row bg-primary text-white px-6 py-4 justify-between"
                                 onClick={() => {
                                     setSeeModal(false);
@@ -174,6 +176,8 @@ const Navbar = ({ token }) => {
                                 <label>Create event</label>
                                 <FaPlus />
                             </button>
+                            )}
+                            
                             <Link
                                 to="/mytickets"
                                 className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold"
@@ -296,6 +300,7 @@ const Navbar = ({ token }) => {
                         >
                             Home
                         </Link>
+                    {isOrganizer &&(
                     <li>
                         <button
                             className={`${
@@ -310,6 +315,7 @@ const Navbar = ({ token }) => {
                             Create event
                         </button>
                     </li>
+                    )}
                     <li>
                         <Link
                             to="/mytickets"
