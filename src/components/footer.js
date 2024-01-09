@@ -7,7 +7,7 @@ const Footer = () => {
         <div className="flex justify-center bg-third py-10 text-white pb-6">
             <div className="relative flex flex-col md:flex-row gap-6 px-4 w-full md:w-11/12 max-w-screen-xl justify-between">
                 <div className="flex flex-col justify-between gap-4">
-                    <h1 href="/" className="font-semibold text-3xl text-white">
+                    <h1 href="/" className="font-semibold text-2xl text-white">
                         MyTicket
                     </h1>
                     <div className="flex flex-col gap-2">
@@ -111,7 +111,7 @@ const Footer = () => {
                     {/* Follow Us */}
                     <ul className="flex flex-col gap-3">
                         <li className="mb-2">
-                            <h1 className="text-base font-semibold">Go To</h1>
+                            <h1 className=" font-semibold text-2xl">Go To</h1>
                         </li>
                         <li>
                             <a href="/" className="flex gap-1 items-center">
