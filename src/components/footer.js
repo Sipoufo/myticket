@@ -7,7 +7,7 @@ const Footer = () => {
             <div className="relative flex flex-col md:flex-row gap-6 px-4 w-full md:w-11/12 max-w-screen-xl justify-between">
                 <div className="flex flex-col justify-between gap-4">
                     <h1 href="/" className="font-semibold text-3xl text-white">
-                        MyTicket
+                        CHAPCHAPTickes
                     </h1>
                     <div className="flex flex-col gap-2">
                         <p>Built by blackCode 😊</p>
