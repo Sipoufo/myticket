@@ -44,10 +44,14 @@ const Navbar = ({ token }) => {
     const fetchOrganizerRequestStatus = async () => {
         const data = await FetchUserTypeByToken();
         if (!data.isError) {
-            // setIsOrganizer(data["data"]["_organizer"]);
+            console.log(data["data"]);
             data.data === "NOT_ORGANISER" ? setOrganizerRStatus(true) : setOrganizerRStatus(false);
         }
     }
+
+    // const handleOrganizerRequest = () =>{
+
+    // }
 
     useEffect(() => {
         if (GetToken() != null) {
