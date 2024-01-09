@@ -7,6 +7,9 @@ import { GetEmail, GetToken, GetUserName, RemoveItems } from "../services/token"
 import { FetchAllCategories } from "../services/categoryService";
 import Loading from "./loading";
 import AlertMessage from "../widgets/alert";
+import { FetUserInfoByToken, FetchUserTypeByToken } from "../services/userService";
+import ORModal from "../widgets/organizerRequestModal";
+import MessageModal from "../widgets/messageModal";
 
 const Navbar = ({ token }) => {
     const [seeModal, setSeeModal] = useState(false);
@@ -15,10 +18,14 @@ const Navbar = ({ token }) => {
     const [modalService, setModalService] = useState("signIn");
     const [isSignIn, setIsSignIn] = useState(false);
     const [categories, setCategories] = useState(null);
+    const [showORModal, setShowORModal] = useState(false);
 
     const [message, setMessage] = useState("");
     const [isError, setIsError] = useState(false);
     const [isActive, setIsActive] = useState(false);
+    const [isOrganizer, setIsOrganizer] = useState(false);
+    const [organizerRStatus, setOrganizerRStatus] = useState(false);
+    const [mesModal, setMesModal] = useState(false);
 
     const fetchCategories = () => {
         const res = FetchAllCategories();
@@ -27,9 +34,26 @@ const Navbar = ({ token }) => {
         }).catch((e) => {});
     };
 
+    const fetchOrganizerStatus = async () => {
+        const data = await FetUserInfoByToken();
+        if (!data.isError) {
+            setIsOrganizer(data["data"]["_organizer"]);
+        }
+    }
+
+    const fetchOrganizerRequestStatus = async () => {
+        const data = await FetchUserTypeByToken();
+        if (!data.isError) {
+            console.log(data["data"]);
+            data.data === "NOT_ORGANISER" ? setOrganizerRStatus(true) : setOrganizerRStatus(false);
+        }
+    }
+
     useEffect(() => {
         if (GetToken() != null) {
             setIsSignIn(true);
+            fetchOrganizerStatus();
+            fetchOrganizerRequestStatus();
         }
 
         if (token) {
@@ -115,7 +139,7 @@ const Navbar = ({ token }) => {
                         <div
                             className={`${
                                 !seeConnectModal && "hidden"
-                            } z-40 absolute flex flex-col w-80 h-[25rem] bg-white top-0 bottom-0 mt-14 text-black rounded-md shadow-2xl`}
+                            } z-40 absolute flex flex-col w-80 h-[30rem] bg-white top-0 bottom-0 mt-14 text-black rounded-md shadow-2xl`}
                         >
                             <div className="flex flex-row gap-4 px-6 py-4 items-center">
                                 <div className="h-14 w-14 rounded-full bg-[#3B3A62] flex justify-center items-center font-semibold text-white text-lg">
@@ -130,6 +154,15 @@ const Navbar = ({ token }) => {
                                     </p>
                                 </div>
                             </div>
+                            <Link
+                                to='/'
+                                    className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold"
+                                    onClick={() => {
+                                        setSeeModal(false);
+                                    }}
+                                >
+                                Home
+                            </Link>
                             <button
                                 className="flex flex-row bg-primary text-white px-6 py-4 justify-between"
                                 onClick={() => {
@@ -153,12 +186,29 @@ const Navbar = ({ token }) => {
                             >
                                 My Events
                             </Link>
+                            {isOrganizer ? 
                             <Link
-                                to="/organizerprofile"
-                                className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold"
+                            to="/organizerprofile"
+                            className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold"
                             >
                                 Organizer Profile
                             </Link>
+                            :
+                            <button
+                                    className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold"
+                                    onClick={() => {
+                                        if(organizerRStatus){
+                                            setShowORModal(true);
+                                        }else{
+                                            setMesModal(true);
+                                        }
+                                        
+                                    }}
+                                >
+                                Become an Organizer
+                            </button>
+                            }
+                            
                             <Link
                                 to="/myaccount"
                                 className="flex flex-row px-6 py-4 justify-between hover:bg-slate-200 hover:text-primary hover:font-semibold"
@@ -193,7 +243,11 @@ const Navbar = ({ token }) => {
                     !seeModal && "hidden"
                 } md:hidden fixed z-50 top-0 left-0 flex justify-center items-center w-screen h-screen overflow-hidden bg-white text-primary`}
             >
-                <ul className="flex flex-col w-10/12 text-center text-lg font-semibold gap-6">
+                <ul 
+                    className={`${
+                        isSignIn ? "hidden" : "flex flex-col w-10/12 text-center text-lg font-semibold gap-6"
+                    }`}
+                    >
                     <li className="flex justify-end">
                         <button onClick={() => setSeeModal(false)}>
                             <IoMdClose className="text-2xl" />
@@ -223,9 +277,30 @@ const Navbar = ({ token }) => {
                             SignUp
                         </button>
                     </li>
+                    </ul>
+                    <ul
+                        className={`${
+                            !isSignIn ? "hidden" : "flex flex-col w-10/12 text-center text-lg font-semibold gap-6"
+                        }`}>
+                    <li className="flex justify-end">
+                        <button onClick={() => setSeeModal(false)}>
+                            <IoMdClose className="text-2xl" />
+                        </button>
+                    </li>
+                        <Link
+                        to='/'
+                            className="w-full hover:underline underline-offset-4"
+                            onClick={() => {
+                                setSeeModal(false);
+                            }}
+                        >
+                            Home
+                        </Link>
                     <li>
                         <button
-                            className="w-full hover:underline underline-offset-4"
+                            className={`${
+                                !isSignIn ? "hidden" : "w-full hover:underline underline-offset-4"
+                            }`}
                             onClick={() => {
                                 setSeeModal(false);
                                 setModalService("createEvent");
@@ -236,44 +311,57 @@ const Navbar = ({ token }) => {
                         </button>
                     </li>
                     <li>
-                        <button
+                        <Link
+                            to="/mytickets"
                             className="w-full hover:underline underline-offset-4"
-                            onClick={() => {
-                                setSeeModal(false);
-                            }}
+                            onClick={()=>{setSeeModal(false);}}
                         >
                             My Ticket
-                        </button>
+                        </Link>
                     </li>
                     <li>
-                        <button
+                        <Link
+                            to="/myevents"
                             className="w-full hover:underline underline-offset-4"
-                            onClick={() => {
-                                setSeeModal(false);
-                            }}
-                        >
+                            onClick={()=>{setSeeModal(false);}}
+                            >
                             My Events
-                        </button>
+                        </Link>
                     </li>
                     <li>
-                        <button
-                            className="w-full hover:underline underline-offset-4"
-                            onClick={() => {
-                                setSeeModal(false);
-                            }}
-                        >
-                            Organizer Profile
-                        </button>
+                        {isOrganizer ? 
+                                <Link
+                                to="/organizerprofile"
+                                className="w-full hover:underline underline-offset-4"
+                                onClick={()=>{setSeeModal(false);}}
+                                >
+                                    Organizer Profile
+                                </Link>
+                                :
+                                <button
+                                    className="w-full hover:underline underline-offset-4"
+                                        onClick={() => {
+                                            if(organizerRStatus){
+                                                setShowORModal(true);
+                                            }else{
+                                                setMesModal(true);
+                                            }
+                                            setSeeModal(false);
+                                        }}
+                                    >
+                                    Become an Organizer
+                                </button>
+                        }
                     </li>
                     <li>
-                        <button
+                        <Link
+                            to="/myaccount"
                             className="w-full hover:underline underline-offset-4"
-                            onClick={() => {
-                                setSeeModal(false);
-                            }}
-                        >
+                            onClick={()=>{setSeeModal(false);}}
+                            >
                             My Account
-                        </button>
+                        </Link>
+
                     </li>
                     <li>
                         <button
@@ -311,6 +399,17 @@ const Navbar = ({ token }) => {
                 setIsError={setIsError}
                 setIsActive={setIsActive}
             />
+
+            {showORModal && (<ORModal
+                showORModal={showORModal}
+                setShowORModal={setShowORModal}
+            />
+            )}
+
+            {mesModal && (
+                <MessageModal 
+                setShowModal={setMesModal}/>
+            )}
         </>
     );
 };
