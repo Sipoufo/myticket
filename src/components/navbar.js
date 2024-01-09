@@ -83,11 +83,14 @@ const Navbar = ({ token }) => {
                 <div className="flex flex-row justify-between items-center px-10 md:px-20 lg:px-32 py-8 text-white">
                     {/* Logo */}
                     {/* <img src={process.env.PUBLIC_URL + "/logo.png"} className="w-20 object-cover" alt="bg_image_home"/> */}
-                    <img
+                    {/* <img
                         src={process.env.PUBLIC_URL + "/assets/logos/logo.png"}
                         className="w-2/12 bg-white object-contain"
                         alt="logo"
-                    />
+                    /> */}
+                    <h1 href="/" className="font-semibold text-3xl text-white">
+                        CHAPCHAPTickes
+                    </h1>
                     <ul
                         className={`${
                             isSignIn ? "hidden" : "hidden md:flex"
