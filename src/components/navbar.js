@@ -88,7 +88,7 @@ const Navbar = ({ token }) => {
                         alt="logo"
                     /> */}
                     <a href="/" className="font-semibold text-3xl text-white">
-                        CHAPCHAPTickets
+                        ChapChapTickets
                     </a>
                     <ul
                         className={`${
