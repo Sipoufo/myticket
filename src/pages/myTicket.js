@@ -4,6 +4,7 @@ import Footer from "../components/footer";
 import MyTicketCard from "../widgets/myTicketCard";
 import { MyTicketsService } from "../services/ticketService";
 import Loading from "../components/loading";
+import { IoTicketOutline } from "react-icons/io5";
 
 const MyTicket = () => {
     // const [eventAction, setEventAction] = useState("actual");
@@ -91,12 +92,26 @@ const MyTicket = () => {
 
             {/* Events */}
             <div className="flex justify-center">
-                <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 w-full md:w-10/12 max-w-screen-xl">
-                    {myTickets.map((myTicket) => {
-                        console.log("myTicket");
-                        console.log(myTicket);
-                        return (
-                            <MyTicketCard
+                {
+                    myTickets.length === 0 ? (
+                        <div className="flex items-center justify-center">
+                        <div className="h-96 flex flex-col gap-6 px-4 w-full md:w-10/12 max-w-screen-xl items-center justify-center">
+                            <IoTicketOutline className="text-[10rem] text-gray-400" />
+                            <p className="font-medium text-gray-600 text-center">
+                                Oops, no tickets here!
+                            </p>
+                            <p className="text-2rem text-gray-300 text-center">
+                            You have no tickets purchased.
+                            </p>
+                        </div>
+                    </div>
+                    ) : (
+                        <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 w-full md:w-10/12 max-w-screen-xl">
+                            {myTickets.map((myTicket) => {
+                            console.log("myTicket");
+                            console.log(myTicket);
+                            return (
+                                <MyTicketCard
                                 eventId={myTicket["ticket"]["event"]["eventId"]}
                                 image={"/assets/images/bg3.jpg"}
                                 title={myTicket["ticket"]["name"]}
@@ -105,10 +120,12 @@ const MyTicket = () => {
                                 ).toDateString()}
                                 ticketsSold={myTicket["ticket"]["price"]}
                                 totalSales={myTicket["ticket"]["price"]}
-                            />
-                        );
-                    })}
-                </div>
+                                />
+                            );
+                            })}
+                        </div>
+                    )
+                    }
             </div>
 
             {/* Footer */}

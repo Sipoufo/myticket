@@ -1,22 +1,23 @@
 import React from "react";
-import { FaSquareFacebook, FaSquareTwitter, FaSquareYoutube, FaSquarePinterest, FaInstagram } from "react-icons/fa6";
+import { FaTicket, FaEmpire, FaUser } from "react-icons/fa6";
+import { IoMdHome } from "react-icons/io";
 
 const Footer = () => {
     return (
         <div className="flex justify-center bg-third py-10 text-white pb-6">
             <div className="relative flex flex-col md:flex-row gap-6 px-4 w-full md:w-11/12 max-w-screen-xl justify-between">
                 <div className="flex flex-col justify-between gap-4">
-                    <h1 href="/" className="font-semibold text-3xl text-white">
-                        CHAPCHAPTickes
+                    <h1 href="/" className="font-semibold text-2xl text-white">
+                        CHAPCHAPTickets
                     </h1>
                     <div className="flex flex-col gap-2">
                         <p>Built by blackCode 😊</p>
                         <p>© 2023 Zeroqode. All rights reserved.</p>
                     </div>
                 </div>
-                <div className="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-32">
+                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-1 gap-10 md:gap-32">
                     {/* Company */}
-                    <ul className="flex flex-col gap-3">
+                    {/* <ul className="flex flex-col gap-3">
                         <li className="mb-2">
                             <h1 className="text-base font-semibold">Company</h1>
                         </li>
@@ -52,9 +53,9 @@ const Footer = () => {
                                 Blog
                             </a>
                         </li>
-                    </ul>
+                    </ul> */}
                     {/* Explore */}
-                    <ul className="flex flex-col gap-3">
+                    {/* <ul className="flex flex-col gap-3">
                         <li className="mb-2">
                             <h1 className="text-base font-semibold">Explore</h1>
                         </li>
@@ -106,40 +107,34 @@ const Footer = () => {
                                 Arts
                             </a>
                         </li>
-                    </ul>
+                    </ul> */}
                     {/* Follow Us */}
                     <ul className="flex flex-col gap-3">
                         <li className="mb-2">
-                            <h1 className="text-base font-semibold">Follow Us</h1>
+                            <h1 className=" font-semibold text-2xl">Go To</h1>
                         </li>
                         <li>
                             <a href="/" className="flex gap-1 items-center">
-                                <FaSquareFacebook className="text-lg" />
-                                Facebook
+                                <IoMdHome className="text-lg" />
+                                Home
                             </a>
                         </li>
                         <li>
-                            <a href="/" className="flex gap-1 items-center">
-                                <FaSquareTwitter className="text-lg" />
-                                Facebook
+                            <a href="/mytickets" className="flex gap-1 items-center">
+                                <FaTicket className="text-lg" />
+                                My Tickets
                             </a>
                         </li>
                         <li>
-                            <a href="/" className="flex gap-1 items-center">
-                                <FaSquareYoutube className="text-lg" />
-                                Facebook
+                            <a href="/myevents" className="flex gap-1 items-center">
+                                <FaEmpire className="text-lg" />
+                                My Events
                             </a>
                         </li>
                         <li>
-                            <a href="/" className="flex gap-1 items-center">
-                                <FaSquarePinterest className="text-lg" />
-                                Facebook
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/" className="flex gap-1 items-center">
-                                <FaInstagram className="text-lg" />
-                                Facebook
+                            <a href="/myaccount" className="flex gap-1 items-center">
+                                <FaUser className="text-lg" />
+                                My Account
                             </a>
                         </li>
                     </ul>
