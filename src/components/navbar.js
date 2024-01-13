@@ -87,7 +87,9 @@ const Navbar = ({ token }) => {
                         className="w-2/12 bg-white object-contain"
                         alt="logo"
                     /> */}
-                    <div className="w-2/12 bg-white object-contain"></div>
+                    <a href="/" className="font-semibold text-3xl text-white">
+                        CHAPCHAPTickeys
+                    </a>
                     <ul
                         className={`${
                             isSignIn ? "hidden" : "hidden md:flex"
