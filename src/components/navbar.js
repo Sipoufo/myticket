@@ -346,11 +346,11 @@ const Navbar = ({ token }) => {
                                 <button
                                     className="w-full hover:underline underline-offset-4"
                                         onClick={() => {
-                                            if(organizerRStatus){
+                                            // if(organizerRStatus){
                                                 setShowORModal(true);
-                                            }else{
-                                                setMesModal(true);
-                                            }
+                                            // }else{
+                                            //     setMesModal(true);
+                                            // }
                                             setSeeModal(false);
                                         }}
                                     >
