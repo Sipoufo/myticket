@@ -15,7 +15,9 @@ const Event = ({ data }) => {
                         organizer={event.organizer.firstName}
                         time={`${date.getUTCDay()}/${date.getMonth()}/${date.getUTCFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`}
                         isFree={true ? event.price === 0 : false}
-                        place={event.location}
+                        location={event.location}
+                        place={12}
+                        // {event.location}
                         key={event.eventId}
                     />
                 );
