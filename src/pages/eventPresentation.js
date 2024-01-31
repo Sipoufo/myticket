@@ -18,6 +18,8 @@ import { GetToken } from "../services/token";
 import ShareModal from "../components/events/shareModal";
 import { Result } from "postcss";
 
+import ShareModal from "../components/events/shareModal";
+
 const EventPresentation = () => {
     const { eventId, isError, message } = useParams();
     const [seeEditPart, setSeeEditPart] = useState(false);
@@ -31,7 +33,8 @@ const EventPresentation = () => {
     const [showBuyTicket, setShowBuyTicket] = useState(false);
     const [alertMessage, setAlertMessage] = useState(message);
 
-    const [showShare, setShowShare] = useState(true);
+
+    const [showShare, setShowShare] = useState(false);
 
     const FetchEventById = (EventId) => {
         const res = FetchOneEvent(EventId);
@@ -91,6 +94,10 @@ const EventPresentation = () => {
         }
     };
 
+    const currentUrl = window.location.href;
+
+    
+
     useEffect(() => {
         FetchEventById(eventId);
         fetchCategories();
@@ -108,6 +115,7 @@ const EventPresentation = () => {
     }
     return (
         <div className="w-full h-full flex flex-col overflow-y-auto gap-10 pb-40 sm:pb-0">
+            
             {/* Header */}
             <div className="relative min-h-screen md:min-h-[80%] flex text-white">
                 {/* Background image */}
@@ -133,6 +141,7 @@ const EventPresentation = () => {
                     )}
                     
                     <div className="flex justify-center">
+                        
                         <div className="flex flex-col-reverse gap-6 md:gap-0 md:flex-row justify-between items-center text-white px-4 w-full md:w-10/12 max-w-screen-xl">
                             {/* Information */}
                             <div className="flex flex-col gap-10">
@@ -179,14 +188,17 @@ const EventPresentation = () => {
                                 </div>
                             </div>
                             {/* Picture */}
-                            <img
+                            
+                                <img
                                 src={
                                     process.env.PUBLIC_URL +
                                     "/assets/images/bg2.jpg"
                                 }
                                 className="h-4/6 w-8/12 md:w-6/12 object-cover border-4 border-white rounded-sm shadow-2xl"
                                 alt="bg_image_home"
-                            />
+                            /> 
+                            
+                              
                         </div>
                     </div>
                 </div>
@@ -212,6 +224,7 @@ const EventPresentation = () => {
                             </p>
                         </div>
                     </div>
+                    
                     {GetToken() !== null && (
                         <div className="fixed bottom-0 z-10 sm:relative flex flex-grow flex-col items-end justify-start bg-white w-full sm:w-auto h-44 md:h-auto overflow-auto">
                         <div className="flex flex-col gap-4 px-4 py-6 w-full sm:w-80 rounded-lg border">
@@ -344,7 +357,6 @@ const EventPresentation = () => {
                 setIsActive={setActiveAlert}
                 isError={error === "true" || error === true}
             />
-
             {showShare && (
                 <ShareModal
                 title={result["name"]}
