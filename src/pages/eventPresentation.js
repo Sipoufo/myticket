@@ -156,6 +156,9 @@ const EventPresentation = () => {
                                             result["endEvent"]
                                         ).toLocaleTimeString()}
                                     </h3>
+                                    <h2 className="font-semibold mt-2">
+                                        {result["location"]}    
+                                    </h2>
                                 </div>
                                 {/* User */}
                                 <div className="flex flex-row items-center gap-2">
@@ -196,8 +199,8 @@ const EventPresentation = () => {
                             </p>
                         </div>
                         <div className="flex flex-col gap-2">
-                            <h1 className="text-xl font-bold">
-                                Politique de remboursement
+                            <h1 className="text-xl font-normal">
+                                Politique de confidentialité
                             </h1>
                             <p className="text-gray-500">
                                 Communiquer avec l'organisateur pour demander un
