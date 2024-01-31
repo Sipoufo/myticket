@@ -56,7 +56,7 @@ const Header = ({ token }) => {
                                     className="px-2 py-4  text-sm font-normal text-blue-gray-700 outline outline-0 placeholder-shown:border-blue-gray-200 focus:outline-0 disabled:border-0 w-full bg-white"
                                 >
                                     <option>Online</option>
-                                    <option>Present</option>
+                                    <option>Presential</option>
                                 </select>
                             </div>
                             {/* Event type */}

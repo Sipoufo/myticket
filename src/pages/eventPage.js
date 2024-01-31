@@ -90,7 +90,7 @@ const EventPage = () => {
                         <select className="px-4 py-2 text-xl text-primary font-bold bg-white">
                         <option selected disabled value="">Select event type</option>
                         <option value="OnLine">OnLine</option>
-                        <option value="Present">Present</option>
+                        <option value="Presential">Presential</option>
                         </select>
                     </div>
                     <ul className="flex flex-row gap-10 overflow-x-auto no-scrollbar">

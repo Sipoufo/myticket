@@ -15,6 +15,8 @@ import {
     FetchTicketByEventId,
 } from "../services/ticketService";
 import { GetToken } from "../services/token";
+import ShareModal from "../components/events/shareModal";
+import { Result } from "postcss";
 
 const EventPresentation = () => {
     const { eventId, isError, message } = useParams();
@@ -28,6 +30,8 @@ const EventPresentation = () => {
     const [tickets, setTickets] = useState([]);
     const [showBuyTicket, setShowBuyTicket] = useState(false);
     const [alertMessage, setAlertMessage] = useState(message);
+
+    const [showShare, setShowShare] = useState(true);
 
     const FetchEventById = (EventId) => {
         const res = FetchOneEvent(EventId);
@@ -340,6 +344,15 @@ const EventPresentation = () => {
                 setIsActive={setActiveAlert}
                 isError={error === "true" || error === true}
             />
+
+            {showShare && (
+                <ShareModal
+                title={result["name"]}
+                handleClose={setShowShare}
+                />
+            )
+
+            }
         </div>
     );
 };

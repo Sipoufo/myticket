@@ -204,13 +204,13 @@ const DetailEvent = ({ active, data, categories }) => {
                     >
                         <option
                             value={"Online"}
-                            selected={eventType === "Present"}
+                            selected={eventType === "Presential"}
                         >
                             Online
                         </option>
                         <option
-                            value={"Present"}
-                            selected={eventType === "Present"}
+                            value={"Presential"}
+                            selected={eventType === "Presential"}
                         >
                             Presential
                         </option>
