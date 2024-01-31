@@ -18,7 +18,6 @@ import { GetToken } from "../services/token";
 import ShareModal from "../components/events/shareModal";
 import { Result } from "postcss";
 
-import ShareModal from "../components/events/shareModal";
 
 const EventPresentation = () => {
     const { eventId, isError, message } = useParams();
@@ -34,7 +33,7 @@ const EventPresentation = () => {
     const [alertMessage, setAlertMessage] = useState(message);
 
 
-    const [showShare, setShowShare] = useState(false);
+    const [showShare, setShowShare] = useState(true);
 
     const FetchEventById = (EventId) => {
         const res = FetchOneEvent(EventId);
