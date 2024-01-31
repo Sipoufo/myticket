@@ -16,7 +16,7 @@ const EventCard = ({
 }) => {
     return (
         <Link
-            className="flex flex-col hover:shadow-xl shadow-md h-[390px] text-black my-2 border border-gray-200 text-start"
+            className="flex flex-col hover:shadow-xl shadow-md h-[400px] text-black my-2 border border-gray-200 text-start"
             to={`/events/${id}`}
         >
             <img
