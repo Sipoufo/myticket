@@ -92,7 +92,7 @@ const CreateEvent = ({
                                 Choose one
                             </option>
                             <option value="Online">Online</option>
-                            <option value="Present">Present</option>
+                            <option value="Presential">Presential</option>
                         </select>
                     </div>
                 </div>

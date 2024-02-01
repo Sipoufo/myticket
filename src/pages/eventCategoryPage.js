@@ -9,6 +9,7 @@ import {
 import Loading from "../components/loading";
 import { FetchAllCategories } from "../services/categoryService";
 import { useLocation } from 'react-router-dom';
+import { IoTicketOutline } from "react-icons/io5";
 
 const EventCategoryPage = () => {
     const { categoryId } = useParams();
@@ -23,7 +24,8 @@ const EventCategoryPage = () => {
 
     const fetchEventsByCategoryId = async (categoryId, pageNumber, pageSize) => {
             const data = await FetchEventsByCategoryId(categoryId, pageNumber, pageSize);
-            setResult(data["data"]);   
+            setResult(data["data"]); 
+            console.log(result);  
     };
 
     const fetchCategories = async () => {
@@ -68,9 +70,21 @@ const EventCategoryPage = () => {
         <div className="w-full h-full flex flex-col overflow-y-auto gap-10">
             {/* Header */}
             <Header />
+            {result["data"].length === 0 ? (
+                <div className="flex items-center justify-center">
+                    <div className="h-96 flex flex-col gap-6 px-4 w-full md:w-10/12 max-w-screen-xl items-center justify-center">
+                        <IoTicketOutline className="text-[10rem] text-gray-400" />
+                        <p className="font-medium text-gray-600 text-center">
+                            Oops, no events here!
+                        </p>
+                        <p className="text-2rem text-gray-300 text-center">
+                        Try coming back later.
+                        </p>
+                    </div>
+                </div>)
 
-            {/* List of events */}
-            <div className="flex justify-center">
+                : 
+                <div className="flex justify-center">
                 <div className="relative flex flex-col gap-6 px-4 w-full md:w-10/12 max-w-screen-xl">
                     {/* Categories */}
                     <div className="flex flex-row gap-2 items-center">
@@ -80,7 +94,7 @@ const EventCategoryPage = () => {
                         <select className="px-4 py-2 text-xl text-primary font-bold bg-white">
                         <option selected disabled value="">Select event type</option>
                         <option value="OnLine">OnLine</option>
-                        <option value="Present">Present</option>
+                        <option value="Presential">Presential</option>
                         </select>
                     </div>
                     <ul className="flex flex-row gap-10 overflow-x-auto no-scrollbar">
@@ -136,6 +150,10 @@ const EventCategoryPage = () => {
                     </div>
                 </div>
             </div>
+                    
+            }
+            {/* List of events */}
+            
 
             {/* Footer */}
             <Footer />

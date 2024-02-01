@@ -16,7 +16,7 @@ const Header = ({ token }) => {
                 <div className="flex justify-center">
                     <div className="flex flex-grow flex-col gap-6 items-center justify-center px-4 w-10/12 md:w-8/12 max-w-screen-xl">
                         <p className="text-3xl font-bold">
-                            Discover events across the world
+                            Discover events across the country
                         </p>
                         <form className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 text-black overflow-hidden gap-y-4">
                             {/* Search item */}
@@ -56,7 +56,7 @@ const Header = ({ token }) => {
                                     className="px-2 py-4  text-sm font-normal text-blue-gray-700 outline outline-0 placeholder-shown:border-blue-gray-200 focus:outline-0 disabled:border-0 w-full bg-white"
                                 >
                                     <option>Online</option>
-                                    <option>Present</option>
+                                    <option>Presential</option>
                                 </select>
                             </div>
                             {/* Event type */}

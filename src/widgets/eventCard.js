@@ -10,12 +10,13 @@ const EventCard = ({
     isFree,
     price,
     place,
+    location,
     organizer,
     id
 }) => {
     return (
         <Link
-            className="flex flex-col hover:shadow-xl shadow-md h-[370px] text-black my-2 border border-gray-200 text-start"
+            className="flex flex-col hover:shadow-xl shadow-md h-[400px] text-black my-2 border border-gray-200 text-start"
             to={`/events/${id}`}
         >
             <img
@@ -35,10 +36,13 @@ const EventCard = ({
                 </div>
                 <h1 className="text-base font-bold"> {title} </h1>
                 <h2 className="text-forth font-semibold"> Start : {time}</h2>
-                <h3 className={`${isFree && "hidden"} text-gray-600`}>
-                    À partir de {price}
-                </h3>
-                <div>
+                <h4 className="text-gray-600">
+                    À partir de
+                </h4>
+                <h4 className="text-gray-600 font-semibold">
+                    {location}
+                </h4>
+                {/* <div>
                     <span
                         className={`${
                             !isFree && "hidden"
@@ -46,11 +50,15 @@ const EventCard = ({
                     >
                         free
                     </span>
-                </div>
-                <h4 className="text-xs font-medium">Place: {place}</h4>
-                <div className="flex flex-row items-center gap-2 font-medium text-xs">
+                </div> */}
+                <h4 className="text-xs font-medium">Places: {place}</h4>
+                <div className="flex flex-row items-center justify-between">
+                    <div className="flex flex-row  gap-2 font-medium text-xs">
                     <HiMiniUser />
                     <label>{organizer}</label>
+                    </div>
+                    <button className="w-auto px-3 py-2 bg-primary rounded-lg hover:bg-opacity-90 text-white">Réserver</button>
+                    
                 </div>
             </div>
         </Link>

@@ -4,7 +4,7 @@ const Loading = () => {
     return (
         <div className="z-50 fixed flex flex-col justify-center items-center top-0 left-0 h-screen w-screen bg-black bg-opacity-80 gap-6">
             <h1 className="font-semibold text-4xl text-white">
-                MyTickets
+            ChapChapTickets
             </h1>
             <div role="status">
                 <svg
