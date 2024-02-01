@@ -3,7 +3,7 @@ import React, { useRef }  from 'react';
 const ShareModal = ({ title, handleClose }) => {
     const url = window.location.href;
     const urlRef = useRef(url);
-    const description = "Rejoignez-nous sur ChapChapTickets, pour avoir toutes les informations sur l'événement\n" + title + "et réserver votre place.\n";
+    const description = "Rejoignez-nous sur ChapChapTickets, pour avoir toutes les informations sur l'événement\n" + title + " et réserver votre place.\n";
 
   const handleCopyUrl = () => {
     if (urlRef.current) {
@@ -172,18 +172,6 @@ return (
             </button>
           </div>
         </div>
-                    {/* Social Media Icons */}
-                    <div className="flex mt-4">
-                      {/* Add your social media icons here */}
-                      <div className="mr-4">
-                        <a href="#" target="_blank" rel="noopener noreferrer">
-                          <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                            {/* Add your social media icon SVG code */}
-                          </svg>
-                        </a>
-                      </div>
-                      {/* Add more social media icons as needed */}
-                    </div>
                   </div>
                 </div>
               </div>
