@@ -25,7 +25,7 @@ const Auth = ({
             <div className="relative w-full h-full flex justify-center items-center overflow-y-auto">
                 {/* background opacity */}
                 <div
-                    className="absolute w-full h-full bg-black bg-opacity-60"
+                    className="absolute w-full h-full bg-black bg-opacity-60 "
                     onClick={() => setShowOAuthModal(false)}
                 ></div>
 
