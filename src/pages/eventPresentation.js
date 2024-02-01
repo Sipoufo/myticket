@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
-import { FiHeart, FiUpload } from "react-icons/fi";
+import { FiHeart, FiShare2 } from "react-icons/fi";
 import EditEvent from "../components/events/editEvent";
 import { FetchOneEvent, PublishEventService } from "../services/eventService";
 import Loading from "../components/loading";
@@ -16,7 +16,7 @@ import {
 } from "../services/ticketService";
 import { GetToken } from "../services/token";
 import ShareModal from "../components/events/shareModal";
-import { Result } from "postcss";
+import SimpleModal from "../components/simpleModal";
 
 
 const EventPresentation = () => {
@@ -31,9 +31,11 @@ const EventPresentation = () => {
     const [tickets, setTickets] = useState([]);
     const [showBuyTicket, setShowBuyTicket] = useState(false);
     const [alertMessage, setAlertMessage] = useState(message);
+    const [showShare, setShowShare] = useState(false);
+    const [showMes, setShowMes] = useState(false);
 
 
-    const [showShare, setShowShare] = useState(true);
+    
 
     const FetchEventById = (EventId) => {
         const res = FetchOneEvent(EventId);
@@ -92,9 +94,6 @@ const EventPresentation = () => {
             setTickets(data.data["data"]);
         }
     };
-
-    const currentUrl = window.location.href;
-
     
 
     useEffect(() => {
@@ -224,12 +223,15 @@ const EventPresentation = () => {
                         </div>
                     </div>
                     
-                    {GetToken() !== null && (
+                    {GetToken() !== null ? (
                         <div className="fixed bottom-0 z-10 sm:relative flex flex-grow flex-col items-end justify-start bg-white w-full sm:w-auto h-44 md:h-auto overflow-auto">
                         <div className="flex flex-col gap-4 px-4 py-6 w-full sm:w-80 rounded-lg border">
                             <div className="flex flex-row justify-between items-center">
-                                <button className="w-10 h-10 rounded-full border border-black flex justify-center items-center bg-white hover:bg-gray-100">
-                                    <FiUpload className="text-lg" />
+                                <button 
+                                    className="w-10 h-10 rounded-full border border-black flex justify-center items-center bg-white hover:bg-gray-100"
+                                    onClick={()=>{setShowShare(true);}}
+                                >
+                                    <FiShare2 className="text-lg" />
                                 </button>
                                 {/* <p className="font-semibold">
                                     À partir de 10.24$
@@ -313,7 +315,39 @@ const EventPresentation = () => {
                             })}
                         </div>
                     </div>
-                    )}
+                    ):(
+                        
+                        <div className="fixed bottom-0 sm:relative z-9 flex flex-grow flex-col items-end justify-start bg-white w-full sm:w-auto h-44 md:z-9 md:h-auto overflow-auto">
+                        <div className="flex flex-col gap-4 px-4 py-6 w-full sm:w-80 rounded-lg border">
+                            <div className="flex flex-row justify-between items-center">
+                                <button 
+                                className="w-10 h-10 rounded-full border border-black flex justify-center items-center bg-white hover:bg-gray-100"
+                                onClick={()=>{setShowShare(true);}}
+                                >
+                                    <FiShare2 className="text-lg" />
+                                </button>
+
+                                <button
+                                    className={`w-10 h-10 rounded-full border border-black flex justify-center items-center bg-white hover:bg-gray-100`}
+                                    onClick={()=>{setShowMes(true);}}
+                                >
+                                    <FiHeart className="text-lg" />
+                                </button>
+                            </div>
+
+                            
+                            <button
+                                className="px-4 py-3 bg-primary text-lg text-white font-semibold rounded-sm hover:bg-opacity-90"
+                                onClick={()=>{setShowMes(true);}}
+                            >
+                                Réserver
+                            </button>
+                            
+                        </div>
+                    </div>
+                    )
+                    
+                    }
                 </div>
             </div>
 
@@ -364,6 +398,17 @@ const EventPresentation = () => {
             )
 
             }
+            {showMes && (
+                <SimpleModal
+                    title={"Not so Fast !!!"}
+                    message={"You need to be logged in to perform this action"}
+                    variant={"delete"}
+                    onClose={setShowMes}
+                />
+            )
+            }
+
+
         </div>
     );
 };
