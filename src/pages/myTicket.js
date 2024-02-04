@@ -6,7 +6,6 @@ import { MyTicketsService } from "../services/ticketService";
 import Loading from "../components/loading";
 import { IoTicketOutline } from "react-icons/io5";
 import TicketPrint from "../components/Ticket/ticketPrint";
-import { GetUserName, GetEmail } from "../services/token";
 const MyTicket = () => {
     // const [eventAction, setEventAction] = useState("actual");
     const [myTickets, setMyTickets] = useState([]);
@@ -15,15 +14,10 @@ const MyTicket = () => {
     const [selectedTicket, setSelectedTicket] = useState({});
     const hostUrl = window.location.hostname;
 
-    const userInfo = {
-        "name": GetUserName(),
-        "email": GetEmail()
-    }
-
     const fetchMyTickets = async () => {
         const data = await MyTicketsService();
-        console.log(data);
-        console.log(data.data["data"]);
+        // console.log(data);
+        // console.log(data.data["data"]);
         setMyTickets(data.data["data"]);
     };
 
@@ -31,9 +25,9 @@ const MyTicket = () => {
         fetchMyTickets();
         setLoading(false);
     }, []);
-    useEffect(() => {
-        console.log(`Selection Ok is boy ${selectedTicket}`);
-    }, [selectedTicket]);
+    // useEffect(() => {
+    //     console.log(`Selection Ok is boy ${selectedTicket}`);
+    // }, [selectedTicket]);
 
     if (loading) {
         <Loading />;
@@ -150,7 +144,6 @@ const MyTicket = () => {
                                 <TicketPrint
                                 ticket={selectedTicket}
                                 hostUrl={hostUrl}
-                                user={userInfo}
                                 showTicket={setShowTicket}
                                 resetSelectedTicket={()=> setSelectedTicket({})}
                                 />
