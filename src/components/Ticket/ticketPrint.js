@@ -5,7 +5,10 @@ import html2canvas from 'html2canvas';
 import QRCode from 'react-qr-code';
 
 
-const TicketPrint = () =>{
+const TicketPrint = ({
+  title,
+
+}) =>{
     const exportPDF = () => {
         const input = document.getElementById("Ticket");
       
@@ -49,8 +52,9 @@ const TicketPrint = () =>{
         {/* <h1 class="text-lg font-bold">Invoice</h1> */}
         <QRCode  size={50} bgColor='white' fgColor='black' value='localHostURL'/>
         <div class="text-gray-700">
-            <div>DateTime: Thu Jan 18 2024 07:51:00 </div>
-            <div>Adress: Douala - Yansoki</div>
+            <div>📅Thu Jan 18 2024</div>
+            <div>🕒07:51:00</div>
+            <div>📍Yansoki</div>
         </div>
     </div>
     <div class="flex justify-between mb-8">
@@ -66,11 +70,11 @@ const TicketPrint = () =>{
         <div class="text-gray-700 mb-2">N-#: 66259379234111</div>
         </div>
     </div>
-    <div class="flex justify-between mb-4">
+    <div class="flex justify-between mb-4 gap-4">
       <div>
       <h2 class="text-lg font-bold mb-4">Organizer Info:</h2>
-        <div class="text-gray-700 mb-2">Full Name: John Doe</div>
-        <div class="text-gray-700 mb-2">Number: 66259379</div>
+        <div class="text-gray-700 mb-2">Name: John Doe</div>
+        <div class="text-gray-700 mb-2">Tel: 66259379</div>
       </div>
       <div>
       <h2 class="text-lg font-bold mb-4">Command Info:</h2>
