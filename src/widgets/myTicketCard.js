@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const MyTicketCard = ({ eventId, image, title, time, totalSales, ticketsSold }) => {
+const MyTicketCard = ({ eventId, image, title, time, totalSales, ticketsSold, showTicket, setSelectTicket }) => {
     console.log("name => " + title)
     return (
         <div className="flex flex-col  shadow-md  text-black my-2 border border-gray-200 text-start">
@@ -21,7 +21,10 @@ const MyTicketCard = ({ eventId, image, title, time, totalSales, ticketsSold }) 
                         View
                     </Link>
                     <hr className="border-l h-full" />
-                    <button className="grow p-4 hover:bg-third hover:text-white hover:font-semibold">
+                    <button onClick={()=>{
+                            showTicket(true);
+                            setSelectTicket();}} 
+                    className="grow p-4 hover:bg-third hover:text-white hover:font-semibold">
                         Print
                     </button>
                     <hr className="border-l h-full" />
