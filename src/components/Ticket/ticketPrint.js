@@ -10,21 +10,6 @@ const TicketPrint = ({
   showTicket,
   resetSelectedTicket
 }) =>{
-    const exportPDF = () => {
-        const input = document.getElementById("Ticket");
-      
-      html2canvas(input,{logging:true, letterRendering:1, useCORS:true, allowTaint:true})
-      .then((canvas)=>{
-      const imgData = canvas.toDataURL("image/png");
-            const imgWidth = 210;
-            const imgHeight = canvas.height * imgWidth / canvas.width;
-            const pdf = new jsPDF('p', 'mm', 'letter');
-            pdf.addImage(imgData, "PNG", 0, 0, imgHeight, imgHeight);
-            pdf.save("ChapChapTickets.pdf");
-
-      });
-
-    };
 
     const pdfRef = useRef();
     const printPDF = () => {
