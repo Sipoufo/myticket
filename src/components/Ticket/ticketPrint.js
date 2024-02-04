@@ -7,7 +7,8 @@ import QRCode from 'react-qr-code';
 const TicketPrint = ({
   event, //Event object
   user, //Current User Object ~ User buying the Ticket
-  ticket //Ticket User for Information
+  ticket,//Ticket User for Information
+  handleClose
 }) =>{
     const exportPDF = () => {
         const input = document.getElementById("Ticket");
@@ -111,7 +112,10 @@ const TicketPrint = ({
     <div class="text-gray-700 text-sm">Made Possible by <strong>ChapChapTickets</strong>.</div>
 </div>
 
-    <button onClick={printPDF} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8">Print PDF</button>
+    <div className='flex justify-between w-full px-8'>
+    <button onClick={handleClose} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-8">Close</button>
+    <button onClick={printPDF} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8">Print</button> 
+    </div>
     </div>
   )
     
