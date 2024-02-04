@@ -5,8 +5,6 @@ import QRCode from 'react-qr-code';
 
 
 const TicketPrint = ({
-  event, //Event object
-  user, //Current User Object ~ User buying the Ticket
   ticket,//Ticket User for Information
   hostUrl,
   showTicket,
