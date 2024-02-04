@@ -1,13 +1,13 @@
 import React, {useRef } from 'react';
-
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import QRCode from 'react-qr-code';
 
 
 const TicketPrint = ({
-  title,
-
+  event, //Event object
+  user, //Current User Object ~ User buying the Ticket
+  ticket //Ticket User for Information
 }) =>{
     const exportPDF = () => {
         const input = document.getElementById("Ticket");
