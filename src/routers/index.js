@@ -13,12 +13,14 @@ import { GetToken } from "../services/token";
 import ManagerEvent from "../pages/manager";
 import Error from "../pages/error";
 import EventCategoryPage from "../pages/eventCategoryPage";
+import TicketPrint from "../components/Ticket/ticketPrint";
 
 const RouterManagement = () => {
     return (
         <Routes>
             <Route path="/" element={<IndexPage />}>
                 <Route path="/" element={<Home />} />
+                <Route path="/pdf" element={<TicketPrint />} />
                 <Route path="/:token" element={<Home />} />
                 <Route path="/events" element={<EventPage />} />
                 <Route path="/events/category/:categoryId" element={<EventCategoryPage />} />

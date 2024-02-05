@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Website</title>
+    <!-- Add Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <div  className='fixed h-full w-full  bg-white flex flex-col px-10 py-5 overflow-y-auto'>
+
+        <div   className='p-16' id='Ticket'>
+        {/* Title */}
+        <div className="flex flex-col mb-20">
+            <div className="w-1/2 min-h-[100px]  bg-white border border-slate-950 border-x-2 border-y-2 px-5 py-5 font-semibold text-xl text-left truncate">Gangstrer Blow</div>
+              {/* {Ellipse} */}
+              <span className="h-[70px] w-[70px] bg-blue-500 rounded-ee-full"></span>
+        </div>
+        {/* Divider */}
+        <div class="border-b border-slate-700"></div>
+        {/* {Event Info} */}
+        <div className="w-full h-[200px] px-5 py-5 inline-flex mb-8 justify-between items-center">
+          <div className=' w-3/4 inline-flex justify-around items-center border-r-2 border-r-black mr-4'>
+            <QRCode  size={150} bgColor='white' fgColor='black' value='localHostURL'/>
+            <div className="flex-grow-1 h-full border border-slate-950 border-x-2 border-y-2 text-center px-5 py-5 flex flex-col items-center justify-center text-ellipsis">
+              <h2>Date et Horaire</h2>
+              <p className='font font-semibold text-md'>Thu Jan 18 2024 to Fri Jan 26 2024 07:51:00 - 07:51:00</p>
+            </div>
+          </div>
+          <div className='justify-center items-center'>
+            <div className=" h-full border border-slate-950 border-x-2 border-y-2 text-center px-5 py-5 flex flex-col items-center justify-center text-ellipsis">
+            <h2>Adresse Evenement</h2>
+            <p className='font font-semibold text-md'>Cameroun, Douala: Dernier Arret Yatchika</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-b border-slate-700"></div>
+        {/* {Event Info} */}
+        <div className="w-full h-[200px] px-5 py-5 inline-flex mb-8 justify-between items-center">
+          <div className='min-w-3/4 inline-flex justify-around items-center'>
+            <div className="flex-grow-1 h-full border border-slate-950 border-x-2 border-y-2 text-center px-5 py-5 flex flex-col items-center justify-center text-ellipsis">
+              <h2>Nom et Prenoms Attendee</h2>
+              <p className='font font-semibold text-md'>John Doe Sey</p>
+            </div>
+          </div>
+          <div className='min-w-3/4 inline-flex justify-around items-center'>
+            <div className="flex-grow-1 h-full border border-slate-950 border-x-2 border-y-2 text-center px-5 py-5 flex flex-col items-center justify-center text-ellipsis">
+              <h2>Numero unique Billet</h2>
+              <p className='font font-semibold text-md'>18 2024 26 2024 07:51:00 - 07:51:00</p>
+            </div>
+          </div>
+        </div>
+        <div class="border-b border-slate-700"></div>
+        {/* {Event Info} */}
+        <div className="w-full h-[200px] px-5 py-5 inline-flex mb-8 justify-between items-center">
+          <div className='min-w-3/4 inline-flex justify-around items-center'>
+            <div className="flex-grow-1 h-full border border-slate-950 border-x-2 border-y-2 text-center px-5 py-5 flex flex-col items-center justify-center text-ellipsis">
+              <h2>Nom et Prenoms</h2>
+              <p className='font font-semibold text-md'>Thu Jan 18 2024 to Fri Jan 26 2024 07:51:00 - 07:51:00</p>
+            </div>
+          </div>
+          <div className=' min-w-3/4 inline-flex justify-around items-center'>
+            <div className="flex-grow-1 h-full border border-slate-950 border-x-2 border-y-2 text-center px-5 py-5 flex flex-col items-center justify-center text-ellipsis">
+              <h2>Type de Billet</h2>
+              <p className='font font-semibold text-md'>Thu Jan 18 2024 to Fri Jan 26 2024 07:51:00 - 07:51:00</p>
+            </div>
+          </div>
+        </div>
+        <div class="border-b border-slate-700"></div>
+        {/* {Event Info} */}
+        <div className="w-full h-[200px] px-5 py-5 inline-flex mb-8 justify-between items-center">
+          <div className='min-w-3/4 inline-flex justify-around items-center'>
+            <div className="flex-grow-1 h-full border border-slate-950 border-x-2 border-y-2 text-center px-5 py-5 flex flex-col items-center justify-center text-ellipsis">
+              <h2>Nom et Prenoms</h2>
+              <p className='font font-semibold text-md'>Thu Jan 18 2024 to Fri Jan 26 2024 07:51:00 - 07:51:00</p>
+            </div>
+          </div>
+          <div className=' min-w-3/4 inline-flex justify-around items-center'>
+            <div className="flex-grow-1 h-full border border-slate-950 border-x-2 border-y-2 text-center px-5 py-5 flex flex-col items-center justify-center text-ellipsis">
+              <h2>Type de Billet</h2>
+              <p className='font font-semibold text-md'>Thu Jan 18 2024 to Fri Jan 26 2024 07:51:00 - 07:51:00</p>
+            </div>
+          </div>
+                  <div className="w-1/4 bg-white h-2/4 items-start px-5 py-3 justify-around mb-16 float-right">
+      <div className="min-h-3/12 w-full border border-slate-950 border-x-2 border-y-2 text-start px-3 py-3 flex flex-col items-left justify-center text-ellipsis mb-2">
+        <h2 className='font font-semibold'>Organisateur</h2>
+        <p className=' text-md'><strong>Nom & Prenom:</strong> ipsum dolor  doummy texte d</p>
+        <p className=' text-md'><strong>Numero:</strong> 6 xxx yyy zzz</p>
+      </div>
+      <div className="min-h-3/6 w-full border border-slate-950 border-x-2 border-y-1 text-start px-5 py-5 flex flex-col items-left justify-center text-ellipsis">
+        {/* <h2 className='font font-semibold'>Organisateur</h2> */}
+        <p className=' text-md'><strong>Numero de Commande:</strong> 74774837 7387492 82738</p>
+        <p className=' text-md'><strong>Prix Total:</strong> xxyyyz XAF</p>
+        <p className=' text-md'><strong>Nom Acheteur:</strong> ipsum dolor  doummy</p>
+        <p className=' text-md'><strong>Date d'achat:</strong> 09 - 02 - 2024</p>
+      </div>
+      <div className="min-h-3/6 w-full border border-slate-950 border-x-2 border-y-1 text-start px-5 py-5 flex flex-col items-left justify-center text-ellipsis mb-4">
+        <p className=' text-md'><strong>Description:</strong></p>
+        <p className=' text-md'> lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolorlorem ipsum dolor lorem ipsum dolorlorem ipsum dolorlorem ipsum dolor doummy</p>
+      </div>
+      <div className="h-3/12 w-full bg-black border border-slate-950 border-x-2 border-y-2 text-start px-5 py-5 flex flex-col items-left justify-center text-ellipsis mb-2">
+        {/* <p className='font font-semibold text-md'>lorem ipsum dolor  doummy texte d</p> */}
+      </div>
+      <div className="h-3/12 w-full border border-slate-950 border-x-2 border-y-2 text-start px-5 py-5 flex flex-col items-left justify-center text-ellipsis mb-2">
+        <p className='font font-semibold text-md font-italic'><i>ChapChapTickets</i></p>
+      </div>
+    </div>
+        </div>
+
+        
+  </div>
+
+</div>
+    
+</body>
+</html>

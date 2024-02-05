@@ -1,0 +1,82 @@
+@page {
+    size: Letter;
+}
+.body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.simp-text {
+    color: #333;
+    font-size: 20px;
+    letter-spacing: 2px;
+    font-style: normal;
+    font-weight: lighter;
+}
+
+p {
+    color: #666;
+}
+
+.rect{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-color: #333;
+    height: fit-content;
+    min-width: 200px;
+    min-height: 50px;
+    width: fit-content;
+    border-style: solid;
+    padding: 5px 20px 5px 20px;
+    z-index: 5;
+    background-color: white;
+}
+@media print {
+    .round{
+        background-color: rgb(0, 170, 232);
+        display: block;
+        border-color: #333;
+        width: 70px;
+        height: 70px;
+        border-radius: 70%;
+        transform: translateY();
+        position: absolute;
+        left: 0;
+        transform: translateX(-70%) translateY(-70%);
+        z-index: -5;
+    }
+    
+}
+
+
+.spacer-v{
+    display: block;
+    border-left: solid 1px #333;
+
+}
+
+.qr-code-1{
+    display: block;
+    width: 70px;
+    background-color: black;
+}
+.qr-code-2{
+    display: block;
+    width: 200px;
+    background-color: black;
+}
+
+.row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 15px;
+}
+
+.box-1{
+    border-top: solid 1px black;
+    border-bottom: solid 1px black;
+    margin: 100px 30px 20px 30px;
+}

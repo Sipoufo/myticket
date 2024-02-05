@@ -5,16 +5,19 @@ import MyTicketCard from "../widgets/myTicketCard";
 import { MyTicketsService } from "../services/ticketService";
 import Loading from "../components/loading";
 import { IoTicketOutline } from "react-icons/io5";
-
+import TicketPrint from "../components/Ticket/ticketPrint";
 const MyTicket = () => {
     // const [eventAction, setEventAction] = useState("actual");
     const [myTickets, setMyTickets] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [showTicket, setShowTicket] = useState(false);
+    const [selectedTicket, setSelectedTicket] = useState({});
+    const hostUrl = window.location.hostname;
 
     const fetchMyTickets = async () => {
         const data = await MyTicketsService();
-        console.log(data);
-        console.log(data.data["data"]);
+        // console.log(data);
+        // console.log(data.data["data"]);
         setMyTickets(data.data["data"]);
     };
 
@@ -22,6 +25,9 @@ const MyTicket = () => {
         fetchMyTickets();
         setLoading(false);
     }, []);
+    // useEffect(() => {
+    //     console.log(`Selection Ok is boy ${selectedTicket}`);
+    // }, [selectedTicket]);
 
     if (loading) {
         <Loading />;
@@ -120,17 +126,42 @@ const MyTicket = () => {
                                 ).toDateString()}
                                 ticketsSold={myTicket["ticket"]["price"]}
                                 totalSales={myTicket["ticket"]["price"]}
+                                showTicket={setShowTicket}
+                                setSelectTicket={()=> setSelectedTicket(myTicket)}
                                 />
                             );
                             })}
                         </div>
                     )
-                    }
+                }
+                {showTicket && (
+                    <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                    
+                        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+                        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                            <div class="relative transform overflow-hidden rounded-lg text-left  transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                                <TicketPrint
+                                ticket={selectedTicket}
+                                hostUrl={hostUrl}
+                                showTicket={setShowTicket}
+                                resetSelectedTicket={()=> setSelectedTicket({})}
+                                />
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                )
+                }
             </div>
 
             {/* Footer */}
             <Footer />
+            
         </div>
+
+
+        
     );
 };
 
